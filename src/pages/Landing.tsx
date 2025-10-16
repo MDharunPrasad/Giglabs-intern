@@ -168,8 +168,8 @@ export default function Landing() {
 
 function FeatureCard({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) {
   return (
-    <div className="glass-card rounded-2xl p-6 hover:shadow-glow transition-all duration-300 group">
-      <div className="bg-gradient-to-br from-primary to-accent w-16 h-16 rounded-xl flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform">
+    <div className="glass-card rounded-2xl p-6 hover:shadow-glow transition-all duration-300 group will-change-transform">
+      <div className="bg-gradient-to-br from-primary to-accent w-16 h-16 rounded-xl flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform will-change-transform">
         {icon}
       </div>
       <h3 className="text-xl font-display mb-2">{title}</h3>
@@ -180,11 +180,11 @@ function FeatureCard({ icon, title, description }: { icon: React.ReactNode; titl
 
 function ProcessCard({ step, icon, title, description }: { step: string; icon: React.ReactNode; title: string; description: string }) {
   return (
-    <div className="relative glass-card rounded-2xl p-6 hover:shadow-glow transition-all duration-300">
+    <div className="relative glass-card rounded-2xl p-6 hover:shadow-glow transition-all duration-300 will-change-transform">
       <div className="absolute -top-4 -left-4 w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xl shadow-lg">
         {step}
       </div>
-      <div className="bg-gradient-to-br from-primary/10 to-accent/10 w-16 h-16 rounded-xl flex items-center justify-center mb-4 text-primary">
+      <div className="bg-gradient-to-br from-primary/10 to-accent/10 w-16 h-16 rounded-xl flex items-center justify-center mb-4 text-primary will-change-transform">
         {icon}
       </div>
       <h3 className="text-xl font-display mb-2 font-semibold">{title}</h3>
@@ -195,11 +195,11 @@ function ProcessCard({ step, icon, title, description }: { step: string; icon: R
 
 function StatCard({ number, label }: { number: string; label: string }) {
   return (
-    <div className="animate-fade-in">
-      <div className="text-4xl md:text-5xl font-display font-bold gradient-primary bg-clip-text text-transparent mb-2">
+    <div className="p-6 rounded-xl bg-card border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-lg">
+      <div className="text-4xl md:text-5xl font-display font-bold text-primary mb-2">
         {number}
       </div>
-      <p className="text-muted-foreground">{label}</p>
+      <p className="text-muted-foreground font-medium">{label}</p>
     </div>
   );
 }

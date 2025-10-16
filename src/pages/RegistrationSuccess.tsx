@@ -41,16 +41,6 @@ export default function RegistrationSuccess() {
                 <ArrowRight className="group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-            
-            <Link to="/browse-courses" className="block">
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="w-full border-2 border-primary/40 hover:border-primary text-primary bg-transparent hover:bg-primary/10 text-lg h-14"
-              >
-                Browse More Courses
-              </Button>
-            </Link>
           </div>
         </div>
       </div>
