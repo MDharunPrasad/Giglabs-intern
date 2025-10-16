@@ -1,70 +1,119 @@
 import React, { type SVGProps } from "react";
 import { GradientHeading } from "@/components/ui/gradient-heading";
 import { LogoCarousel } from "@/components/ui/logo-carousel";
-import { Brain, Code, Palette, Server, Database, Sparkles, Layout, Zap, Target, TrendingUp, Award, BookOpen } from "lucide-react";
 
-// Company/Partner Logo Components using Lucide icons styled to look like brands
-function TechUniversityIcon(props: SVGProps<SVGSVGElement>) {
-  return <BookOpen {...props} className="text-foreground" />;
+// MAANG Company Logos
+function GoogleLogo(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 272 92" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path fill="#EA4335" d="M115.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18C71.25 34.32 81.24 25 93.5 25s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44S80.99 39.2 80.99 47.18c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z"/>
+      <path fill="#FBBC05" d="M163.75 47.18c0 12.77-9.99 22.18-22.25 22.18s-22.25-9.41-22.25-22.18c0-12.85 9.99-22.18 22.25-22.18s22.25 9.32 22.25 22.18zm-9.74 0c0-7.98-5.79-13.44-12.51-13.44s-12.51 5.46-12.51 13.44c0 7.9 5.79 13.44 12.51 13.44s12.51-5.55 12.51-13.44z"/>
+      <path fill="#4285F4" d="M209.75 26.34v39.82c0 16.38-9.66 23.07-21.08 23.07-10.75 0-17.22-7.19-19.66-13.07l8.48-3.53c1.51 3.61 5.21 7.87 11.17 7.87 7.31 0 11.84-4.51 11.84-13v-3.19h-.34c-2.18 2.69-6.38 5.04-11.68 5.04-11.09 0-21.25-9.66-21.25-22.09 0-12.52 10.16-22.26 21.25-22.26 5.29 0 9.49 2.35 11.68 4.96h.34v-3.61h9.25zm-8.56 20.92c0-7.81-5.21-13.52-11.84-13.52-6.72 0-12.35 5.71-12.35 13.52 0 7.73 5.63 13.36 12.35 13.36 6.63 0 11.84-5.63 11.84-13.36z"/>
+      <path fill="#34A853" d="M225 3v65h-9.5V3h9.5z"/>
+      <path fill="#EA4335" d="M262.02 54.48l7.56 5.04c-2.44 3.61-8.32 9.83-18.48 9.83-12.6 0-22.01-9.74-22.01-22.18 0-13.19 9.49-22.18 20.92-22.18 11.51 0 17.14 9.16 18.98 14.11l1.01 2.52-29.65 12.28c2.27 4.45 5.8 6.72 10.75 6.72 4.96 0 8.4-2.44 10.92-6.14zm-23.27-7.98l19.82-8.23c-1.09-2.77-4.37-4.7-8.23-4.7-4.95 0-11.84 4.37-11.59 12.93z"/>
+      <path fill="#4285F4" d="M35.29 41.41V32H67c.31 1.64.47 3.58.47 5.68 0 7.06-1.93 15.79-8.15 22.01-6.05 6.3-13.78 9.66-24.02 9.66C16.32 69.35.36 53.89.36 34.91.36 15.93 16.32.47 35.3.47c10.5 0 17.98 4.12 23.6 9.49l-6.64 6.64c-4.03-3.78-9.49-6.72-16.97-6.72-13.86 0-24.7 11.17-24.7 25.03 0 13.86 10.84 25.03 24.7 25.03 8.99 0 14.11-3.61 17.39-6.89 2.66-2.66 4.41-6.46 5.1-11.65l-22.49.01z"/>
+    </svg>
+  );
 }
 
-function AILabIcon(props: SVGProps<SVGSVGElement>) {
-  return <Brain {...props} className="text-foreground" />;
+function MetaLogo(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path fill="#0081FB" d="M480 256c0-123.71-100.29-224-224-224S32 132.29 32 256c0 111.76 82.38 204.14 190 221.18V322h-57v-66h57v-50.31c0-56.34 33.58-87.43 84.88-87.43 24.58 0 50.31 4.39 50.31 4.39v55.31h-28.35c-27.94 0-36.66 17.34-36.66 35.15V256h62.38l-9.97 66h-52.41v155.18C397.62 460.14 480 367.76 480 256z"/>
+    </svg>
+  );
 }
 
-function CodeAcademyIcon(props: SVGProps<SVGSVGElement>) {
-  return <Code {...props} className="text-foreground" />;
+function AmazonLogo(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 603 182" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path fill="currentColor" d="M374.003 141.505c-41.846 30.899-102.561 47.344-154.825 47.344-73.273 0-139.265-27.116-189.24-72.213-3.925-3.546-.408-8.383 4.301-5.624 53.832 31.346 120.375 50.204 189.008 50.204 46.354 0 97.375-9.609 144.267-29.563 7.063-3.008 12.983 4.639 6.489 9.852zm17.406-19.832c-5.344-6.854-35.428-3.241-48.951-1.633-4.117.489-4.74-3.078-.978-5.663 23.965-16.863 63.312-11.998 67.887-6.346 4.575 5.693-1.223 45.096-23.721 63.923-3.477 2.911-6.791 1.366-5.255-2.503 5.059-12.656 16.396-41.022 11.018-47.778z"/>
+      <path fill="currentColor" d="M335.654 29.445v-15.24c0-2.3 1.754-3.853 3.853-3.853h68.206c2.184 0 3.938 1.593 3.938 3.853v13.079c-.041 2.184-1.876 5.059-5.181 9.568l-35.306 50.407c13.118-.326 26.969 1.631 38.887 8.342 2.706 1.509 3.437 3.733 3.64 5.917v16.274c0 2.225-2.462 4.85-5.059 3.5-21.294-11.182-49.589-12.412-73.187.122-2.381 1.265-4.884-1.306-4.884-3.53v-15.444c0-2.462.041-6.671 2.503-10.4l40.919-58.667h-35.591c-2.183 0-3.937-1.552-3.937-3.853v-.041l.199-.034zm-118.694 98.88h-20.806c-1.998-.122-3.59-1.673-3.712-3.59V11.286c0-2.143 1.795-3.853 4.019-3.853h19.38c2.021.082 3.652 1.673 3.774 3.631v15.037h.407c5.059-14.344 14.548-21.075 27.315-21.075 12.981 0 21.075 6.731 26.908 21.075 5.018-14.344 16.478-21.075 28.682-21.075 8.708 0 18.238 3.59 24.071 11.682 6.549 8.912 5.181 21.853 5.181 33.208v62.925c0 2.143-1.795 3.853-4.02 3.853h-20.765c-2.062-.122-3.733-1.795-3.733-3.853V56.354c0-4.464.408-15.607-.611-19.868-1.591-7.137-6.345-9.16-12.493-9.16-5.14 0-10.524 3.427-12.696 8.912-2.184 5.467-1.958 14.628-1.958 20.095v67.536c0 2.143-1.794 3.853-4.019 3.853h-20.765c-2.102-.122-3.733-1.795-3.733-3.853l-.041-67.536c0-14.22 2.34-35.144-13.108-35.144-15.649 0-15.037 17.855-15.037 35.144v67.536c0 2.143-1.795 3.853-4.019 3.853l-.041.04zm261.399-102.895c30.858 0 47.589 26.5 47.589 60.191 0 32.556-18.442 58.382-47.589 58.382-30.287 0-46.814-26.5-46.814-59.538 0-33.25 16.722-59.035 46.814-59.035zm.163 21.69c-15.281 0-16.233 20.806-16.233 33.779 0 12.981-.204 40.704 16.07 40.704 16.07 0 16.844-22.397 16.844-36.047 0-8.994-.407-19.704-3.264-28.234-2.462-7.382-7.382-10.202-13.417-10.202zm87.838 81.205h-20.684c-2.062-.122-3.733-1.795-3.733-3.853l-.041-113.548c.122-1.998 1.876-3.59 4.02-3.59h19.258c1.795.081 3.304 1.346 3.672 3.06v17.407h.407c5.752-15.566 13.846-22.909 29.088-22.909 9.567 0 18.89 3.427 24.927 12.778 5.467 8.505 5.467 22.848 5.467 33.086v71.637c-.163 1.958-1.917 3.549-4.019 3.549h-20.847c-1.876-.122-3.427-1.55-3.59-3.549V67.699c0-13.846 1.591-34.245-15.485-34.245-6.019 0-11.559 4.019-14.302 10.159-3.468 7.789-3.936 15.485-3.936 24.086v60.191c-.041 2.143-1.876 3.853-4.06 3.853l.04.04.818-.041z"/>
+    </svg>
+  );
 }
 
-function DesignHubIcon(props: SVGProps<SVGSVGElement>) {
-  return <Palette {...props} className="text-foreground" />;
+function AppleLogo(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 814 1000" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path fill="currentColor" d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76.5 0-103.7 40.8-165.9 40.8s-105.6-57-155.5-127C46.7 790.7 0 663 0 541.8c0-194.4 126.4-297.5 250.8-297.5 66.1 0 121.2 43.4 162.7 43.4 39.5 0 101.1-46 176.3-46 28.5 0 130.9 2.6 198.3 99.2zm-234-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/>
+    </svg>
+  );
 }
 
-function DevOpsInstituteIcon(props: SVGProps<SVGSVGElement>) {
-  return <Server {...props} className="text-foreground" />;
+function NetflixLogo(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 111 30" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path fill="#E50914" d="M105.062 14.28L111 30c-1.75-.25-3.499-.563-5.28-.845l-3.345-8.686-3.437 8.375c-1.687-.282-3.344-.376-5.031-.595l6.031-14.75L94.468 0h5.063l3.062 7.874L105.875 0h5.124l-5.937 14.28zM90.47 0h-4.594v27.25c1.5.094 3.062.156 4.594.343V0zm-8.563 26.937c-4.187-.281-8.375-.53-12.656-.625V0h4.687v21.875c2.688.062 5.375.28 7.969.405v4.657zM64.25 10.657v4.687h-6.406V26H53.22V0h13.125v4.687h-8.407v5.97h6.407zm-18.906-5.97V26.25c-1.563 0-3.156 0-4.688.062V4.687h-4.844V0h14.406v4.687h-4.874zM30.75 15.593c-2.062 2.5-3.5 4.687-4.656 6.406l-.969 3.343c-1.656.188-2.656.406-4.125.656l-.906-2.719c-.938-2.438-2.438-4.094-4.313-5.969v5.594c-1.469.094-2.938.312-4.406.5V0h4.406v6.875c2.094-1.719 3.781-3.844 4.969-5.969L24.219 0h4.719l-4.906 6.094c-1.156 1.406-2.469 2.719-3.656 3.844 2.375 2.656 3.594 4.438 5.625 7.031 2.469 3.219 4.313 5.688 5.969 7.969-1.656.188-2.656.406-4.125.656-.688-1.656-2.062-3.469-3.656-5.969l-2.531-3.156c-.938-1.406-2.188-2.969-3.656-4.688v11.969c-1.469.094-2.938.312-4.406.5V0h4.406v6.875c2.094-1.719 3.781-3.844 4.969-5.969L24.219 0h4.719l-4.906 6.094c-1.156 1.406-2.469 2.719-3.656 3.844 2.375 2.656 3.594 4.438 5.625 7.031l2.75 3.281z"/>
+    </svg>
+  );
 }
 
-function DataScienceIcon(props: SVGProps<SVGSVGElement>) {
-  return <Database {...props} className="text-foreground" />;
+// WITCH Company Logos
+function WiproLogo(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <text x="10" y="50" fill="currentColor" fontSize="48" fontWeight="bold" fontFamily="Arial, sans-serif">Wipro</text>
+    </svg>
+  );
 }
 
-function InnovationLabIcon(props: SVGProps<SVGSVGElement>) {
-  return <Sparkles {...props} className="text-foreground" />;
+function InfosysLogo(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <text x="10" y="50" fill="#007CC3" fontSize="42" fontWeight="bold" fontFamily="Arial, sans-serif">Infosys</text>
+    </svg>
+  );
 }
 
-function FullStackAcademyIcon(props: SVGProps<SVGSVGElement>) {
-  return <Layout {...props} className="text-foreground" />;
+function TCSLogo(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <text x="10" y="50" fill="#0066B3" fontSize="52" fontWeight="bold" fontFamily="Arial, sans-serif">TCS</text>
+    </svg>
+  );
 }
 
-function TechStartupIcon(props: SVGProps<SVGSVGElement>) {
-  return <Zap {...props} className="text-foreground" />;
+function CapgeminiLogo(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 400 80" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <text x="10" y="50" fill="#0070AD" fontSize="38" fontWeight="bold" fontFamily="Arial, sans-serif">Capgemini</text>
+    </svg>
+  );
 }
 
-function StrategyInstituteIcon(props: SVGProps<SVGSVGElement>) {
-  return <Target {...props} className="text-foreground" />;
+function HCLLogo(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <text x="10" y="50" fill="#003DA5" fontSize="52" fontWeight="bold" fontFamily="Arial, sans-serif">HCL</text>
+    </svg>
+  );
 }
 
-function GrowthAcademyIcon(props: SVGProps<SVGSVGElement>) {
-  return <TrendingUp {...props} className="text-foreground" />;
-}
-
-function CertificationBoardIcon(props: SVGProps<SVGSVGElement>) {
-  return <Award {...props} className="text-foreground" />;
+function MicrosoftLogo(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <rect x="10" y="10" width="25" height="25" fill="#F25022"/>
+      <rect x="40" y="10" width="25" height="25" fill="#7FBA00"/>
+      <rect x="10" y="40" width="25" height="25" fill="#00A4EF"/>
+      <rect x="40" y="40" width="25" height="25" fill="#FFB900"/>
+      <text x="75" y="50" fill="currentColor" fontSize="36" fontWeight="600" fontFamily="Segoe UI, Arial, sans-serif">Microsoft</text>
+    </svg>
+  );
 }
 
 const allLogos = [
-  { name: "Tech University", id: 1, img: TechUniversityIcon },
-  { name: "AI Lab", id: 2, img: AILabIcon },
-  { name: "Code Academy", id: 3, img: CodeAcademyIcon },
-  { name: "Design Hub", id: 4, img: DesignHubIcon },
-  { name: "DevOps Institute", id: 5, img: DevOpsInstituteIcon },
-  { name: "Data Science Pro", id: 6, img: DataScienceIcon },
-  { name: "Innovation Lab", id: 7, img: InnovationLabIcon },
-  { name: "FullStack Academy", id: 8, img: FullStackAcademyIcon },
-  { name: "Tech Startup", id: 9, img: TechStartupIcon },
-  { name: "Strategy Institute", id: 10, img: StrategyInstituteIcon },
-  { name: "Growth Academy", id: 11, img: GrowthAcademyIcon },
-  { name: "Certification Board", id: 12, img: CertificationBoardIcon },
+  { name: "Google", id: 1, img: GoogleLogo },
+  { name: "Meta", id: 2, img: MetaLogo },
+  { name: "Amazon", id: 3, img: AmazonLogo },
+  { name: "Apple", id: 4, img: AppleLogo },
+  { name: "Netflix", id: 5, img: NetflixLogo },
+  { name: "Microsoft", id: 6, img: MicrosoftLogo },
+  { name: "Wipro", id: 7, img: WiproLogo },
+  { name: "Infosys", id: 8, img: InfosysLogo },
+  { name: "TCS", id: 9, img: TCSLogo },
+  { name: "Capgemini", id: 10, img: CapgeminiLogo },
+  { name: "HCL", id: 11, img: HCLLogo },
 ];
 
 export function CompanyLogos() {
