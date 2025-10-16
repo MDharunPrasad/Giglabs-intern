@@ -3,7 +3,7 @@ import { ArrowRight, BookOpen, Users, Award, Zap, Target, TrendingUp, Shield } f
 import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-bg.jpg";
 import { Testimonials } from "@/components/Testimonials";
-import { TrustedBrands } from "@/components/TrustedBrands";
+import { CompanyLogos } from "@/components/CompanyLogos";
 
 export default function Landing() {
   return (
@@ -138,8 +138,8 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Trusted Brands */}
-      <TrustedBrands />
+      {/* Company Logos */}
+      <CompanyLogos />
 
       {/* Testimonials */}
       <Testimonials />
