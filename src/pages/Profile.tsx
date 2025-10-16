@@ -107,56 +107,84 @@ export default function Profile() {
               </div>
             </section>
 
-            {/* Certificates */}
+            {/* Certificates & Badges */}
             <section>
-              <h3 className="text-2xl font-display mb-6">Certificates</h3>
-              <div className="grid md:grid-cols-2 gap-6">
-                <CertificateCard 
-                  title="Web Development Basics"
-                  date="Jan 15, 2024"
-                  id="CERT-WDB-2024-001"
-                />
-                <CertificateCard 
-                  title="Git & GitHub Essentials"
-                  date="Jan 8, 2024"
-                  id="CERT-GIT-2024-002"
-                />
+              <h3 className="text-2xl font-display mb-6">Certificates & Completion Badges</h3>
+              
+              {/* Course Certificates */}
+              <div className="mb-8">
+                <h4 className="text-lg font-display mb-4 text-muted-foreground">Course Certificates</h4>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <CertificateCard 
+                    title="Web Development Basics"
+                    date="Jan 15, 2024"
+                    id="CERT-WDB-2024-001"
+                  />
+                  <CertificateCard 
+                    title="Git & GitHub Essentials"
+                    date="Jan 8, 2024"
+                    id="CERT-GIT-2024-002"
+                  />
+                </div>
+              </div>
+
+              {/* Domain Completion Badges - Showcase when earned */}
+              <div>
+                <h4 className="text-lg font-display mb-4 text-muted-foreground">Domain Completion Badges</h4>
+                <div className="bg-card rounded-lg p-8 shadow-md">
+                  <p className="text-center text-muted-foreground mb-4">
+                    Complete all courses in a domain to earn the exclusive Domain Master badge!
+                  </p>
+                  <div className="grid grid-cols-2 gap-8">
+                    <div className="flex flex-col items-center">
+                      <AchievementBadge 
+                        title="Domain Master" 
+                        domain="fullstack" 
+                        earned={false}
+                        size="lg"
+                        showShare={false}
+                      />
+                      <p className="text-sm text-muted-foreground mt-2">7/20 courses</p>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <AchievementBadge 
+                        title="Domain Master" 
+                        domain="ai-ml" 
+                        earned={false}
+                        size="lg"
+                        showShare={false}
+                      />
+                      <p className="text-sm text-muted-foreground mt-2">0/15 courses</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </section>
           </div>
 
           {/* Sidebar */}
           <div className="space-y-8">
-            {/* Achievement Showcase */}
+            {/* Domain Completion Badges */}
             <section>
-              <h3 className="text-xl font-display mb-6">Achievement Showcase</h3>
+              <h3 className="text-xl font-display mb-6">Domain Completion Badges</h3>
               <div className="bg-card rounded-lg p-6 shadow-md">
-                <div className="grid grid-cols-3 gap-6 mb-6">
-                  <AchievementBadge title="First Module" icon="star" variant="gold" />
-                  <AchievementBadge title="Fast Learner" icon="zap" variant="accent" />
-                  <AchievementBadge title="Perfect Score" icon="trophy" variant="primary" />
+                <div className="grid grid-cols-2 gap-8 mb-6">
+                  <AchievementBadge 
+                    title="Domain Master" 
+                    domain="fullstack" 
+                    earned={false}
+                    size="md"
+                  />
+                  <AchievementBadge 
+                    title="Domain Master" 
+                    domain="ai-ml" 
+                    earned={false}
+                    size="md"
+                  />
                 </div>
                 <div className="text-center pt-4 border-t border-border">
-                  <p className="text-2xl font-display mb-1">24</p>
-                  <p className="text-sm text-muted-foreground">Total Badges Earned</p>
-                </div>
-              </div>
-            </section>
-
-            {/* All Achievements */}
-            <section>
-              <h3 className="text-xl font-display mb-6">All Achievements</h3>
-              <div className="bg-card rounded-lg p-6 shadow-md">
-                <div className="grid grid-cols-3 gap-4">
-                  <AchievementBadge title="First Module" icon="star" variant="gold" size="sm" />
-                  <AchievementBadge title="Fast Learner" icon="zap" variant="accent" size="sm" />
-                  <AchievementBadge title="Perfect Score" icon="trophy" variant="primary" size="sm" />
-                  <AchievementBadge title="Consistent" icon="shield" variant="primary" size="sm" />
-                  <AchievementBadge title="Top 10" icon="crown" variant="gold" size="sm" />
-                  <AchievementBadge title="Week Streak" icon="award" variant="accent" size="sm" />
-                  <AchievementBadge title="Early Bird" icon="star" variant="primary" size="sm" />
-                  <AchievementBadge title="Night Owl" icon="star" variant="primary" size="sm" />
-                  <AchievementBadge title="Team Player" icon="award" variant="accent" size="sm" earned={false} />
+                  <p className="text-2xl font-display mb-1">0/2</p>
+                  <p className="text-sm text-muted-foreground">Domains Completed</p>
                 </div>
               </div>
             </section>
@@ -213,6 +241,41 @@ function CourseItem({ title, date, score }: { title: string; date: string; score
 }
 
 function CertificateCard({ title, date, id }: { title: string; date: string; id: string }) {
+  const handleDownload = () => {
+    // Generate certificate URL and download
+    const certificateUrl = `/certificates/${id}.pdf`;
+    const link = document.createElement('a');
+    link.href = certificateUrl;
+    link.download = `${title.replace(/\s+/g, '-')}-Certificate.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleShare = async () => {
+    const shareData = {
+      title: `${title} Certificate`,
+      text: `I've completed ${title} and earned my certificate! 🎓`,
+      url: window.location.href
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback: Copy to clipboard
+        await navigator.clipboard.writeText(
+          `${shareData.text} ${shareData.url}`
+        );
+        alert('Certificate link copied to clipboard!');
+      }
+    } catch (error) {
+      if ((error as Error).name !== 'AbortError') {
+        console.error('Error sharing:', error);
+      }
+    }
+  };
+
   return (
     <div className="bg-card rounded-lg p-6 shadow-md border-2 border-gold hover:shadow-lg transition-base">
       <div className="flex items-start gap-4 mb-4">
@@ -226,11 +289,21 @@ function CertificateCard({ title, date, id }: { title: string; date: string; id:
         </div>
       </div>
       <div className="flex gap-2">
-        <Button variant="outline" size="sm" className="flex-1">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="flex-1 gap-2"
+          onClick={handleDownload}
+        >
           <Download className="w-4 h-4" />
           Download
         </Button>
-        <Button variant="ghost" size="sm" className="flex-1">
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="flex-1 gap-2"
+          onClick={handleShare}
+        >
           <Share2 className="w-4 h-4" />
           Share
         </Button>

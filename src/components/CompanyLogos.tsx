@@ -43,8 +43,8 @@ function AppleLogo(props: SVGProps<SVGSVGElement>) {
 
 function NetflixLogo(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 111 30" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <path fill="#E50914" d="M105.062 14.28L111 30c-1.75-.25-3.499-.563-5.28-.845l-3.345-8.686-3.437 8.375c-1.687-.282-3.344-.376-5.031-.595l6.031-14.75L94.468 0h5.063l3.062 7.874L105.875 0h5.124l-5.937 14.28zM90.47 0h-4.594v27.25c1.5.094 3.062.156 4.594.343V0zm-8.563 26.937c-4.187-.281-8.375-.53-12.656-.625V0h4.687v21.875c2.688.062 5.375.28 7.969.405v4.657zM64.25 10.657v4.687h-6.406V26H53.22V0h13.125v4.687h-8.407v5.97h6.407zm-18.906-5.97V26.25c-1.563 0-3.156 0-4.688.062V4.687h-4.844V0h14.406v4.687h-4.874zM30.75 15.593c-2.062 2.5-3.5 4.687-4.656 6.406l-.969 3.343c-1.656.188-2.656.406-4.125.656l-.906-2.719c-.938-2.438-2.438-4.094-4.313-5.969v5.594c-1.469.094-2.938.312-4.406.5V0h4.406v6.875c2.094-1.719 3.781-3.844 4.969-5.969L24.219 0h4.719l-4.906 6.094c-1.156 1.406-2.469 2.719-3.656 3.844 2.375 2.656 3.594 4.438 5.625 7.031 2.469 3.219 4.313 5.688 5.969 7.969-1.656.188-2.656.406-4.125.656-.688-1.656-2.062-3.469-3.656-5.969l-2.531-3.156c-.938-1.406-2.188-2.969-3.656-4.688v11.969c-1.469.094-2.938.312-4.406.5V0h4.406v6.875c2.094-1.719 3.781-3.844 4.969-5.969L24.219 0h4.719l-4.906 6.094c-1.156 1.406-2.469 2.719-3.656 3.844 2.375 2.656 3.594 4.438 5.625 7.031l2.75 3.281z"/>
+    <svg viewBox="0 0 1024 276.742" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path fill="#E50914" d="M140.803 258.904c-15.404 2.705-31.079 3.516-47.294 5.676l-49.458-144.856v151.073c-15.404 1.621-29.457 3.783-44.051 5.945v-276.742h41.08l56.212 157.021v-157.021h43.511v258.904zm85.131-157.558c16.757 0 42.431-.811 57.835-.811v43.24c-19.189 0-41.619 0-57.835.811v64.322c25.405-1.621 50.809-3.785 76.482-4.596v41.617l-119.724 9.461v-255.39h119.724v43.241h-76.482v58.105zm237.284-58.104h-44.862v198.908c-14.594 0-29.188 0-43.239.539v-199.447h-44.862v-43.242h132.965l-.002 43.242zm70.266 55.132h59.187v43.24h-59.187v98.104h-42.433v-239.718h120.808v43.241h-78.375v55.133zm148.641 103.507c24.594.539 49.456 2.434 73.51 3.783v42.701c-38.646-2.434-77.293-4.863-116.75-5.676v-242.689h43.24v201.881zm109.994 49.457c13.783.812 28.377 1.623 42.43 3.242v-254.58h-42.43v251.338zm231.881-251.338l-54.863 131.615 54.863 145.127c-16.217-2.162-32.432-5.135-48.648-7.838l-31.078-79.994-31.617 73.51c-15.678-2.705-30.812-3.516-46.484-5.678l55.672-126.75-50.269-129.992h46.482l28.377 72.699 30.27-72.699h47.295z"/>
     </svg>
   );
 }
@@ -52,52 +52,170 @@ function NetflixLogo(props: SVGProps<SVGSVGElement>) {
 // WITCH Company Logos
 function WiproLogo(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <text x="10" y="50" fill="currentColor" fontSize="48" fontWeight="bold" fontFamily="Arial, sans-serif">Wipro</text>
+    <svg viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path fill="currentColor" d="M10 10h8l6 20 6-20h8l6 20 6-20h8l-10 30h-8l-6-20-6 20h-8zm60-2c8 0 14 6 14 14s-6 14-14 14-14-6-14-14 6-14 14-14zm0 22c4.5 0 8-3.5 8-8s-3.5-8-8-8-8 3.5-8 8 3.5 8 8 8zm25-14v-8h6v8h8v6h-8v10c0 2 1 3 3 3h5v6h-6c-5 0-8-3-8-8v-11h-5v-6h5zm26 16v-32h6v12c2-2 5-3 8-3 6 0 11 5 11 12v11h-6v-10c0-4-2-7-6-7s-7 3-7 7v10h-6zm35-8c0-8 6-14 14-14 5 0 9 2 11 6l-5 3c-1-2-3-3-6-3-5 0-8 4-8 8s3 8 8 8c3 0 5-1 6-3l5 3c-2 4-6 6-11 6-8 0-14-6-14-14z"/>
     </svg>
   );
 }
 
 function InfosysLogo(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <text x="10" y="50" fill="#007CC3" fontSize="42" fontWeight="bold" fontFamily="Arial, sans-serif">Infosys</text>
+    <svg viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path fill="#007CC3" d="M10 10h6v30h-6zm16 0h6v12c2-2 5-3 8-3 6 0 10 4 10 10v11h-6v-10c0-3-2-6-5-6s-7 3-7 6v10h-6zm30-2c4 0 7 3 7 7v15h-6v-2c-1 2-3 3-6 3-4 0-7-3-7-7s3-7 7-7h6v-1c0-2-1-3-4-3-2 0-3 1-4 2l-3-4c2-2 5-3 8-3zm1 20c2 0 4-1 4-3v-1h-5c-2 0-3 1-3 2s1 2 2 2zm18-12v-8h6v8h6v6h-6v8c0 2 1 3 3 3h3v6h-4c-5 0-8-3-8-8v-9h-4v-6h4zm24 16c-5 0-9-3-9-8s4-8 9-8c3 0 5 1 7 3l-3 4c-1-1-3-2-4-2-2 0-4 1-4 3s2 3 4 3c1 0 3-1 4-2l3 4c-2 2-4 3-7 3zm15 0c-8 0-14-6-14-14s6-14 14-14c5 0 9 2 11 6l-5 3c-1-2-3-3-6-3-5 0-8 4-8 8s3 8 8 8c3 0 5-1 6-3l5 3c-2 4-6 6-11 6z"/>
     </svg>
   );
 }
 
 function TCSLogo(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <text x="10" y="50" fill="#0066B3" fontSize="52" fontWeight="bold" fontFamily="Arial, sans-serif">TCS</text>
+    <svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path fill="#0066B3" d="M5 10h40v8h-14v22h-10v-22h-14v-8zm50 0c12 0 18 6 18 15s-6 15-18 15h-10v-30h10zm0 22c6 0 8-3 8-7s-2-7-8-7v14zm30-14c10 0 16 5 16 14 0 2-1 4-2 6l-5-3c1-1 1-2 1-3 0-5-3-8-10-8-5 0-9 3-9 7s4 6 10 8c8 2 14 5 14 13 0 9-7 14-18 14-11 0-17-5-17-13 0-3 1-5 2-7l5 3c-1 1-1 3-1 4 0 5 4 8 11 8 6 0 9-3 9-7s-4-6-11-8c-8-2-13-5-13-13 0-8 6-14 17-14z"/>
     </svg>
   );
 }
 
 function CapgeminiLogo(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 400 80" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <text x="10" y="50" fill="#0070AD" fontSize="38" fontWeight="bold" fontFamily="Arial, sans-serif">Capgemini</text>
+    <svg viewBox="0 0 240 50" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path fill="#0070AD" d="M10 22c0-8 6-14 14-14 5 0 9 2 11 6l-5 3c-1-2-3-3-6-3-5 0-8 4-8 8s3 8 8 8c3 0 5-1 6-3l5 3c-2 4-6 6-11 6-8 0-14-6-14-14zm30 10c-4 0-7-3-7-7s3-7 7-7h6v-1c0-2-1-3-4-3-2 0-3 1-4 2l-3-4c2-2 5-3 8-3 4 0 7 3 7 7v15h-6v-2c-1 2-3 3-6 3zm1-6c2 0 4-1 4-3v-1h-5c-2 0-3 1-3 2s1 2 2 2zm20 8v-30h6v12c2-2 5-3 8-3 6 0 10 4 10 10v11h-6v-10c0-3-2-6-5-6s-7 3-7 6v10h-6zm34-20c5 0 8 2 10 5l-4 3c-1-2-3-3-6-3-5 0-8 4-8 8s3 8 8 8c3 0 5-1 6-3l4 3c-2 3-5 5-10 5-8 0-14-6-14-13s6-13 14-13zm20 20v-22h-5v-6h5v-2c0-5 3-8 8-8h5v6h-4c-2 0-3 1-3 3v1h7v6h-7v22h-6zm22 2c-8 0-14-6-14-14s6-14 14-14c5 0 9 2 11 6l-5 3c-1-2-3-3-6-3-5 0-8 4-8 8s3 8 8 8c3 0 5-1 6-3l5 3c-2 4-6 6-11 6zm24 0c-8 0-14-6-14-14s6-14 14-14c5 0 9 2 11 6l-5 3c-1-2-3-3-6-3-5 0-8 4-8 8s3 8 8 8c3 0 5-1 6-3l5 3c-2 4-6 6-11 6zm20 0v-22h-5v-6h5v-8h6v8h7v6h-7v22h-6z"/>
     </svg>
   );
 }
 
 function HCLLogo(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <text x="10" y="50" fill="#003DA5" fontSize="52" fontWeight="bold" fontFamily="Arial, sans-serif">HCL</text>
+    <svg viewBox="0 0 120 50" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path fill="#003DA5" d="M5 8h6v12h12v-12h6v30h-6v-12h-12v12h-6zm30 0h6v12c2-2 5-3 8-3 6 0 10 4 10 10v11h-6v-10c0-3-2-6-5-6s-7 3-7 6v10h-6zm40 16c0-8 6-14 14-14 5 0 9 2 11 6l-5 3c-1-2-3-3-6-3-5 0-8 4-8 8s3 8 8 8c3 0 5-1 6-3l5 3c-2 4-6 6-11 6-8 0-14-6-14-14zm40 0v-16h6v14l10-14h7l-11 15 12 15h-7l-9-12v12h-6v-14z"/>
     </svg>
   );
 }
 
 function MicrosoftLogo(props: SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg" {...props}>
-      <rect x="10" y="10" width="25" height="25" fill="#F25022"/>
-      <rect x="40" y="10" width="25" height="25" fill="#7FBA00"/>
-      <rect x="10" y="40" width="25" height="25" fill="#00A4EF"/>
-      <rect x="40" y="40" width="25" height="25" fill="#FFB900"/>
-      <text x="75" y="50" fill="currentColor" fontSize="36" fontWeight="600" fontFamily="Segoe UI, Arial, sans-serif">Microsoft</text>
+    <svg viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path fill="#F25022" d="M0 0h11v11H0z"/>
+      <path fill="#7FBA00" d="M12 0h11v11H12z"/>
+      <path fill="#00A4EF" d="M0 12h11v11H0z"/>
+      <path fill="#FFB900" d="M12 12h11v11H12z"/>
+    </svg>
+  );
+}
+
+// New Premium Logos
+function VercelIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 256 222" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" {...props}>
+      <path fill="currentColor" d="m128 0 128 221.705H0z" />
+    </svg>
+  );
+}
+
+function StripeIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 214" {...props}>
+      <path
+        fill="currentColor"
+        d="M35.982 83.484c0-5.546 4.551-7.68 12.09-7.68 10.808 0 24.461 3.272 35.27 9.103V51.484c-11.804-4.693-23.466-6.542-35.27-6.542C19.2 44.942 0 60.018 0 85.192c0 39.252 54.044 32.995 54.044 49.92 0 6.541-5.688 8.675-13.653 8.675-11.804 0-26.88-4.836-38.827-11.378v33.849c13.227 5.689 26.596 8.106 38.827 8.106 29.582 0 49.92-14.648 49.92-40.106c-.142-42.382-54.329-34.845-54.329-50.774"
+      />
+    </svg>
+  );
+}
+
+function TypeScriptIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" {...props}>
+      <path d="M20 0h216c11.046 0 20 8.954 20 20v216c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20V20C0 8.954 8.954 0 20 0Z" fill="#3178C6"/>
+      <path d="M150.518 200.475v27.62c4.492 2.302 9.805 4.028 15.938 5.179 6.133 1.151 12.597 1.726 19.393 1.726 6.622 0 12.914-.633 18.874-1.899 5.96-1.266 11.187-3.352 15.678-6.257 4.492-2.906 8.048-6.704 10.669-11.394 2.62-4.689 3.93-10.486 3.93-17.391 0-5.006-.749-9.394-2.246-13.163a30.748 30.748 0 0 0-6.479-10.055c-2.821-2.935-6.205-5.567-10.149-7.898-3.945-2.33-8.394-4.531-13.347-6.602-3.628-1.497-6.881-2.949-9.761-4.359-2.879-1.41-5.327-2.848-7.342-4.316-2.016-1.467-3.571-3.021-4.665-4.661-1.094-1.64-1.641-3.495-1.641-5.567 0-1.899.489-3.61 1.468-5.135s2.362-2.834 4.147-3.927c1.785-1.094 3.973-1.942 6.565-2.547 2.591-.604 5.471-.906 8.638-.906 2.304 0 4.737.173 7.299.518 2.563.345 5.14.877 7.732 1.597a53.669 53.669 0 0 1 7.558 2.719 41.7 41.7 0 0 1 6.781 3.797v-25.807c-4.204-1.611-8.797-2.805-13.778-3.582-4.981-.777-10.697-1.165-17.147-1.165-6.565 0-12.784.705-18.658 2.115-5.874 1.409-11.043 3.61-15.506 6.602-4.463 2.993-7.99 6.805-10.582 11.437-2.591 4.632-3.887 10.17-3.887 16.615 0 8.228 2.375 15.248 7.127 21.06 4.751 5.811 11.963 10.731 21.638 14.759a291.458 291.458 0 0 1 10.625 4.575c3.283 1.496 6.119 3.049 8.509 4.66 2.39 1.611 4.276 3.366 5.658 5.265 1.382 1.899 2.073 4.057 2.073 6.474a9.901 9.901 0 0 1-1.296 4.963c-.863 1.524-2.174 2.848-3.93 3.97-1.756 1.122-3.945 1.999-6.565 2.632-2.62.633-5.687.95-9.2.95-5.989 0-11.92-1.05-17.794-3.151-5.875-2.1-11.317-5.25-16.327-9.451Zm-46.036-68.733H140V109H41v22.742h35.345V233h28.137V131.742Z" fill="#FFF"/>
+    </svg>
+  );
+}
+
+function NextjsIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <mask id="mask0_408_139" style={{ maskType: "alpha" }} maskUnits="userSpaceOnUse" x={0} y={0} width={180} height={180}>
+        <circle cx={90} cy={90} r={90} fill="black" />
+      </mask>
+      <g mask="url(#mask0_408_139)">
+        <circle cx={90} cy={90} r={87} fill="black" stroke="white" strokeWidth={6}/>
+        <path d="M149.508 157.52L69.142 54H54V125.97H66.1136V69.3836L139.999 164.845C143.333 162.614 146.509 160.165 149.508 157.52Z" fill="url(#paint0_linear_408_139)"/>
+        <rect x={115} y={54} width={12} height={72} fill="url(#paint1_linear_408_139)"/>
+      </g>
+      <defs>
+        <linearGradient id="paint0_linear_408_139" x1={109} y1={116.5} x2={144.5} y2={160.5} gradientUnits="userSpaceOnUse">
+          <stop stopColor="white" />
+          <stop offset={1} stopColor="white" stopOpacity={0} />
+        </linearGradient>
+        <linearGradient id="paint1_linear_408_139" x1={121} y1={54} x2={120.799} y2={106.875} gradientUnits="userSpaceOnUse">
+          <stop stopColor="white" />
+          <stop offset={1} stopColor="white" stopOpacity={0} />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
+
+function TailwindCSSIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 54 33" {...props}>
+      <path
+        fill="#38bdf8"
+        fillRule="evenodd"
+        d="M27 0c-7.2 0-11.7 3.6-13.5 10.8 2.7-3.6 5.85-4.95 9.45-4.05 2.054.513 3.522 2.004 5.147 3.653C30.744 13.09 33.808 16.2 40.5 16.2c7.2 0 11.7-3.6 13.5-10.8-2.7 3.6-5.85 4.95-9.45 4.05-2.054-.513-3.522-2.004-5.147-3.653C36.756 3.11 33.692 0 27 0zM13.5 16.2C6.3 16.2 1.8 19.8 0 27c2.7-3.6 5.85-4.95 9.45-4.05 2.054.514 3.522 2.004 5.147 3.653C17.244 29.29 20.308 32.4 27 32.4c7.2 0 11.7-3.6 13.5-10.8-2.7 3.6-5.85 4.95-9.45 4.05-2.054-.513-3.522-2.004-5.147-3.653C23.256 19.31 20.192 16.2 13.5 16.2z"
+        clipRule="evenodd"
+      />
+    </svg>
+  );
+}
+
+function SupabaseIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 109 113" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path d="M63.708 110.284c-2.86 3.601-8.658 1.628-8.727-2.97l-1.007-67.251h45.22c8.19 0 12.758 9.46 7.665 15.874l-43.151 54.347Z" fill="url(#a)"/>
+      <path d="M63.708 110.284c-2.86 3.601-8.658 1.628-8.727-2.97l-1.007-67.251h45.22c8.19 0 12.758 9.46 7.665 15.874l-43.151 54.347Z" fill="url(#b)" fillOpacity=".2"/>
+      <path d="M45.317 2.071c2.86-3.601 8.657-1.628 8.726 2.97l.442 67.251H9.83c-8.19 0-12.759-9.46-7.665-15.875L45.317 2.072Z" fill="#3ECF8E"/>
+      <defs>
+        <linearGradient id="a" x1="53.974" y1="54.974" x2="94.163" y2="71.829" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#249361" />
+          <stop offset="1" stopColor="#3ECF8E" />
+        </linearGradient>
+        <linearGradient id="b" x1="36.156" y1="30.578" x2="54.484" y2="65.081" gradientUnits="userSpaceOnUse">
+          <stop />
+          <stop offset="1" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
+
+function OpenAIIconBlack(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="256" height="260" viewBox="0 0 256 260" {...props}>
+      <path
+        className="fill-current dark:fill-white"
+        d="M239.184 106.203a64.716 64.716 0 0 0-5.576-53.103C219.452 28.459 191 15.784 163.213 21.74A65.586 65.586 0 0 0 52.096 45.22a64.716 64.716 0 0 0-43.23 31.36c-14.31 24.602-11.061 55.634 8.033 76.74a64.665 64.665 0 0 0 5.525 53.102c14.174 24.65 42.644 37.324 70.446 31.36a64.72 64.72 0 0 0 48.754 21.744c28.481.025 53.714-18.361 62.414-45.481a64.767 64.767 0 0 0 43.229-31.36c14.137-24.558 10.875-55.423-8.083-76.483Zm-97.56 136.338a48.397 48.397 0 0 1-31.105-11.255l1.535-.87 51.67-29.825a8.595 8.595 0 0 0 4.247-7.367v-72.85l21.845 12.636c.218.111.37.32.409.563v60.367c-.056 26.818-21.783 48.545-48.601 48.601Zm-104.466-44.61a48.345 48.345 0 0 1-5.781-32.589l1.534.921 51.722 29.826a8.339 8.339 0 0 0 8.441 0l63.181-36.425v25.221a.87.87 0 0 1-.358.665l-52.335 30.184c-23.257 13.398-52.97 5.431-66.404-17.803ZM23.549 85.38a48.499 48.499 0 0 1 25.58-21.333v61.39a8.288 8.288 0 0 0 4.195 7.316l62.874 36.272-21.845 12.636a.819.819 0 0 1-.767 0L41.353 151.53c-23.211-13.454-31.171-43.144-17.804-66.405v.256Zm179.466 41.695-63.08-36.63L161.73 77.86a.819.819 0 0 1 .768 0l52.233 30.184a48.6 48.6 0 0 1-7.316 87.635v-61.391a8.544 8.544 0 0 0-4.4-7.213Zm21.742-32.69-1.535-.922-51.619-30.081a8.39 8.39 0 0 0-8.492 0L99.98 99.808V74.587a.716.716 0 0 1 .307-.665l52.233-30.133a48.652 48.652 0 0 1 72.236 50.391v.205ZM88.061 139.097l-21.845-12.585a.87.87 0 0 1-.41-.614V65.685a48.652 48.652 0 0 1 79.757-37.346l-1.535.87-51.67 29.825a8.595 8.595 0 0 0-4.246 7.367l-.051 72.697Zm11.868-25.58 28.138-16.217 28.188 16.218v32.434l-28.086 16.218-28.188-16.218-.052-32.434Z"
+      />
+    </svg>
+  );
+}
+
+function UpstashIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 256 341" xmlns="http://www.w3.org/2000/svg" width="256" height="341" preserveAspectRatio="xMidYMid" {...props}>
+      <path fill="#00C98D" d="M0 298.417c56.554 56.553 148.247 56.553 204.801 0 56.554-56.554 56.554-148.247 0-204.801l-25.6 25.6c42.415 42.416 42.415 111.185 0 153.6-42.416 42.416-111.185 42.416-153.601 0L0 298.416Z"/>
+      <path fill="#00C98D" d="M51.2 247.216c28.277 28.277 74.123 28.277 102.4 0 28.277-28.276 28.277-74.123 0-102.4l-25.6 25.6c14.14 14.138 14.14 37.061 0 51.2-14.138 14.139-37.061 14.139-51.2 0l-25.6 25.6ZM256 42.415c-56.554-56.553-148.247-56.553-204.8 0-56.555 56.555-56.555 148.247 0 204.801l25.599-25.6c-42.415-42.415-42.415-111.185 0-153.6 42.416-42.416 111.185-42.416 153.6 0L256 42.416Z"/>
+      <path fill="#00C98D" d="M204.8 93.616c-28.276-28.277-74.124-28.277-102.4 0-28.278 28.277-28.278 74.123 0 102.4l25.6-25.6c-14.14-14.138-14.14-37.061 0-51.2 14.138-14.139 37.06-14.139 51.2 0l25.6-25.6Z"/>
+      <path fill="#FFF" fillOpacity=".4" d="M256 42.415c-56.554-56.553-148.247-56.553-204.8 0-56.555 56.555-56.555 148.247 0 204.801l25.599-25.6c-42.415-42.415-42.415-111.185 0-153.6 42.416-42.416 111.185-42.416 153.6 0L256 42.416Z"/>
+      <path fill="#FFF" fillOpacity=".4" d="M204.8 93.616c-28.276-28.277-74.124-28.277-102.4 0-28.278 28.277-28.278 74.123 0 102.4l25.6-25.6c-14.14-14.138-14.14-37.061 0-51.2 14.138-14.139 37.06-14.139 51.2 0l25.6-25.6Z"/>
+    </svg>
+  );
+}
+
+function ClaudeAIIcon(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width={512} height={512} {...props}>
+      <rect fill="#CC9B7A" width={512} height={512} rx={104.187} ry={105.042}/>
+      <path fill="#1F1F1E" fillRule="nonzero" d="M318.663 149.787h-43.368l78.952 212.423 43.368.004-78.952-212.427zm-125.326 0l-78.952 212.427h44.255l15.932-44.608 82.846-.004 16.107 44.612h44.255l-79.126-212.427h-45.317zm-4.251 128.341l26.91-74.701 27.083 74.701h-53.993z"/>
     </svg>
   );
 }
@@ -114,23 +232,37 @@ const allLogos = [
   { name: "TCS", id: 9, img: TCSLogo },
   { name: "Capgemini", id: 10, img: CapgeminiLogo },
   { name: "HCL", id: 11, img: HCLLogo },
+  { name: "Vercel", id: 12, img: VercelIcon },
+  { name: "Stripe", id: 13, img: StripeIcon },
+  { name: "TypeScript", id: 14, img: TypeScriptIcon },
+  { name: "Next.js", id: 15, img: NextjsIcon },
+  { name: "Tailwind", id: 16, img: TailwindCSSIcon },
+  { name: "Supabase", id: 17, img: SupabaseIcon },
+  { name: "OpenAI", id: 18, img: OpenAIIconBlack },
+  { name: "Upstash", id: 19, img: UpstashIcon },
+  { name: "Claude", id: 20, img: ClaudeAIIcon },
 ];
 
 export function CompanyLogos() {
   return (
-    <div className="space-y-8 py-16">
-      <div className="mx-auto flex w-full max-w-screen-lg flex-col items-center space-y-8">
-        <div className="text-center">
-          <GradientHeading variant="secondary" size="sm">
-            Trusted by Leading Institutions
-          </GradientHeading>
-          <GradientHeading size="xl">
-            Join Thousands of Successful Students
-          </GradientHeading>
-        </div>
+    <section className="py-20 bg-muted/20">
+      <div className="container mx-auto px-4">
+        <div className="mx-auto flex w-full max-w-screen-xl flex-col items-center space-y-12">
+          <div className="text-center space-y-4">
+            <p className="text-sm md:text-base text-muted-foreground font-medium">
+              Trusted by Leading Companies
+            </p>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold">
+              Join the <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">Best in Tech</span>
+            </h2>
+          </div>
 
-        <LogoCarousel columnCount={4} logos={allLogos} /> 
+          {/* Animated Logo Carousel */}
+          <div className="w-full flex justify-center">
+            <LogoCarousel columnCount={4} logos={allLogos} />
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

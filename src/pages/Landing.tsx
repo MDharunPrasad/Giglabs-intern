@@ -1,62 +1,79 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, Users, Award, Zap, Target, TrendingUp, Shield } from "lucide-react";
+import { ArrowRight, BookOpen, Users, Award, Zap, Target, TrendingUp, Shield, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
-import heroImage from "@/assets/hero-bg.jpg";
 import { Testimonials } from "@/components/Testimonials";
 import { CompanyLogos } from "@/components/CompanyLogos";
+import { ShaderBackground } from "@/components/ui/hero-shader";
 
 export default function Landing() {
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div 
-          className="absolute inset-0 z-0 opacity-30"
-          style={{
-            backgroundImage: `url(${heroImage})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center"
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/80 to-background z-0" />
-        
-        <div className="container relative z-10 mx-auto px-4 py-20">
-          <div className="max-w-4xl mx-auto text-center animate-fade-in">
-            <h1 className="text-5xl md:text-7xl font-display mb-6 leading-tight">
-              Learn, Intern, <span className="bg-gradient-to-r from-primary via-accent to-gold bg-clip-text text-transparent font-extrabold" style={{ textShadow: '0 2px 10px rgba(0,0,0,0.3)', filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.2))' }}>Earn Your Skills</span>
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto font-semibold" style={{ color: 'hsl(var(--foreground))', textShadow: '0 1px 4px rgba(0,0,0,0.2)' }}>
-              Transform your learning journey with our gamified internship platform. 
-              Master real-world skills with hands-on projects and earn industry-recognized certificates.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-              <Link to="/registration">
-                <Button size="lg" className="gradient-primary shadow-glow group">
-                  Register Now
-                  <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
-            </div>
+      {/* Hero Section with Shader Background */}
+      <ShaderBackground height="min-h-[70vh]">
+        <div className="relative z-20 h-full">
+          {/* Hero Content - Positioned Lower */}
+          <div className="container mx-auto px-4 h-full flex items-end pb-8 md:pb-12 lg:pb-16 pt-20">
+            <div className="max-w-4xl mx-auto text-center md:text-left">
+              {/* Badge */}
+              <div className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/10 dark:bg-white/5 backdrop-blur-md mb-4 md:mb-6 border border-white/20 dark:border-white/10">
+                <Sparkles className="w-3.5 h-3.5 text-white/90 dark:text-white/80 mr-2" />
+                <span className="text-white/90 dark:text-white/80 text-xs md:text-sm font-light">New: AI-Powered Learning Paths</span>
+              </div>
 
-            {/* Trust Signals */}
-            <div className="flex flex-wrap justify-center gap-8 text-base font-semibold bg-background/80 backdrop-blur-sm px-8 py-4 rounded-2xl border border-border/50 shadow-lg">
-              <div className="flex items-center gap-2">
-                <Users className="w-5 h-5 text-primary" />
-                <span className="text-foreground">5,000+ Students</span>
+              {/* Main Heading */}
+              <h1 className="text-4xl md:text-6xl lg:text-7xl leading-tight tracking-tight text-white dark:text-white mb-4 md:mb-6">
+                <span className="font-light italic">Master</span> Real-World
+                <br />
+                <span className="font-bold">Tech Skills</span>
+              </h1>
+
+              {/* Description */}
+              <p className="text-sm md:text-base lg:text-lg font-light text-white/80 dark:text-white/70 mb-6 md:mb-8 leading-relaxed max-w-2xl mx-auto md:mx-0">
+                Transform your learning journey with our gamified internship platform. 
+                Gain hands-on experience, earn industry-recognized certificates, and unlock your potential.
+              </p>
+
+              {/* Trust Signals */}
+              <div className="flex flex-wrap justify-center md:justify-start gap-4 md:gap-6 mb-6 md:mb-8 text-xs md:text-sm text-white/70 dark:text-white/60">
+                <div className="flex items-center gap-2">
+                  <Users className="w-4 h-4" />
+                  <span>5,000+ Students</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <BookOpen className="w-4 h-4" />
+                  <span>100+ Courses</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Award className="w-4 h-4" />
+                  <span>95% Success Rate</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-primary" />
-                <span className="text-foreground">100+ Courses</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Award className="w-5 h-5 text-primary" />
-                <span className="text-foreground">95% Success Rate</span>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 md:gap-4">
+                <Link to="/browse-courses">
+                  <Button 
+                    variant="outline" 
+                    size="lg"
+                    className="w-full sm:w-auto bg-transparent border-white/30 dark:border-white/20 text-white hover:bg-white/10 dark:hover:bg-white/5 hover:border-white/50 dark:hover:border-white/30 backdrop-blur-sm"
+                  >
+                    Browse Courses
+                  </Button>
+                </Link>
+                <Link to="/registration">
+                  <Button 
+                    size="lg"
+                    className="w-full sm:w-auto bg-white dark:bg-white text-black dark:text-black hover:bg-white/90 dark:hover:bg-white/90 shadow-lg hover:shadow-xl group"
+                  >
+                    Get Started
+                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
         </div>
-      </section>
+      </ShaderBackground>
 
       {/* Features Section */}
       <section className="py-20 bg-card/30">

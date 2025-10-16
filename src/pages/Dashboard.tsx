@@ -131,21 +131,30 @@ export default function Dashboard() {
 
           {/* Sidebar */}
           <div className="space-y-8">
-            {/* Recent Badges */}
+            {/* Domain Completion Progress */}
             <section>
-              <h3 className="text-xl font-display mb-6">Recent Achievements</h3>
+              <h3 className="text-xl font-display mb-6">Domain Completion</h3>
               <div className="bg-card rounded-lg p-6 shadow-md">
-                <div className="grid grid-cols-3 gap-4">
-                  <AchievementBadge title="First Module" icon="star" variant="gold" size="sm" />
-                  <AchievementBadge title="Fast Learner" icon="zap" variant="accent" size="sm" />
-                  <AchievementBadge title="Perfect Score" icon="trophy" variant="primary" size="sm" />
-                  <AchievementBadge title="Consistent" icon="shield" variant="primary" size="sm" />
-                  <AchievementBadge title="Top 10" icon="crown" variant="gold" size="sm" />
-                  <AchievementBadge title="Team Player" icon="award" variant="accent" size="sm" earned={false} />
+                <p className="text-sm text-muted-foreground mb-4 text-center">
+                  Complete all courses to unlock Domain Master badges
+                </p>
+                <div className="grid grid-cols-2 gap-6">
+                  <AchievementBadge 
+                    title="Domain Master" 
+                    domain="fullstack" 
+                    earned={false}
+                    size="sm"
+                  />
+                  <AchievementBadge 
+                    title="Domain Master" 
+                    domain="ai-ml" 
+                    earned={false}
+                    size="sm"
+                  />
                 </div>
                 <Link to="/profile">
                   <Button variant="ghost" size="sm" className="w-full mt-4">
-                    View All Badges
+                    View Progress
                   </Button>
                 </Link>
               </div>
