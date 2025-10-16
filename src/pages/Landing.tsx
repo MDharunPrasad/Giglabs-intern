@@ -2,16 +2,12 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, BookOpen, Users, Award, Zap, Target, TrendingUp, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroImage from "@/assets/hero-bg.jpg";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
 import { Testimonials } from "@/components/Testimonials";
 import { TrustedBrands } from "@/components/TrustedBrands";
-import { Chatbot } from "@/components/Chatbot";
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-background">
-
+    <>
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div 
@@ -166,7 +162,7 @@ export default function Landing() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }
 

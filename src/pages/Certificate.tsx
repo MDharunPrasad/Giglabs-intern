@@ -2,9 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Award, Download, Share2, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
-import { Chatbot } from "@/components/Chatbot";
 
 export default function Certificate() {
   const [userData, setUserData] = useState({ fullName: "Student", courseType: "Full Stack" });
@@ -42,10 +39,7 @@ export default function Certificate() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-
-      <div className="container mx-auto px-4 py-12">
+    <div className="container mx-auto px-4 py-12">
         <Link to="/dashboard">
           <Button variant="ghost" size="sm" className="mb-8">
             <ArrowLeft className="w-4 h-4" />
@@ -145,9 +139,5 @@ export default function Certificate() {
           </div>
         </div>
       </div>
-      
-      <Footer />
-      <Chatbot />
-    </div>
   );
 }

@@ -1,9 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Code, Palette, Server, Brain, Sparkles, Layout, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
-import { Chatbot } from "@/components/Chatbot";
 import { CourseDialog } from "@/components/CourseDialog";
 import { useState } from "react";
 
@@ -80,8 +77,7 @@ export default function BrowseCourses() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-
+    <>
       <div className="container mx-auto px-4 py-12">
         <Link to="/">
           <Button variant="ghost" size="sm" className="mb-8">
@@ -155,6 +151,6 @@ export default function BrowseCourses() {
         open={dialogOpen}
         onOpenChange={setDialogOpen}
       />
-    </div>
+    </>
   );
 }

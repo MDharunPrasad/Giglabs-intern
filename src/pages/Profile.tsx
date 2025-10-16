@@ -3,16 +3,10 @@ import { ProgressBar } from "@/components/ProgressBar";
 import { Button } from "@/components/ui/button";
 import { Award, BookOpen, Clock, Download, Share2, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
-import { Chatbot } from "@/components/Chatbot";
 
 export default function Profile() {
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-
-      <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8">
         {/* Back Button */}
         <Link to="/dashboard">
           <Button variant="ghost" size="sm" className="mb-6">
@@ -179,10 +173,6 @@ export default function Profile() {
           </div>
         </div>
       </div>
-      
-      <Footer />
-      <Chatbot />
-    </div>
   );
 }
 

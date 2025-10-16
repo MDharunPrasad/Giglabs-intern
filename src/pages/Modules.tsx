@@ -2,16 +2,10 @@ import { ModuleCard } from "@/components/ModuleCard";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Filter } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
-import { Chatbot } from "@/components/Chatbot";
 
 export default function Modules() {
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-
-      <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8">
         {/* Page Header */}
         <div className="mb-8">
           <Link to="/dashboard">
@@ -188,9 +182,5 @@ export default function Modules() {
           </div>
         </section>
       </div>
-      
-      <Footer />
-      <Chatbot />
-    </div>
   );
 }
