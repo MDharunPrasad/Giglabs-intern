@@ -173,11 +173,9 @@ export default function Registration() {
                 </Select>
               </div>
 
-              <Link to="/payment" className="block">
-                <Button type="button" size="lg" className="w-full bg-primary hover:bg-primary-hover text-primary-foreground shadow-glow">
-                  Continue to Payment
-                </Button>
-              </Link>
+              <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary-hover text-primary-foreground shadow-glow">
+                Complete Registration
+              </Button>
             </form>
           </div>
         </div>

@@ -6,7 +6,6 @@ import {
   GraduationCap,
   Users2,
   DollarSign,
-  BarChart3,
   Settings,
   Sparkles,
 } from "lucide-react";
@@ -30,7 +29,6 @@ const navigationItems = [
   { title: "Tutors", url: "/admin/tutors", icon: GraduationCap },
   { title: "Batches", url: "/admin/batches", icon: Users2 },
   { title: "Payments", url: "/admin/payments", icon: DollarSign },
-  { title: "Analytics", url: "/admin/analytics", icon: BarChart3 },
   { title: "Settings", url: "/admin/settings", icon: Settings },
 ];
 

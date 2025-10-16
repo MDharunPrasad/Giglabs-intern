@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import React from "react";
 import Landing from "./pages/Landing";
 import DashboardNew from "./pages/DashboardNew";
 import Registration from "./pages/Registration";
@@ -11,14 +12,12 @@ import RegistrationSuccess from "./pages/RegistrationSuccess";
 import BrowseCourses from "./pages/BrowseCourses";
 import Certificate from "./pages/Certificate";
 import Profile from "./pages/Profile";
-import Payment from "./pages/Payment";
 import Admin from "./pages/Admin";
 import Students from "./pages/admin/Students";
 import Courses from "./pages/admin/Courses";
 import Tutors from "./pages/admin/Tutors";
 import Batches from "./pages/admin/Batches";
 import Payments from "./pages/admin/Payments";
-import Analytics from "./pages/admin/Analytics";
 import Settings from "./pages/admin/Settings";
 import NotFound from "./pages/NotFound";
 import { PageTransition } from "./components/PageTransition";
@@ -28,6 +27,11 @@ const queryClient = new QueryClient();
 
 function AnimatedRoutes() {
   const location = useLocation();
+
+  // Scroll to top on route change
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <Layout>
@@ -40,14 +44,12 @@ function AnimatedRoutes() {
           <Route path="/browse-courses" element={<PageTransition><BrowseCourses /></PageTransition>} />
           <Route path="/certificate" element={<PageTransition><Certificate /></PageTransition>} />
           <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />
-          <Route path="/payment" element={<PageTransition><Payment /></PageTransition>} />
           <Route path="/admin" element={<PageTransition><Admin /></PageTransition>} />
           <Route path="/admin/students" element={<PageTransition><Students /></PageTransition>} />
           <Route path="/admin/courses" element={<PageTransition><Courses /></PageTransition>} />
           <Route path="/admin/tutors" element={<PageTransition><Tutors /></PageTransition>} />
           <Route path="/admin/batches" element={<PageTransition><Batches /></PageTransition>} />
           <Route path="/admin/payments" element={<PageTransition><Payments /></PageTransition>} />
-          <Route path="/admin/analytics" element={<PageTransition><Analytics /></PageTransition>} />
           <Route path="/admin/settings" element={<PageTransition><Settings /></PageTransition>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
