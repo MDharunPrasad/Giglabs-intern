@@ -1,19 +1,49 @@
 import { AchievementBadge } from "@/components/AchievementBadge";
 import { ProgressBar } from "@/components/ProgressBar";
 import { Button } from "@/components/ui/button";
-import { Award, BookOpen, Clock, Download, Share2, ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Award, BookOpen, Clock, Download, Share2, ArrowLeft, LogOut } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function Profile() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
+  const getInitials = (name?: string) => {
+    if (!name) return 'U';
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
-        {/* Back Button */}
-        <Link to="/dashboard">
-          <Button variant="ghost" size="sm" className="mb-6">
-            <ArrowLeft className="w-4 h-4" />
-            Back to Dashboard
+        {/* Back Button & Logout */}
+        <div className="flex justify-between items-center mb-6">
+          <Link to="/dashboard">
+            <Button variant="ghost" size="sm">
+              <ArrowLeft className="w-4 h-4" />
+              Back to Dashboard
+            </Button>
+          </Link>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={handleLogout}
+            className="text-destructive hover:bg-destructive/10"
+          >
+            <LogOut className="w-4 h-4 mr-2" />
+            Sign Out
           </Button>
-        </Link>
+        </div>
 
         {/* Profile Header */}
         <section className="mb-12">
@@ -22,14 +52,22 @@ export default function Profile() {
             
             <div className="relative z-10 flex flex-col md:flex-row items-start gap-8">
               <div className="w-32 h-32 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-5xl font-display shadow-lg">
-                JD
+                {user?.avatar ? (
+                  <img
+                    src={user.avatar}
+                    alt={user.name}
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                ) : (
+                  getInitials(user?.name)
+                )}
               </div>
               
               <div className="flex-1">
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h2 className="text-4xl font-display mb-2">John Doe</h2>
-                    <p className="text-muted-foreground">john.doe@email.com</p>
+                    <h2 className="text-4xl font-display mb-2">{user?.name || 'User'}</h2>
+                    <p className="text-muted-foreground">{user?.email || 'email@example.com'}</p>
                   </div>
                   <Button variant="outline">Edit Profile</Button>
                 </div>
@@ -37,24 +75,24 @@ export default function Profile() {
                 <div className="grid md:grid-cols-3 gap-6 mb-6">
                   <div>
                     <p className="text-sm text-muted-foreground mb-1">Current Level</p>
-                    <p className="text-3xl font-display">Level 5</p>
+                    <p className="text-3xl font-display">Level {user?.level || 1}</p>
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground mb-1">Total XP</p>
-                    <p className="text-3xl font-display">2,450</p>
+                    <p className="text-3xl font-display">{user?.xp || 0}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground mb-1">Study Streak</p>
-                    <p className="text-3xl font-display">7 days 🔥</p>
+                    <p className="text-sm text-muted-foreground mb-1">Role</p>
+                    <p className="text-3xl font-display capitalize">{user?.role || 'student'}</p>
                   </div>
                 </div>
 
                 <div>
                   <div className="flex justify-between text-sm mb-2">
-                    <span className="font-medium">Progress to Level 6</span>
-                    <span className="text-muted-foreground">2,450 / 3,000 XP</span>
+                    <span className="font-medium">Progress to Level {(user?.level || 1) + 1}</span>
+                    <span className="text-muted-foreground">{user?.xp || 0} / 3,000 XP</span>
                   </div>
-                  <ProgressBar value={2450} max={3000} variant="gold" size="lg" />
+                  <ProgressBar value={user?.xp || 0} max={3000} variant="gold" size="lg" />
                 </div>
               </div>
             </div>
@@ -312,7 +350,7 @@ function CertificateCard({ title, date, id }: { title: string; date: string; id:
   );
 }
 
-function StatItem({ icon: Icon, label, value }: { icon: any; label: string; value: string }) {
+function StatItem({ icon: Icon, label, value }: { icon: React.ComponentType<{ className: string }>; label: string; value: string }) {
   return (
     <div className="flex items-center gap-4">
       <div className="bg-primary/10 p-3 rounded-lg">
