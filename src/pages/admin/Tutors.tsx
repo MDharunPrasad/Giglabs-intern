@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Plus, Search, Pencil, Trash2 } from "lucide-react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AdminSidebar } from "@/components/AdminSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -60,15 +58,68 @@ export default function Tutors() {
     const stored = localStorage.getItem("tutors");
     if (stored) {
       setTutors(JSON.parse(stored));
+    } else {
+      // Initialize with sample data if none exists
+      const sampleTutors: Tutor[] = [
+        {
+          id: "1",
+          name: "John Doe",
+          email: "john.doe@giglabs.com",
+          expertise: "Full Stack Development, React, Node.js",
+          experience: "8 years",
+          status: "active",
+        },
+        {
+          id: "2",
+          name: "Jane Smith",
+          email: "jane.smith@giglabs.com",
+          expertise: "AI/ML, Python, TensorFlow",
+          experience: "10 years",
+          status: "active",
+        },
+        {
+          id: "3",
+          name: "Mike Johnson",
+          email: "mike.johnson@giglabs.com",
+          expertise: "Cloud Computing, AWS, DevOps",
+          experience: "12 years",
+          status: "active",
+        },
+        {
+          id: "4",
+          name: "Sarah Williams",
+          email: "sarah.williams@giglabs.com",
+          expertise: "Data Science, Analytics, Python",
+          experience: "7 years",
+          status: "active",
+        },
+        {
+          id: "5",
+          name: "David Brown",
+          email: "david.brown@giglabs.com",
+          expertise: "Mobile Development, React Native",
+          experience: "6 years",
+          status: "active",
+        },
+        {
+          id: "6",
+          name: "Emily Davis",
+          email: "emily.davis@giglabs.com",
+          expertise: "DevOps, Kubernetes, CI/CD",
+          experience: "9 years",
+          status: "active",
+        },
+      ];
+      saveTutors(sampleTutors);
     }
   };
 
-  const saveTutors = (data: Tutor[]) => {
+  const saveTutors = useCallback((data: Tutor[]) => {
     localStorage.setItem("tutors", JSON.stringify(data));
     setTutors(data);
-  };
+  }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     if (!formData.name || !formData.email || !formData.expertise) {
       toast.error("Please fill all required fields");
       return;
@@ -91,9 +142,9 @@ export default function Tutors() {
 
     setIsDialogOpen(false);
     resetForm();
-  };
+  }, [formData, editingTutor, tutors, saveTutors]);
 
-  const handleEdit = (tutor: Tutor) => {
+  const handleEdit = useCallback((tutor: Tutor) => {
     setEditingTutor(tutor);
     setFormData({
       name: tutor.name,
@@ -103,14 +154,14 @@ export default function Tutors() {
       status: tutor.status,
     });
     setIsDialogOpen(true);
-  };
+  }, []);
 
-  const handleDelete = (id: string) => {
+  const handleDelete = useCallback((id: string) => {
     saveTutors(tutors.filter((t) => t.id !== id));
     toast.success("Tutor deleted successfully");
-  };
+  }, [tutors, saveTutors]);
 
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     setEditingTutor(null);
     setFormData({
       name: "",
@@ -119,23 +170,18 @@ export default function Tutors() {
       experience: "",
       status: "active",
     });
-  };
+  }, []);
 
-  const filteredTutors = tutors.filter(
-    (t) =>
-      t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      t.email.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredTutors = useMemo(() =>
+    tutors.filter(
+      (t) =>
+        t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        t.email.toLowerCase().includes(searchQuery.toLowerCase())
+    ),
+    [tutors, searchQuery]
   );
 
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen w-full">
-        <AdminSidebar />
-        <div className="flex-1">
-          <header className="border-b bg-card px-6 py-4 flex items-center gap-4">
-            <SidebarTrigger />
-            <h1 className="text-2xl font-display font-bold">LearnHub Admin</h1>
-          </header>
           <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-display font-bold">Tutors</h1>
@@ -278,8 +324,5 @@ export default function Tutors() {
         </DialogContent>
       </Dialog>
           </div>
-        </div>
-      </div>
-    </SidebarProvider>
   );
 }

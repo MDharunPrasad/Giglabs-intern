@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Plus, Search, Pencil, Trash2 } from "lucide-react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AdminSidebar } from "@/components/AdminSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -64,15 +62,80 @@ export default function Batches() {
     const stored = localStorage.getItem("batches");
     if (stored) {
       setBatches(JSON.parse(stored));
+    } else {
+      // Initialize with sample data if none exists
+      const sampleBatches: Batch[] = [
+        {
+          id: "1",
+          name: "FSWD Batch Oct 2025",
+          course: "Full Stack Web Development",
+          tutor: "John Doe",
+          startDate: "2025-10-20",
+          endDate: "2026-01-15",
+          students: 45,
+          status: "active",
+        },
+        {
+          id: "2",
+          name: "AI/ML Batch Sep 2025",
+          course: "AI & Machine Learning",
+          tutor: "Jane Smith",
+          startDate: "2025-09-15",
+          endDate: "2026-01-10",
+          students: 32,
+          status: "active",
+        },
+        {
+          id: "3",
+          name: "AWS Cloud Batch Oct 2025",
+          course: "Cloud Computing with AWS",
+          tutor: "Mike Johnson",
+          startDate: "2025-10-01",
+          endDate: "2025-12-15",
+          students: 28,
+          status: "active",
+        },
+        {
+          id: "4",
+          name: "Data Science Batch Nov 2025",
+          course: "Data Science & Analytics",
+          tutor: "Sarah Williams",
+          startDate: "2025-11-01",
+          endDate: "2026-02-10",
+          students: 0,
+          status: "upcoming",
+        },
+        {
+          id: "5",
+          name: "React Native Batch Aug 2025",
+          course: "Mobile App Development",
+          tutor: "David Brown",
+          startDate: "2025-08-01",
+          endDate: "2025-10-15",
+          students: 25,
+          status: "completed",
+        },
+        {
+          id: "6",
+          name: "DevOps Batch Nov 2025",
+          course: "DevOps & CI/CD Pipeline",
+          tutor: "Emily Davis",
+          startDate: "2025-11-15",
+          endDate: "2026-01-20",
+          students: 0,
+          status: "upcoming",
+        },
+      ];
+      saveBatches(sampleBatches);
     }
   };
 
-  const saveBatches = (data: Batch[]) => {
+  const saveBatches = useCallback((data: Batch[]) => {
     localStorage.setItem("batches", JSON.stringify(data));
     setBatches(data);
-  };
+  }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     if (!formData.name || !formData.course || !formData.startDate) {
       toast.error("Please fill all required fields");
       return;
@@ -95,9 +158,9 @@ export default function Batches() {
 
     setIsDialogOpen(false);
     resetForm();
-  };
+  }, [formData, editingBatch, batches, saveBatches]);
 
-  const handleEdit = (batch: Batch) => {
+  const handleEdit = useCallback((batch: Batch) => {
     setEditingBatch(batch);
     setFormData({
       name: batch.name,
@@ -109,14 +172,14 @@ export default function Batches() {
       status: batch.status,
     });
     setIsDialogOpen(true);
-  };
+  }, []);
 
-  const handleDelete = (id: string) => {
+  const handleDelete = useCallback((id: string) => {
     saveBatches(batches.filter((b) => b.id !== id));
     toast.success("Batch deleted successfully");
-  };
+  }, [batches, saveBatches]);
 
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     setEditingBatch(null);
     setFormData({
       name: "",
@@ -127,21 +190,16 @@ export default function Batches() {
       students: 0,
       status: "upcoming",
     });
-  };
+  }, []);
 
-  const filteredBatches = batches.filter((b) =>
-    b.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredBatches = useMemo(() =>
+    batches.filter((b) =>
+      b.name.toLowerCase().includes(searchQuery.toLowerCase())
+    ),
+    [batches, searchQuery]
   );
 
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen w-full">
-        <AdminSidebar />
-        <div className="flex-1">
-          <header className="border-b bg-card px-6 py-4 flex items-center gap-4">
-            <SidebarTrigger />
-            <h1 className="text-2xl font-display font-bold">LearnHub Admin</h1>
-          </header>
           <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-display font-bold">Batches</h1>
@@ -313,8 +371,5 @@ export default function Batches() {
         </DialogContent>
       </Dialog>
           </div>
-        </div>
-      </div>
-    </SidebarProvider>
   );
 }

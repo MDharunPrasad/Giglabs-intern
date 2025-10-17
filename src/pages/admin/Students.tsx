@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Plus, Search, Pencil, Trash2 } from "lucide-react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AdminSidebar } from "@/components/AdminSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -64,12 +62,12 @@ export default function Students() {
     }
   };
 
-  const saveStudents = (data: Student[]) => {
+  const saveStudents = useCallback((data: Student[]) => {
     localStorage.setItem("students", JSON.stringify(data));
     setStudents(data);
-  };
+  }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     if (!formData.name || !formData.email || !formData.domain || !formData.track) {
       toast.error("Please fill all fields");
       return;
@@ -93,9 +91,9 @@ export default function Students() {
 
     setIsDialogOpen(false);
     resetForm();
-  };
+  }, [formData, editingStudent, students, saveStudents]);
 
-  const handleEdit = (student: Student) => {
+  const handleEdit = useCallback((student: Student) => {
     setEditingStudent(student);
     setFormData({
       name: student.name,
@@ -105,14 +103,14 @@ export default function Students() {
       status: student.status,
     });
     setIsDialogOpen(true);
-  };
+  }, []);
 
-  const handleDelete = (id: string) => {
+  const handleDelete = useCallback((id: string) => {
     saveStudents(students.filter((s) => s.id !== id));
     toast.success("Student deleted successfully");
-  };
+  }, [students, saveStudents]);
 
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     setEditingStudent(null);
     setFormData({
       name: "",
@@ -121,23 +119,18 @@ export default function Students() {
       track: "",
       status: "active",
     });
-  };
+  }, []);
 
-  const filteredStudents = students.filter(
-    (s) =>
-      s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      s.email.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredStudents = useMemo(() => 
+    students.filter(
+      (s) =>
+        s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        s.email.toLowerCase().includes(searchQuery.toLowerCase())
+    ),
+    [students, searchQuery]
   );
 
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen w-full">
-        <AdminSidebar />
-        <div className="flex-1">
-          <header className="border-b bg-card px-6 py-4 flex items-center gap-4">
-            <SidebarTrigger />
-            <h1 className="text-2xl font-display font-bold">LearnHub Admin</h1>
-          </header>
           <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-display font-bold">Students</h1>
@@ -283,10 +276,7 @@ export default function Students() {
             </Button>
           </DialogFooter>
         </DialogContent>
-      </Dialog>
-          </div>
-        </div>
+        </Dialog>
       </div>
-    </SidebarProvider>
   );
 }
