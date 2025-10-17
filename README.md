@@ -1,40 +1,36 @@
-# Welcome to your Lovable project
+# GigLabs - Internship + LMS Platform
 
-## Project info
+Modern learning platform combining gamified internships with hands-on learning experience.
 
-**URL**: https://lovable.dev/projects/6654a6fd-e8e6-4dbf-8a67-99e5e664011d
+## Project Info
 
-## How can I edit this code?
+A full-stack web application built with React, TypeScript, and Vite.
 
-There are several ways of editing your application.
+## Getting Started
 
-**Use Lovable**
+### Prerequisites
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/6654a6fd-e8e6-4dbf-8a67-99e5e664011d) and start prompting.
+- Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-Changes made via Lovable will be committed automatically to this repo.
+### Local Development
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+Follow these steps to run the project locally:
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
+# Step 1: Clone the repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Step 2: Navigate to the project directory
+cd Giglabs-intern
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Step 3: Install the necessary dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Step 4: Start the development server with auto-reloading
 npm run dev
 ```
+
+### Other Ways to Edit
 
 **Edit a file directly in GitHub**
 
@@ -50,24 +46,62 @@ npm run dev
 - Click on "New codespace" to launch a new Codespace environment.
 - Edit files directly within the Codespace and commit and push your changes once you're done.
 
-## What technologies are used for this project?
+## Tech Stack
 
 This project is built with:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- **Vite** - Fast build tool and dev server
+- **TypeScript** - Type-safe JavaScript
+- **React** - UI library
+- **shadcn/ui** - Re-usable component library
+- **Tailwind CSS** - Utility-first CSS framework
+- **Framer Motion** - Animation library
+- **React Router** - Client-side routing
 
-## How can I deploy this project?
+## Build & Deploy
 
-Simply open [Lovable](https://lovable.dev/projects/6654a6fd-e8e6-4dbf-8a67-99e5e664011d) and click on Share -> Publish.
+### Production Build
 
-## Can I connect a custom domain to my Lovable project?
+```sh
+npm run build
+```
 
-Yes, you can!
+This creates an optimized production build in the `dist` folder.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Preview Production Build
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+```sh
+npm run preview
+```
+
+### Deployment
+
+You can deploy this project to any static hosting service:
+
+- **Vercel**: Connect your GitHub repo for automatic deployments
+- **Netlify**: Drag and drop the `dist` folder or connect via GitHub
+- **GitHub Pages**: Use GitHub Actions for automated deployments
+- **Cloudflare Pages**: Connect your repo for edge deployments
+
+## Project Structure
+
+```
+src/
+├── components/     # Reusable UI components
+├── pages/          # Page components
+├── hooks/          # Custom React hooks
+├── lib/            # Utility functions
+└── assets/         # Static assets
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is private and proprietary.
