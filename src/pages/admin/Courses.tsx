@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { Plus, Search, Pencil, Trash2 } from "lucide-react";
+import { Plus, Search, Pencil, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -45,6 +45,8 @@ export default function Courses() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -200,6 +202,28 @@ export default function Courses() {
     [courses, searchQuery]
   );
 
+  // Pagination logic
+  const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedCourses = filteredCourses.slice(startIndex, endIndex);
+
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
   return (
     <div className="p-4 md:p-6 lg:p-8">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
@@ -236,19 +260,17 @@ export default function Courses() {
                 <TableHead className="whitespace-nowrap">Title</TableHead>
                 <TableHead className="whitespace-nowrap">Domain</TableHead>
                 <TableHead className="whitespace-nowrap hidden lg:table-cell">Duration</TableHead>
-                <TableHead className="whitespace-nowrap hidden md:table-cell">Level</TableHead>
                 <TableHead className="whitespace-nowrap hidden xl:table-cell">Modules</TableHead>
                 <TableHead className="whitespace-nowrap">Status</TableHead>
                 <TableHead className="text-right whitespace-nowrap">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredCourses.map((course) => (
+              {paginatedCourses.map((course) => (
                 <TableRow key={course.id}>
                   <TableCell className="font-medium">{course.title}</TableCell>
                   <TableCell className="whitespace-nowrap">{course.domain}</TableCell>
                   <TableCell className="hidden lg:table-cell">{course.duration}</TableCell>
-                  <TableCell className="hidden md:table-cell">{course.level}</TableCell>
                   <TableCell className="hidden xl:table-cell">{course.modules}</TableCell>
                   <TableCell>
                     <Badge variant={course.status === "active" ? "default" : "secondary"}>
@@ -281,6 +303,48 @@ export default function Courses() {
           </Table>
         </div>
       </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between mt-6">
+          <div className="text-sm text-muted-foreground">
+            Showing {startIndex + 1}-{Math.min(endIndex, filteredCourses.length)} of {filteredCourses.length} courses
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={goToPreviousPage}
+              disabled={currentPage === 1}
+            >
+              <ChevronLeft className="h-4 w-4 mr-1" />
+              Previous
+            </Button>
+            
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <Button
+                key={page}
+                variant={currentPage === page ? "default" : "outline"}
+                size="sm"
+                onClick={() => goToPage(page)}
+                className="min-w-[40px]"
+              >
+                {page}
+              </Button>
+            ))}
+            
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={goToNextPage}
+              disabled={currentPage === totalPages}
+            >
+              Next
+              <ChevronRight className="h-4 w-4 ml-1" />
+            </Button>
+          </div>
+        </div>
+      )}
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
