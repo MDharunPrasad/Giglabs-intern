@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { NotFoundPage } from "@/components/ui/404-page-not-found";
 
 const NotFound = () => {
   const location = useLocation();
@@ -8,17 +9,7 @@ const NotFound = () => {
     console.error("404 Error: User attempted to access non-existent route:", location.pathname);
   }, [location.pathname]);
 
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-6xl font-display font-bold text-primary">404</h1>
-        <p className="mb-4 text-xl text-muted-foreground">Oops! Page not found</p>
-        <a href="/" className="text-primary hover:text-primary-hover underline transition-base">
-          Return to Home
-        </a>
-      </div>
-    </div>
-  );
+  return <NotFoundPage />;
 };
 
 export default NotFound;
