@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { Plus, Search, Pencil, Trash2 } from "lucide-react";
+import { Plus, Search, Info, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -32,6 +32,12 @@ interface Student {
   id: string;
   name: string;
   email: string;
+  phone: string;
+  collegeName: string;
+  state: string;
+  duration: string;
+  courseType: string;
+  mode: string;
   domain: string;
   track: string;
   enrollmentDate: string;
@@ -42,10 +48,20 @@ export default function Students() {
   const [students, setStudents] = useState<Student[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isInfoDialogOpen, setIsInfoDialogOpen] = useState(false);
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
+  const [viewingStudent, setViewingStudent] = useState<Student | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
+    collegeName: "",
+    state: "",
+    duration: "",
+    courseType: "",
+    mode: "",
     domain: "",
     track: "",
     status: "active" as "active" | "inactive",
@@ -66,6 +82,12 @@ export default function Students() {
           id: "1",
           name: "Emma Chen",
           email: "emma.chen@giglabs.com",
+          phone: "+1 (555) 101-1001",
+          collegeName: "Stanford University",
+          state: "California",
+          duration: "3-months",
+          courseType: "full-stack",
+          mode: "online",
           domain: "Full Stack Development",
           track: "Online",
           enrollmentDate: "2025-01-20",
@@ -75,6 +97,12 @@ export default function Students() {
           id: "2",
           name: "Mike Ross",
           email: "mike.ross@giglabs.com",
+          phone: "+1 (555) 102-1002",
+          collegeName: "MIT",
+          state: "Massachusetts",
+          duration: "2-months",
+          courseType: "aiml",
+          mode: "offline",
           domain: "AI/ML",
           track: "Offline",
           enrollmentDate: "2025-01-19",
@@ -84,6 +112,12 @@ export default function Students() {
           id: "3",
           name: "Sarah Johnson",
           email: "sarah.johnson@giglabs.com",
+          phone: "+1 (555) 103-1003",
+          collegeName: "UC Berkeley",
+          state: "California",
+          duration: "3-months",
+          courseType: "full-stack",
+          mode: "online",
           domain: "Full Stack Development",
           track: "Online",
           enrollmentDate: "2025-01-18",
@@ -93,6 +127,12 @@ export default function Students() {
           id: "4",
           name: "David Kim",
           email: "david.kim@giglabs.com",
+          phone: "+1 (555) 104-1004",
+          collegeName: "Carnegie Mellon University",
+          state: "Pennsylvania",
+          duration: "2-months",
+          courseType: "full-stack",
+          mode: "online",
           domain: "Data Science",
           track: "Online",
           enrollmentDate: "2025-01-17",
@@ -102,6 +142,12 @@ export default function Students() {
           id: "5",
           name: "Lisa Wang",
           email: "lisa.wang@giglabs.com",
+          phone: "+1 (555) 105-1005",
+          collegeName: "University of Washington",
+          state: "Washington",
+          duration: "1-month",
+          courseType: "backend",
+          mode: "online",
           domain: "Cloud Computing",
           track: "Hybrid",
           enrollmentDate: "2025-01-16",
@@ -111,10 +157,226 @@ export default function Students() {
           id: "6",
           name: "James Miller",
           email: "james.miller@giglabs.com",
+          phone: "+1 (555) 106-1006",
+          collegeName: "Georgia Tech",
+          state: "Georgia",
+          duration: "3-months",
+          courseType: "full-stack",
+          mode: "online",
           domain: "DevOps",
           track: "Online",
           enrollmentDate: "2025-01-15",
           status: "inactive",
+        },
+        {
+          id: "7",
+          name: "Ana Rodriguez",
+          email: "ana.rodriguez@giglabs.com",
+          phone: "+1 (555) 107-1007",
+          collegeName: "University of Texas",
+          state: "Texas",
+          duration: "2-months",
+          courseType: "ui-ux",
+          mode: "online",
+          domain: "UI/UX Design",
+          track: "Online",
+          enrollmentDate: "2025-01-14",
+          status: "active",
+        },
+        {
+          id: "8",
+          name: "Alex Thompson",
+          email: "alex.thompson@giglabs.com",
+          phone: "+1 (555) 108-1008",
+          collegeName: "University of Michigan",
+          state: "Michigan",
+          duration: "3-months",
+          courseType: "frontend",
+          mode: "offline",
+          domain: "Frontend Development",
+          track: "Offline",
+          enrollmentDate: "2025-01-13",
+          status: "active",
+        },
+        {
+          id: "9",
+          name: "Jessica Lee",
+          email: "jessica.lee@giglabs.com",
+          phone: "+1 (555) 109-1009",
+          collegeName: "Northwestern University",
+          state: "Illinois",
+          duration: "1-month",
+          courseType: "prompt-engineering",
+          mode: "online",
+          domain: "Prompt Engineering",
+          track: "Online",
+          enrollmentDate: "2025-01-12",
+          status: "active",
+        },
+        {
+          id: "10",
+          name: "Ryan Williams",
+          email: "ryan.williams@giglabs.com",
+          phone: "+1 (555) 110-1010",
+          collegeName: "Duke University",
+          state: "North Carolina",
+          duration: "2-months",
+          courseType: "full-stack",
+          mode: "online",
+          domain: "Full Stack Development",
+          track: "Online",
+          enrollmentDate: "2025-01-11",
+          status: "active",
+        },
+        {
+          id: "11",
+          name: "Priya Patel",
+          email: "priya.patel@giglabs.com",
+          phone: "+1 (555) 111-1011",
+          collegeName: "Indian Institute of Technology",
+          state: "California",
+          duration: "3-months",
+          courseType: "aiml",
+          mode: "online",
+          domain: "AI/ML",
+          track: "Online",
+          enrollmentDate: "2025-01-10",
+          status: "active",
+        },
+        {
+          id: "12",
+          name: "Marcus Johnson",
+          email: "marcus.johnson@giglabs.com",
+          phone: "+1 (555) 112-1012",
+          collegeName: "Howard University",
+          state: "Washington DC",
+          duration: "2-months",
+          courseType: "backend",
+          mode: "offline",
+          domain: "Backend Development",
+          track: "Offline",
+          enrollmentDate: "2025-01-09",
+          status: "active",
+        },
+        {
+          id: "13",
+          name: "Emily Davis",
+          email: "emily.davis@giglabs.com",
+          phone: "+1 (555) 113-1013",
+          collegeName: "University of Florida",
+          state: "Florida",
+          duration: "1-month",
+          courseType: "ui-ux",
+          mode: "online",
+          domain: "UI/UX Design",
+          track: "Online",
+          enrollmentDate: "2025-01-08",
+          status: "inactive",
+        },
+        {
+          id: "14",
+          name: "Kevin Zhang",
+          email: "kevin.zhang@giglabs.com",
+          phone: "+1 (555) 114-1014",
+          collegeName: "University of California Los Angeles",
+          state: "California",
+          duration: "3-months",
+          courseType: "full-stack",
+          mode: "online",
+          domain: "Full Stack Development",
+          track: "Online",
+          enrollmentDate: "2025-01-07",
+          status: "active",
+        },
+        {
+          id: "15",
+          name: "Sophia Martinez",
+          email: "sophia.martinez@giglabs.com",
+          phone: "+1 (555) 115-1015",
+          collegeName: "Arizona State University",
+          state: "Arizona",
+          duration: "2-months",
+          courseType: "frontend",
+          mode: "online",
+          domain: "Frontend Development",
+          track: "Online",
+          enrollmentDate: "2025-01-06",
+          status: "active",
+        },
+        {
+          id: "16",
+          name: "Daniel Brown",
+          email: "daniel.brown@giglabs.com",
+          phone: "+1 (555) 116-1016",
+          collegeName: "Ohio State University",
+          state: "Ohio",
+          duration: "3-months",
+          courseType: "aiml",
+          mode: "offline",
+          domain: "AI/ML",
+          track: "Offline",
+          enrollmentDate: "2025-01-05",
+          status: "active",
+        },
+        {
+          id: "17",
+          name: "Rachel Green",
+          email: "rachel.green@giglabs.com",
+          phone: "+1 (555) 117-1017",
+          collegeName: "University of Virginia",
+          state: "Virginia",
+          duration: "1-month",
+          courseType: "prompt-engineering",
+          mode: "online",
+          domain: "Prompt Engineering",
+          track: "Online",
+          enrollmentDate: "2025-01-04",
+          status: "active",
+        },
+        {
+          id: "18",
+          name: "Jordan Taylor",
+          email: "jordan.taylor@giglabs.com",
+          phone: "+1 (555) 118-1018",
+          collegeName: "University of Colorado",
+          state: "Colorado",
+          duration: "2-months",
+          courseType: "backend",
+          mode: "online",
+          domain: "Backend Development",
+          track: "Online",
+          enrollmentDate: "2025-01-03",
+          status: "inactive",
+        },
+        {
+          id: "19",
+          name: "Ashley Wilson",
+          email: "ashley.wilson@giglabs.com",
+          phone: "+1 (555) 119-1019",
+          collegeName: "Penn State University",
+          state: "Pennsylvania",
+          duration: "3-months",
+          courseType: "full-stack",
+          mode: "online",
+          domain: "Full Stack Development",
+          track: "Online",
+          enrollmentDate: "2025-01-02",
+          status: "active",
+        },
+        {
+          id: "20",
+          name: "Christopher Lee",
+          email: "christopher.lee@giglabs.com",
+          phone: "+1 (555) 120-1020",
+          collegeName: "University of Minnesota",
+          state: "Minnesota",
+          duration: "1-month",
+          courseType: "ui-ux",
+          mode: "offline",
+          domain: "UI/UX Design",
+          track: "Offline",
+          enrollmentDate: "2025-01-01",
+          status: "active",
         },
       ];
       saveStudents(sampleStudents);
@@ -127,7 +389,7 @@ export default function Students() {
   }, []);
 
   const handleSubmit = useCallback(() => {
-    if (!formData.name || !formData.email || !formData.domain || !formData.track) {
+    if (!formData.name || !formData.email || !formData.phone || !formData.collegeName || !formData.state || !formData.duration || !formData.courseType || !formData.mode || !formData.domain || !formData.track) {
       toast.error("Please fill all fields");
       return;
     }
@@ -141,7 +403,17 @@ export default function Students() {
     } else {
       const newStudent: Student = {
         id: Date.now().toString(),
-        ...formData,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        collegeName: formData.collegeName,
+        state: formData.state,
+        duration: formData.duration,
+        courseType: formData.courseType,
+        mode: formData.mode,
+        domain: formData.domain,
+        track: formData.track,
+        status: formData.status,
         enrollmentDate: new Date().toISOString().split("T")[0],
       };
       saveStudents([...students, newStudent]);
@@ -157,11 +429,22 @@ export default function Students() {
     setFormData({
       name: student.name,
       email: student.email,
+      phone: student.phone,
+      collegeName: student.collegeName,
+      state: student.state,
+      duration: student.duration,
+      courseType: student.courseType,
+      mode: student.mode,
       domain: student.domain,
       track: student.track,
       status: student.status,
     });
     setIsDialogOpen(true);
+  }, []);
+
+  const handleInfo = useCallback((student: Student) => {
+    setViewingStudent(student);
+    setIsInfoDialogOpen(true);
   }, []);
 
   const handleDelete = useCallback((id: string) => {
@@ -174,6 +457,12 @@ export default function Students() {
     setFormData({
       name: "",
       email: "",
+      phone: "",
+      collegeName: "",
+      state: "",
+      duration: "",
+      courseType: "",
+      mode: "",
       domain: "",
       track: "",
       status: "active",
@@ -188,6 +477,28 @@ export default function Students() {
     ),
     [students, searchQuery]
   );
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredStudents.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedStudents = filteredStudents.slice(startIndex, endIndex);
+
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   return (
     <div className="p-4 md:p-6 lg:p-8">
@@ -232,7 +543,7 @@ export default function Students() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredStudents.map((student) => (
+              {paginatedStudents.map((student) => (
                 <TableRow key={student.id}>
                   <TableCell className="font-medium whitespace-nowrap">{student.name}</TableCell>
                   <TableCell className="hidden md:table-cell">{student.email}</TableCell>
@@ -249,10 +560,10 @@ export default function Students() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => handleEdit(student)}
-                        aria-label="Edit student"
+                        onClick={() => handleInfo(student)}
+                        aria-label="View student info"
                       >
-                        <Pencil className="h-4 w-4" />
+                        <Info className="h-4 w-4" />
                       </Button>
                       <Button
                         variant="ghost"
@@ -271,14 +582,128 @@ export default function Students() {
         </div>
       </div>
 
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between mt-6">
+          <div className="text-sm text-muted-foreground">
+            Showing {startIndex + 1}-{Math.min(endIndex, filteredStudents.length)} of {filteredStudents.length} students
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={goToPreviousPage}
+              disabled={currentPage === 1}
+            >
+              <ChevronLeft className="h-4 w-4 mr-1" />
+              Previous
+            </Button>
+            
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <Button
+                key={page}
+                variant={currentPage === page ? "default" : "outline"}
+                size="sm"
+                onClick={() => goToPage(page)}
+                className="min-w-[40px]"
+              >
+                {page}
+              </Button>
+            ))}
+            
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={goToNextPage}
+              disabled={currentPage === totalPages}
+            >
+              Next
+              <ChevronRight className="h-4 w-4 ml-1" />
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Student Info Dialog */}
+      <Dialog open={isInfoDialogOpen} onOpenChange={setIsInfoDialogOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Student Information</DialogTitle>
+          </DialogHeader>
+          {viewingStudent && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-3">
+                <div>
+                  <Label className="text-sm font-medium text-muted-foreground">Full Name</Label>
+                  <p className="text-sm font-medium">{viewingStudent.name}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-muted-foreground">Email</Label>
+                  <p className="text-sm">{viewingStudent.email}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-muted-foreground">Phone</Label>
+                  <p className="text-sm">{viewingStudent.phone}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-muted-foreground">College/University</Label>
+                  <p className="text-sm">{viewingStudent.collegeName}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-muted-foreground">State</Label>
+                  <p className="text-sm">{viewingStudent.state}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-muted-foreground">Status</Label>
+                  <Badge variant={viewingStudent.status === "active" ? "default" : "secondary"}>
+                    {viewingStudent.status}
+                  </Badge>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <div>
+                  <Label className="text-sm font-medium text-muted-foreground">Course Duration</Label>
+                  <p className="text-sm">{viewingStudent.duration}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-muted-foreground">Course Type</Label>
+                  <p className="text-sm">{viewingStudent.courseType}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-muted-foreground">Mode</Label>
+                  <p className="text-sm">{viewingStudent.mode}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-muted-foreground">Domain</Label>
+                  <p className="text-sm">{viewingStudent.domain}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-muted-foreground">Track</Label>
+                  <p className="text-sm">{viewingStudent.track}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-muted-foreground">Enrollment Date</Label>
+                  <p className="text-sm">{viewingStudent.enrollmentDate}</p>
+                </div>
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsInfoDialogOpen(false)}>
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{editingStudent ? "Edit" : "Add"} Student</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name">Full Name</Label>
               <Input
                 id="name"
                 value={formData.name}
@@ -295,6 +720,71 @@ export default function Students() {
               />
             </div>
             <div>
+              <Label htmlFor="phone">Phone</Label>
+              <Input
+                id="phone"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              />
+            </div>
+            <div>
+              <Label htmlFor="collegeName">College Name</Label>
+              <Input
+                id="collegeName"
+                value={formData.collegeName}
+                onChange={(e) => setFormData({ ...formData, collegeName: e.target.value })}
+              />
+            </div>
+            <div>
+              <Label htmlFor="state">State</Label>
+              <Input
+                id="state"
+                value={formData.state}
+                onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+              />
+            </div>
+            <div>
+              <Label htmlFor="duration">Course Duration</Label>
+              <Select value={formData.duration} onValueChange={(v) => setFormData({ ...formData, duration: v })}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select duration" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1-month">1 Month</SelectItem>
+                  <SelectItem value="2-months">2 Months</SelectItem>
+                  <SelectItem value="3-months">3 Months</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="courseType">Course Type</Label>
+              <Select value={formData.courseType} onValueChange={(v) => setFormData({ ...formData, courseType: v })}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select course type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="full-stack">Full Stack</SelectItem>
+                  <SelectItem value="frontend">Frontend</SelectItem>
+                  <SelectItem value="backend">Backend</SelectItem>
+                  <SelectItem value="ui-ux">UI/UX Design</SelectItem>
+                  <SelectItem value="aiml">AIML</SelectItem>
+                  <SelectItem value="prompt-engineering">Prompt Engineering</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label htmlFor="mode">Mode</Label>
+              <Select value={formData.mode} onValueChange={(v) => setFormData({ ...formData, mode: v })}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select mode" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="online">Online</SelectItem>
+                  <SelectItem value="offline">Offline</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
               <Label htmlFor="domain">Domain</Label>
               <Select value={formData.domain} onValueChange={(v) => setFormData({ ...formData, domain: v })}>
                 <SelectTrigger>
@@ -302,9 +792,14 @@ export default function Students() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="AI/ML">AI/ML</SelectItem>
-                  <SelectItem value="Full-Stack">Full-Stack</SelectItem>
+                  <SelectItem value="Full Stack Development">Full Stack Development</SelectItem>
+                  <SelectItem value="Frontend Development">Frontend Development</SelectItem>
+                  <SelectItem value="Backend Development">Backend Development</SelectItem>
+                  <SelectItem value="UI/UX Design">UI/UX Design</SelectItem>
                   <SelectItem value="Data Science">Data Science</SelectItem>
                   <SelectItem value="DevOps">DevOps</SelectItem>
+                  <SelectItem value="Cloud Computing">Cloud Computing</SelectItem>
+                  <SelectItem value="Prompt Engineering">Prompt Engineering</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -317,6 +812,7 @@ export default function Students() {
                 <SelectContent>
                   <SelectItem value="Online">Online</SelectItem>
                   <SelectItem value="Offline">Offline</SelectItem>
+                  <SelectItem value="Hybrid">Hybrid</SelectItem>
                 </SelectContent>
               </Select>
             </div>
