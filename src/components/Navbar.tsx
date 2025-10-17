@@ -23,11 +23,11 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-6">
             <Link to="/">
               <Button 
                 variant="ghost" 
-                className={isActive("/") ? "bg-accent/10 text-accent font-semibold" : ""}
+                className={`px-8 ${isActive("/") ? "bg-accent/10 text-accent font-semibold" : ""}`}
               >
                 Home
               </Button>
@@ -35,7 +35,7 @@ export function Navbar() {
             <Link to="/browse-courses">
               <Button 
                 variant="ghost"
-                className={isActive("/browse-courses") ? "bg-accent/10 text-accent font-semibold" : ""}
+                className={`px-8 ${isActive("/browse-courses") ? "bg-accent/10 text-accent font-semibold" : ""}`}
               >
                 Courses
               </Button>
@@ -43,7 +43,7 @@ export function Navbar() {
             <Link to="/dashboard">
               <Button 
                 variant="ghost"
-                className={isActive("/dashboard") ? "bg-accent/10 text-accent font-semibold" : ""}
+                className={`px-8 ${isActive("/dashboard") ? "bg-accent/10 text-accent font-semibold" : ""}`}
               >
                 Dashboard
               </Button>
