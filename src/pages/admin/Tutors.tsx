@@ -182,14 +182,15 @@ export default function Tutors() {
   );
 
   return (
-          <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-display font-bold">Tutors</h1>
+    <div className="p-4 md:p-6 lg:p-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <h1 className="text-2xl md:text-3xl font-display font-bold">Tutors</h1>
         <Button
           onClick={() => {
             resetForm();
             setIsDialogOpen(true);
           }}
+          className="w-full sm:w-auto"
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Tutor
@@ -208,50 +209,56 @@ export default function Tutors() {
         </div>
       </div>
 
-      <div className="bg-card rounded-lg border shadow-md">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Expertise</TableHead>
-              <TableHead>Experience</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredTutors.map((tutor) => (
-              <TableRow key={tutor.id}>
-                <TableCell className="font-medium">{tutor.name}</TableCell>
-                <TableCell>{tutor.email}</TableCell>
-                <TableCell>{tutor.expertise}</TableCell>
-                <TableCell>{tutor.experience}</TableCell>
-                <TableCell>
-                  <Badge variant={tutor.status === "active" ? "default" : "secondary"}>
-                    {tutor.status}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-right">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleEdit(tutor)}
-                  >
-                    <Pencil className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleDelete(tutor.id)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </TableCell>
+      <div className="bg-card rounded-lg border shadow-md overflow-hidden">
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="whitespace-nowrap">Name</TableHead>
+                <TableHead className="whitespace-nowrap hidden md:table-cell">Email</TableHead>
+                <TableHead className="whitespace-nowrap">Expertise</TableHead>
+                <TableHead className="whitespace-nowrap hidden lg:table-cell">Experience</TableHead>
+                <TableHead className="whitespace-nowrap">Status</TableHead>
+                <TableHead className="text-right whitespace-nowrap">Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {filteredTutors.map((tutor) => (
+                <TableRow key={tutor.id}>
+                  <TableCell className="font-medium whitespace-nowrap">{tutor.name}</TableCell>
+                  <TableCell className="hidden md:table-cell">{tutor.email}</TableCell>
+                  <TableCell className="whitespace-nowrap">{tutor.expertise}</TableCell>
+                  <TableCell className="hidden lg:table-cell">{tutor.experience}</TableCell>
+                  <TableCell>
+                    <Badge variant={tutor.status === "active" ? "default" : "secondary"}>
+                      {tutor.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex items-center justify-end gap-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleEdit(tutor)}
+                        aria-label="Edit tutor"
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDelete(tutor.id)}
+                        aria-label="Delete tutor"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

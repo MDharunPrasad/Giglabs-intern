@@ -201,14 +201,15 @@ export default function Courses() {
   );
 
   return (
-          <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-display font-bold">Courses</h1>
+    <div className="p-4 md:p-6 lg:p-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <h1 className="text-2xl md:text-3xl font-display font-bold">Courses</h1>
         <Button
           onClick={() => {
             resetForm();
             setIsDialogOpen(true);
           }}
+          className="w-full sm:w-auto"
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Course
@@ -227,56 +228,62 @@ export default function Courses() {
         </div>
       </div>
 
-      <div className="bg-card rounded-lg border shadow-md">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Title</TableHead>
-              <TableHead>Domain</TableHead>
-              <TableHead>Duration</TableHead>
-              <TableHead>Level</TableHead>
-              <TableHead>Modules</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredCourses.map((course) => (
-              <TableRow key={course.id}>
-                <TableCell className="font-medium">{course.title}</TableCell>
-                <TableCell>{course.domain}</TableCell>
-                <TableCell>{course.duration}</TableCell>
-                <TableCell>{course.level}</TableCell>
-                <TableCell>{course.modules}</TableCell>
-                <TableCell>
-                  <Badge variant={course.status === "active" ? "default" : "secondary"}>
-                    {course.status}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-right">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleEdit(course)}
-                  >
-                    <Pencil className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleDelete(course.id)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </TableCell>
+      <div className="bg-card rounded-lg border shadow-md overflow-hidden">
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="whitespace-nowrap">Title</TableHead>
+                <TableHead className="whitespace-nowrap">Domain</TableHead>
+                <TableHead className="whitespace-nowrap hidden lg:table-cell">Duration</TableHead>
+                <TableHead className="whitespace-nowrap hidden md:table-cell">Level</TableHead>
+                <TableHead className="whitespace-nowrap hidden xl:table-cell">Modules</TableHead>
+                <TableHead className="whitespace-nowrap">Status</TableHead>
+                <TableHead className="text-right whitespace-nowrap">Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {filteredCourses.map((course) => (
+                <TableRow key={course.id}>
+                  <TableCell className="font-medium">{course.title}</TableCell>
+                  <TableCell className="whitespace-nowrap">{course.domain}</TableCell>
+                  <TableCell className="hidden lg:table-cell">{course.duration}</TableCell>
+                  <TableCell className="hidden md:table-cell">{course.level}</TableCell>
+                  <TableCell className="hidden xl:table-cell">{course.modules}</TableCell>
+                  <TableCell>
+                    <Badge variant={course.status === "active" ? "default" : "secondary"}>
+                      {course.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex items-center justify-end gap-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleEdit(course)}
+                        aria-label="Edit course"
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDelete(course.id)}
+                        aria-label="Delete course"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{editingCourse ? "Edit" : "Add"} Course</DialogTitle>
           </DialogHeader>

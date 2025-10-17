@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { memo } from "react";
 import {
   LayoutDashboard,
   Users,
@@ -25,7 +26,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarHeader,
-  useSidebar,
 } from "@/components/ui/sidebar";
 import { useUser } from "@/contexts/UserContext";
 
@@ -60,8 +60,8 @@ const tutorNavigationItems = [
   { title: "Schedule", url: "/admin/schedule", icon: Calendar },
 ];
 
-export function AdminSidebar() {
-  const { isStudent, isTutor, isAdmin } = useUser();
+export const AdminSidebar = memo(function AdminSidebar() {
+  const { isStudent, isTutor } = useUser();
 
   const navigationItems = isStudent 
     ? studentNavigationItems 
@@ -77,65 +77,70 @@ export function AdminSidebar() {
 
   return (
     <Sidebar 
-      className="w-72 bg-gradient-to-b from-primary via-primary/98 to-primary/95 border-r border-primary/30 shadow-xl" 
+      className="w-72 bg-primary border-r border-white/10 shadow-xl" 
       collapsible="none"
     >
-      <SidebarHeader className="border-b border-primary-foreground/10 pb-6 pt-8 px-6">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-accent via-gold to-accent flex items-center justify-center shadow-lg shadow-accent/30 ring-2 ring-primary-foreground/20">
-            <Sparkles className="h-7 w-7 text-white drop-shadow-lg" />
+      <SidebarHeader className="border-b border-white/10 pb-5 pt-6 px-5">
+        <div className="flex items-center gap-3">
+          <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center">
+            <Sparkles className="h-6 w-6 text-white" />
           </div>
           <div>
-            <h2 className="text-2xl font-display font-bold text-primary-foreground drop-shadow-md">GigLabs</h2>
-            <p className="text-sm text-primary-foreground/70 font-medium">{portalTitle}</p>
+            <h2 className="text-xl font-display font-bold text-white">GigLabs</h2>
+            <p className="text-xs text-white/70 font-medium">{portalTitle}</p>
           </div>
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="px-4 py-6">
+      <SidebarContent className="px-3 py-5">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-primary-foreground/50 text-xs uppercase tracking-widest font-bold mb-4 px-4">
+          <SidebarGroupLabel className="text-white/60 text-xs uppercase tracking-wider font-semibold mb-3 px-3">
             {isStudent ? "Learning" : isTutor ? "Teaching" : "Management"}
           </SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-2">
-              {navigationItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <NavLink
-                      to={item.url}
-                      end={item.url === "/admin"}
-                      className={({ isActive }) =>
-                        `group flex items-center gap-4 px-5 py-4 rounded-2xl transition-all duration-200 ease-out ${
-                          isActive
-                            ? "bg-white/95 shadow-lg scale-[1.02] ring-2 ring-white/30"
-                            : "text-primary-foreground/80 hover:bg-primary-foreground/15 hover:text-primary-foreground hover:shadow-lg hover:scale-[1.02]"
-                        }`
-                      }
-                    >
-                      {({ isActive }) => (
-                        <>
-                          <div className={`p-2 rounded-xl transition-all duration-200 ${
-                            isActive 
-                              ? "bg-gradient-to-br from-primary to-primary/90" 
-                              : "bg-primary-foreground/10 group-hover:bg-primary-foreground/20"
-                          }`}>
-                            <item.icon className={`h-5 w-5 transition-all duration-200 ${
-                              isActive 
-                                ? "text-white" 
-                                : "text-primary-foreground/70 group-hover:text-primary-foreground"
-                            }`} />
-                          </div>
-                          <span className={`text-base font-semibold transition-all duration-200 ${
-                            isActive ? "text-primary" : "text-primary-foreground/90 group-hover:text-primary-foreground"
-                          }`}>
-                            {item.title}
-                          </span>
-                        </>
-                      )}
-                    </NavLink>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+            <SidebarMenu className="space-y-1.5">
+              {navigationItems.map((item, index) => (
+                <div key={item.title}>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild className="p-0">
+                      <NavLink
+                        to={item.url}
+                        end={item.url === "/admin"}
+                        className={({ isActive }) =>
+                          `group flex items-center gap-3.5 px-4 py-3.5 rounded-xl transition-all duration-200 ${
+                            isActive
+                              ? "bg-white shadow-lg"
+                              : "hover:bg-white/95 hover:shadow-md"
+                          }`
+                        }
+                      >
+                        {({ isActive }) => (
+                          <>
+                            <item.icon 
+                              className="h-5 w-5 flex-shrink-0 transition-colors"
+                              style={{
+                                color: isActive ? '#4f46e5' : undefined,
+                                strokeWidth: isActive ? 2.8 : 2.2,
+                              }}
+                            />
+                            <span 
+                              className="text-[15px] font-bold tracking-wide transition-colors group-hover:text-slate-900"
+                              style={{
+                                color: isActive ? '#0f172a' : '#ffffff',
+                              }}
+                            >
+                              {item.title}
+                            </span>
+                          </>
+                        )}
+                      </NavLink>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                  {/* Divider after every 2-3 items for visual grouping */}
+                  {(index === 0 || index === 3) && (
+                    <div className="my-3 h-px bg-white/10"></div>
+                  )}
+                </div>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
@@ -143,4 +148,4 @@ export function AdminSidebar() {
       </SidebarContent>
     </Sidebar>
   );
-}
+});
