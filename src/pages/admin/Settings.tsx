@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Save } from "lucide-react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AdminSidebar } from "@/components/AdminSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,14 +27,6 @@ export default function Settings() {
   };
 
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen w-full">
-        <AdminSidebar />
-        <div className="flex-1">
-          <header className="border-b bg-card px-6 py-4 flex items-center gap-4">
-            <SidebarTrigger />
-            <h1 className="text-2xl font-display font-bold">LearnHub Admin</h1>
-          </header>
           <div className="p-6 max-w-4xl">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-display font-bold">Settings</h1>
@@ -188,8 +178,5 @@ export default function Settings() {
         </div>
       </div>
           </div>
-        </div>
-      </div>
-    </SidebarProvider>
   );
 }
