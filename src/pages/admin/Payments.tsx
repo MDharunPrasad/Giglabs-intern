@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
 import { Search, Download } from "lucide-react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AdminSidebar } from "@/components/AdminSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -84,14 +82,6 @@ export default function Payments() {
     .reduce((sum, p) => sum + p.amount, 0);
 
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen w-full">
-        <AdminSidebar />
-        <div className="flex-1">
-          <header className="border-b bg-card px-6 py-4 flex items-center gap-4">
-            <SidebarTrigger />
-            <h1 className="text-2xl font-display font-bold">LearnHub Admin</h1>
-          </header>
           <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <div>
@@ -168,8 +158,5 @@ export default function Payments() {
         </Table>
       </div>
           </div>
-        </div>
-      </div>
-    </SidebarProvider>
   );
 }

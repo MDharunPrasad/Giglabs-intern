@@ -1,32 +1,10 @@
 import { StatCard } from "@/components/StatCard";
 import { Button } from "@/components/ui/button";
 import { Users, BookOpen, TrendingUp, DollarSign, Download, Filter } from "lucide-react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AdminSidebar } from "@/components/AdminSidebar";
 
 export default function Admin() {
   return (
-    <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background">
-        <AdminSidebar />
-        
-        <div className="flex-1 flex flex-col">
-          {/* Header */}
-          <header className="bg-card border-b border-border sticky top-0 z-50">
-            <div className="container mx-auto px-4 py-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <SidebarTrigger />
-                  <h1 className="text-2xl font-display">LearnHub Admin</h1>
-                </div>
-                <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold">
-                  AD
-                </div>
-              </div>
-            </div>
-          </header>
-
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-6 py-8">
         {/* Page Header */}
         <div className="mb-8">
           <h2 className="text-4xl font-display mb-2">Admin Dashboard</h2>
@@ -227,9 +205,6 @@ export default function Admin() {
           </div>
         </div>
       </div>
-        </div>
-      </div>
-    </SidebarProvider>
   );
 }
 

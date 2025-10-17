@@ -1,7 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { Plus, Search, Pencil, Trash2 } from "lucide-react";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AdminSidebar } from "@/components/AdminSidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -65,15 +63,80 @@ export default function Courses() {
     const stored = localStorage.getItem("courses");
     if (stored) {
       setCourses(JSON.parse(stored));
+    } else {
+      // Initialize with sample data if none exists
+      const sampleCourses: Course[] = [
+        {
+          id: "1",
+          title: "Full Stack Web Development",
+          description: "Master modern web development with React, Node.js, and MongoDB. Build real-world applications from scratch.",
+          domain: "Web Development",
+          duration: "12 weeks",
+          level: "Intermediate",
+          modules: 12,
+          status: "active",
+        },
+        {
+          id: "2",
+          title: "AI & Machine Learning Fundamentals",
+          description: "Learn the foundations of artificial intelligence and machine learning. Covers neural networks, deep learning, and practical applications.",
+          domain: "AI/ML",
+          duration: "16 weeks",
+          level: "Advanced",
+          modules: 15,
+          status: "active",
+        },
+        {
+          id: "3",
+          title: "Cloud Computing with AWS",
+          description: "Comprehensive AWS training covering EC2, S3, Lambda, and cloud architecture best practices.",
+          domain: "Cloud Computing",
+          duration: "10 weeks",
+          level: "Intermediate",
+          modules: 10,
+          status: "active",
+        },
+        {
+          id: "4",
+          title: "Data Science & Analytics",
+          description: "Learn data analysis, visualization, and statistical modeling using Python, Pandas, and Jupyter.",
+          domain: "Data Science",
+          duration: "14 weeks",
+          level: "Intermediate",
+          modules: 14,
+          status: "active",
+        },
+        {
+          id: "5",
+          title: "Mobile App Development with React Native",
+          description: "Build cross-platform mobile applications for iOS and Android using React Native and Expo.",
+          domain: "Mobile Development",
+          duration: "10 weeks",
+          level: "Intermediate",
+          modules: 10,
+          status: "active",
+        },
+        {
+          id: "6",
+          title: "DevOps & CI/CD Pipeline",
+          description: "Master DevOps practices, Docker, Kubernetes, Jenkins, and automated deployment pipelines.",
+          domain: "DevOps",
+          duration: "8 weeks",
+          level: "Advanced",
+          modules: 8,
+          status: "active",
+        },
+      ];
+      saveCourses(sampleCourses);
     }
   };
 
-  const saveCourses = (data: Course[]) => {
+  const saveCourses = useCallback((data: Course[]) => {
     localStorage.setItem("courses", JSON.stringify(data));
     setCourses(data);
-  };
+  }, []);
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     if (!formData.title || !formData.domain || !formData.duration || !formData.level) {
       toast.error("Please fill all required fields");
       return;
@@ -96,9 +159,9 @@ export default function Courses() {
 
     setIsDialogOpen(false);
     resetForm();
-  };
+  }, [formData, editingCourse, courses, saveCourses]);
 
-  const handleEdit = (course: Course) => {
+  const handleEdit = useCallback((course: Course) => {
     setEditingCourse(course);
     setFormData({
       title: course.title,
@@ -110,14 +173,14 @@ export default function Courses() {
       status: course.status,
     });
     setIsDialogOpen(true);
-  };
+  }, []);
 
-  const handleDelete = (id: string) => {
+  const handleDelete = useCallback((id: string) => {
     saveCourses(courses.filter((c) => c.id !== id));
     toast.success("Course deleted successfully");
-  };
+  }, [courses, saveCourses]);
 
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     setEditingCourse(null);
     setFormData({
       title: "",
@@ -128,21 +191,16 @@ export default function Courses() {
       modules: 0,
       status: "active",
     });
-  };
+  }, []);
 
-  const filteredCourses = courses.filter((c) =>
-    c.title.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredCourses = useMemo(() =>
+    courses.filter((c) =>
+      c.title.toLowerCase().includes(searchQuery.toLowerCase())
+    ),
+    [courses, searchQuery]
   );
 
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen w-full">
-        <AdminSidebar />
-        <div className="flex-1">
-          <header className="border-b bg-card px-6 py-4 flex items-center gap-4">
-            <SidebarTrigger />
-            <h1 className="text-2xl font-display font-bold">LearnHub Admin</h1>
-          </header>
           <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-display font-bold">Courses</h1>
@@ -313,8 +371,5 @@ export default function Courses() {
         </DialogContent>
       </Dialog>
           </div>
-        </div>
-      </div>
-    </SidebarProvider>
   );
 }
