@@ -10,15 +10,15 @@ import { toast } from "sonner";
 
 export default function Settings() {
   const [settings, setSettings] = useState({
-    platformName: "LearnHub",
-    platformEmail: "admin@learnhub.com",
-    supportEmail: "support@learnhub.com",
+    platformName: "GigLabs",
+    platformEmail: "admin@giglabs.com",
+    supportEmail: "support@giglabs.com",
     enableNotifications: true,
     enableEmailAlerts: true,
     maintenanceMode: false,
     maxStudentsPerBatch: "30",
     sessionDuration: "60",
-    welcomeMessage: "Welcome to LearnHub! Start your learning journey today.",
+    welcomeMessage: "Welcome to GigLabs! Start your learning journey today.",
   });
 
   const handleSave = () => {

@@ -59,6 +59,65 @@ export default function Students() {
     const stored = localStorage.getItem("students");
     if (stored) {
       setStudents(JSON.parse(stored));
+    } else {
+      // Initialize with sample data if none exists
+      const sampleStudents: Student[] = [
+        {
+          id: "1",
+          name: "Emma Chen",
+          email: "emma.chen@giglabs.com",
+          domain: "Full Stack Development",
+          track: "Online",
+          enrollmentDate: "2025-01-20",
+          status: "active",
+        },
+        {
+          id: "2",
+          name: "Mike Ross",
+          email: "mike.ross@giglabs.com",
+          domain: "AI/ML",
+          track: "Offline",
+          enrollmentDate: "2025-01-19",
+          status: "active",
+        },
+        {
+          id: "3",
+          name: "Sarah Johnson",
+          email: "sarah.johnson@giglabs.com",
+          domain: "Full Stack Development",
+          track: "Online",
+          enrollmentDate: "2025-01-18",
+          status: "active",
+        },
+        {
+          id: "4",
+          name: "David Kim",
+          email: "david.kim@giglabs.com",
+          domain: "Data Science",
+          track: "Online",
+          enrollmentDate: "2025-01-17",
+          status: "active",
+        },
+        {
+          id: "5",
+          name: "Lisa Wang",
+          email: "lisa.wang@giglabs.com",
+          domain: "Cloud Computing",
+          track: "Hybrid",
+          enrollmentDate: "2025-01-16",
+          status: "active",
+        },
+        {
+          id: "6",
+          name: "James Miller",
+          email: "james.miller@giglabs.com",
+          domain: "DevOps",
+          track: "Online",
+          enrollmentDate: "2025-01-15",
+          status: "inactive",
+        },
+      ];
+      saveStudents(sampleStudents);
     }
   };
 
@@ -131,14 +190,15 @@ export default function Students() {
   );
 
   return (
-          <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-display font-bold">Students</h1>
+    <div className="p-4 md:p-6 lg:p-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <h1 className="text-2xl md:text-3xl font-display font-bold">Students</h1>
         <Button
           onClick={() => {
             resetForm();
             setIsDialogOpen(true);
           }}
+          className="w-full sm:w-auto"
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Student
@@ -157,52 +217,58 @@ export default function Students() {
         </div>
       </div>
 
-      <div className="bg-card rounded-lg border shadow-md">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Domain</TableHead>
-              <TableHead>Track</TableHead>
-              <TableHead>Enrollment Date</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredStudents.map((student) => (
-              <TableRow key={student.id}>
-                <TableCell className="font-medium">{student.name}</TableCell>
-                <TableCell>{student.email}</TableCell>
-                <TableCell>{student.domain}</TableCell>
-                <TableCell>{student.track}</TableCell>
-                <TableCell>{student.enrollmentDate}</TableCell>
-                <TableCell>
-                  <Badge variant={student.status === "active" ? "default" : "secondary"}>
-                    {student.status}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-right">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleEdit(student)}
-                  >
-                    <Pencil className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleDelete(student.id)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </TableCell>
+      <div className="bg-card rounded-lg border shadow-md overflow-hidden">
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="whitespace-nowrap">Name</TableHead>
+                <TableHead className="whitespace-nowrap hidden md:table-cell">Email</TableHead>
+                <TableHead className="whitespace-nowrap">Domain</TableHead>
+                <TableHead className="whitespace-nowrap hidden lg:table-cell">Track</TableHead>
+                <TableHead className="whitespace-nowrap hidden xl:table-cell">Enrollment Date</TableHead>
+                <TableHead className="whitespace-nowrap">Status</TableHead>
+                <TableHead className="text-right whitespace-nowrap">Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {filteredStudents.map((student) => (
+                <TableRow key={student.id}>
+                  <TableCell className="font-medium whitespace-nowrap">{student.name}</TableCell>
+                  <TableCell className="hidden md:table-cell">{student.email}</TableCell>
+                  <TableCell className="whitespace-nowrap">{student.domain}</TableCell>
+                  <TableCell className="hidden lg:table-cell">{student.track}</TableCell>
+                  <TableCell className="hidden xl:table-cell">{student.enrollmentDate}</TableCell>
+                  <TableCell>
+                    <Badge variant={student.status === "active" ? "default" : "secondary"}>
+                      {student.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex items-center justify-end gap-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleEdit(student)}
+                        aria-label="Edit student"
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDelete(student.id)}
+                        aria-label="Delete student"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

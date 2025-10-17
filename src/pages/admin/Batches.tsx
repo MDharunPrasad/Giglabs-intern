@@ -200,14 +200,15 @@ export default function Batches() {
   );
 
   return (
-          <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-display font-bold">Batches</h1>
+    <div className="p-4 md:p-6 lg:p-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+        <h1 className="text-2xl md:text-3xl font-display font-bold">Batches</h1>
         <Button
           onClick={() => {
             resetForm();
             setIsDialogOpen(true);
           }}
+          className="w-full sm:w-auto"
         >
           <Plus className="h-4 w-4 mr-2" />
           Add Batch
@@ -226,62 +227,68 @@ export default function Batches() {
         </div>
       </div>
 
-      <div className="bg-card rounded-lg border shadow-md">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Batch Name</TableHead>
-              <TableHead>Course</TableHead>
-              <TableHead>Tutor</TableHead>
-              <TableHead>Start Date</TableHead>
-              <TableHead>End Date</TableHead>
-              <TableHead>Students</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredBatches.map((batch) => (
-              <TableRow key={batch.id}>
-                <TableCell className="font-medium">{batch.name}</TableCell>
-                <TableCell>{batch.course}</TableCell>
-                <TableCell>{batch.tutor}</TableCell>
-                <TableCell>{batch.startDate}</TableCell>
-                <TableCell>{batch.endDate}</TableCell>
-                <TableCell>{batch.students}</TableCell>
-                <TableCell>
-                  <Badge
-                    variant={
-                      batch.status === "active"
-                        ? "default"
-                        : batch.status === "completed"
-                        ? "secondary"
-                        : "outline"
-                    }
-                  >
-                    {batch.status}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-right">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleEdit(batch)}
-                  >
-                    <Pencil className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleDelete(batch.id)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </TableCell>
+      <div className="bg-card rounded-lg border shadow-md overflow-hidden">
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="whitespace-nowrap">Batch Name</TableHead>
+                <TableHead className="whitespace-nowrap hidden md:table-cell">Course</TableHead>
+                <TableHead className="whitespace-nowrap hidden lg:table-cell">Tutor</TableHead>
+                <TableHead className="whitespace-nowrap hidden xl:table-cell">Start Date</TableHead>
+                <TableHead className="whitespace-nowrap hidden xl:table-cell">End Date</TableHead>
+                <TableHead className="whitespace-nowrap hidden lg:table-cell">Students</TableHead>
+                <TableHead className="whitespace-nowrap">Status</TableHead>
+                <TableHead className="text-right whitespace-nowrap">Actions</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {filteredBatches.map((batch) => (
+                <TableRow key={batch.id}>
+                  <TableCell className="font-medium whitespace-nowrap">{batch.name}</TableCell>
+                  <TableCell className="hidden md:table-cell">{batch.course}</TableCell>
+                  <TableCell className="hidden lg:table-cell">{batch.tutor}</TableCell>
+                  <TableCell className="hidden xl:table-cell">{batch.startDate}</TableCell>
+                  <TableCell className="hidden xl:table-cell">{batch.endDate}</TableCell>
+                  <TableCell className="hidden lg:table-cell">{batch.students}</TableCell>
+                  <TableCell>
+                    <Badge
+                      variant={
+                        batch.status === "active"
+                          ? "default"
+                          : batch.status === "completed"
+                          ? "secondary"
+                          : "outline"
+                      }
+                    >
+                      {batch.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex items-center justify-end gap-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleEdit(batch)}
+                        aria-label="Edit batch"
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleDelete(batch.id)}
+                        aria-label="Delete batch"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>

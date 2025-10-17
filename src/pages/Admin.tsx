@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { StatCard } from "@/components/StatCard";
 import { Button } from "@/components/ui/button";
 import { Users, BookOpen, TrendingUp, DollarSign, Download, Filter } from "lucide-react";
@@ -208,7 +209,7 @@ export default function Admin() {
   );
 }
 
-function StudentRow({ name, email, domain, track, date, status }: {
+const StudentRow = memo(function StudentRow({ name, email, domain, track, date, status }: {
   name: string;
   email: string;
   domain: string;
@@ -217,7 +218,7 @@ function StudentRow({ name, email, domain, track, date, status }: {
   status: "active" | "pending";
 }) {
   return (
-    <tr className="hover:bg-secondary/50 transition-base">
+    <tr className="hover:bg-secondary/50 transition-colors">
       <td className="p-4">
         <p className="font-medium">{name}</p>
         <p className="text-sm text-muted-foreground">{email}</p>
@@ -236,16 +237,16 @@ function StudentRow({ name, email, domain, track, date, status }: {
       </td>
     </tr>
   );
-}
+});
 
-function CourseRow({ title, students, completion, avgScore }: {
+const CourseRow = memo(function CourseRow({ title, students, completion, avgScore }: {
   title: string;
   students: number;
   completion: number;
   avgScore: number;
 }) {
   return (
-    <div className="p-4 hover:bg-secondary/50 transition-base">
+    <div className="p-4 hover:bg-secondary/50 transition-colors">
       <div className="flex items-center justify-between mb-2">
         <h4 className="font-medium">{title}</h4>
         <span className="text-sm text-muted-foreground">{students} students</span>
@@ -262,9 +263,9 @@ function CourseRow({ title, students, completion, avgScore }: {
       </div>
     </div>
   );
-}
+});
 
-function StatusItem({ label, status }: { label: string; status: "operational" | "warning" | "error" }) {
+const StatusItem = memo(function StatusItem({ label, status }: { label: string; status: "operational" | "warning" | "error" }) {
   const statusColors = {
     operational: "bg-accent",
     warning: "bg-gold",
@@ -280,13 +281,13 @@ function StatusItem({ label, status }: { label: string; status: "operational" | 
       </div>
     </div>
   );
-}
+});
 
-function ActivityItem({ action, time }: { action: string; time: string }) {
+const ActivityItem = memo(function ActivityItem({ action, time }: { action: string; time: string }) {
   return (
     <div>
       <p className="text-sm">{action}</p>
       <p className="text-xs text-muted-foreground">{time}</p>
     </div>
   );
-}
+});
