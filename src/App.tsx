@@ -12,6 +12,7 @@ import RegistrationSuccess from "./pages/RegistrationSuccess";
 import BrowseCourses from "./pages/BrowseCourses";
 import Certificate from "./pages/Certificate";
 import Profile from "./pages/Profile";
+import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import Students from "./pages/admin/Students";
 import Courses from "./pages/admin/Courses";
@@ -29,6 +30,8 @@ import ProgressPage from "./pages/admin/Progress";
 import NotFound from "./pages/NotFound";
 import { PageTransition } from "./components/PageTransition";
 import { Layout } from "./components/Layout";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { AuthProvider } from "./context/AuthContext";
 import { AdminLayout } from "./components/AdminLayout";
 
 const queryClient = new QueryClient();
@@ -75,11 +78,20 @@ function AnimatedRoutes() {
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<PageTransition><Landing /></PageTransition>} />
+          <Route path="/login" element={<PageTransition><Login /></PageTransition>} />
           <Route path="/dashboard" element={<PageTransition><DashboardNew /></PageTransition>} />
           <Route path="/registration" element={<PageTransition><Registration /></PageTransition>} />
           <Route path="/registration-success" element={<PageTransition><RegistrationSuccess /></PageTransition>} />
           <Route path="/browse-courses" element={<PageTransition><BrowseCourses /></PageTransition>} />
           <Route path="/certificate" element={<PageTransition><Certificate /></PageTransition>} />
+          <Route path="/profile" element={<PageTransition><ProtectedRoute><Profile /></ProtectedRoute></PageTransition>} />
+          <Route path="/admin" element={<PageTransition><ProtectedRoute><Admin /></ProtectedRoute></PageTransition>} />
+          <Route path="/admin/students" element={<PageTransition><ProtectedRoute><Students /></ProtectedRoute></PageTransition>} />
+          <Route path="/admin/courses" element={<PageTransition><ProtectedRoute><Courses /></ProtectedRoute></PageTransition>} />
+          <Route path="/admin/tutors" element={<PageTransition><ProtectedRoute><Tutors /></ProtectedRoute></PageTransition>} />
+          <Route path="/admin/batches" element={<PageTransition><ProtectedRoute><Batches /></ProtectedRoute></PageTransition>} />
+          <Route path="/admin/payments" element={<PageTransition><ProtectedRoute><Payments /></ProtectedRoute></PageTransition>} />
+          <Route path="/admin/settings" element={<PageTransition><ProtectedRoute><Settings /></ProtectedRoute></PageTransition>} />
           <Route path="/profile" element={<PageTransition><Profile /></PageTransition>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
@@ -92,11 +104,13 @@ function AnimatedRoutes() {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <AnimatedRoutes />
-      </BrowserRouter>
+      <AuthProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <AnimatedRoutes />
+        </BrowserRouter>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
