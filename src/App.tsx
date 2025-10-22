@@ -35,6 +35,7 @@ const LiveClasses = lazy(() => import("./pages/admin/LiveClasses"));
 const Materials = lazy(() => import("./pages/admin/Materials"));
 const ProgressPage = lazy(() => import("./pages/admin/Progress"));
 const NotFound = lazy(() => import("./pages/NotFound"));
+const ModuleViewer = lazy(() => import("./pages/ModuleViewer"));
 
 const queryClient = new QueryClient();
 
@@ -99,6 +100,7 @@ function AnimatedRoutes() {
             <Route path="/registration-success" element={<PageTransition><RegistrationSuccess /></PageTransition>} />
             <Route path="/browse-courses" element={<PageTransition><BrowseCourses /></PageTransition>} />
             <Route path="/certificate" element={<PageTransition><Certificate /></PageTransition>} />
+            <Route path="/module/:moduleId" element={<PageTransition><ModuleViewer /></PageTransition>} />
             <Route path="/profile" element={<PageTransition><ProtectedRoute><Profile /></ProtectedRoute></PageTransition>} />
             <Route path="/admin" element={<PageTransition><ProtectedRoute><Admin /></ProtectedRoute></PageTransition>} />
             <Route path="/admin/students" element={<PageTransition><ProtectedRoute><Students /></ProtectedRoute></PageTransition>} />
