@@ -4,136 +4,13 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-
-interface Module {
-  id: number;
-  title: string;
-  description: string;
-  status: "locked" | "available" | "in-progress" | "completed";
-  hasVideo: boolean;
-  hasQuiz: boolean;
-  hasAssessment: boolean;
-  hasProject: boolean;
-  xp: number;
-}
-
-const modules: Module[] = [
-  {
-    id: 1,
-    title: "Introduction & Setup",
-    description: "Get started with the fundamentals",
-    status: "available",
-    hasVideo: true,
-    hasQuiz: true,
-    hasAssessment: false,
-    hasProject: false,
-    xp: 100
-  },
-  {
-    id: 2,
-    title: "Core Concepts",
-    description: "Master the essential concepts",
-    status: "locked",
-    hasVideo: true,
-    hasQuiz: true,
-    hasAssessment: true,
-    hasProject: false,
-    xp: 150
-  },
-  {
-    id: 3,
-    title: "Advanced Patterns",
-    description: "Deep dive into advanced topics",
-    status: "locked",
-    hasVideo: true,
-    hasQuiz: true,
-    hasAssessment: true,
-    hasProject: false,
-    xp: 200
-  },
-  {
-    id: 4,
-    title: "Real-World Projects",
-    description: "Build practical applications",
-    status: "locked",
-    hasVideo: true,
-    hasQuiz: false,
-    hasAssessment: false,
-    hasProject: true,
-    xp: 250
-  },
-  {
-    id: 5,
-    title: "Best Practices",
-    description: "Learn industry standards",
-    status: "locked",
-    hasVideo: true,
-    hasQuiz: true,
-    hasAssessment: true,
-    hasProject: false,
-    xp: 150
-  },
-  {
-    id: 6,
-    title: "Testing & Debugging",
-    description: "Quality assurance techniques",
-    status: "locked",
-    hasVideo: true,
-    hasQuiz: true,
-    hasAssessment: true,
-    hasProject: false,
-    xp: 200
-  },
-  {
-    id: 7,
-    title: "Performance Optimization",
-    description: "Optimize your applications",
-    status: "locked",
-    hasVideo: true,
-    hasQuiz: true,
-    hasAssessment: true,
-    hasProject: false,
-    xp: 200
-  },
-  {
-    id: 8,
-    title: "Deployment",
-    description: "Ship your applications",
-    status: "locked",
-    hasVideo: true,
-    hasQuiz: true,
-    hasAssessment: false,
-    hasProject: false,
-    xp: 150
-  },
-  {
-    id: 9,
-    title: "Capstone Project",
-    description: "Build your final project",
-    status: "locked",
-    hasVideo: false,
-    hasQuiz: false,
-    hasAssessment: true,
-    hasProject: true,
-    xp: 500
-  },
-  {
-    id: 10,
-    title: "Final Assessment",
-    description: "Complete your internship",
-    status: "locked",
-    hasVideo: false,
-    hasQuiz: false,
-    hasAssessment: true,
-    hasProject: false,
-    xp: 300
-  }
-];
+import { courseModules, getUserProgress, getCompletedModules, getAvailableModules, updateModuleStatus, getTotalWeekProgress, getCurrentWeek, getWeekStatus } from "@/data/courseModules";
 
 export default function DashboardNew() {
   const [isRegistered, setIsRegistered] = useState(false);
   const [userData, setUserData] = useState({ fullName: "Student", courseType: "Full Stack" });
   const [currentXP, setCurrentXP] = useState(0);
+  const [modules, setModules] = useState(courseModules);
   const totalXP = modules.reduce((sum, m) => sum + m.xp, 0);
 
   useEffect(() => {
@@ -146,10 +23,36 @@ export default function DashboardNew() {
         courseType: data.courseType?.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()) || "Full Stack"
       });
       
-      // Mock XP for demo
-      setCurrentXP(100);
+      // Initialize module statuses based on progress
+      initializeModuleStatuses();
+      
+      // Calculate current XP from completed modules
+      const progress = getUserProgress();
+      const completedModules = getCompletedModules();
+      const earnedXP = completedModules.reduce((sum, moduleId) => {
+        const module = modules.find(m => m.id === moduleId);
+        return sum + (module?.xp || 0);
+      }, 0);
+      setCurrentXP(earnedXP);
     }
   }, []);
+
+  const initializeModuleStatuses = () => {
+    const completedModules = getCompletedModules();
+    const availableModules = getAvailableModules();
+    
+    const updatedModules = modules.map(module => {
+      if (completedModules.includes(module.id)) {
+        return { ...module, status: 'completed' as const };
+      } else if (availableModules.includes(module.id)) {
+        return { ...module, status: 'available' as const };
+      } else {
+        return { ...module, status: 'locked' as const };
+      }
+    });
+    
+    setModules(updatedModules);
+  };
 
   if (!isRegistered) {
     return (
@@ -248,18 +151,18 @@ export default function DashboardNew() {
           </div>
         </section>
 
-        {/* Learning Path */}
+        {/* Learning Path - Weekly Structure */}
         <section>
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h3 className="text-3xl font-display mb-2">Learning Path</h3>
-              <p className="text-muted-foreground">Complete modules in sequence to unlock the next one</p>
+              <h3 className="text-3xl font-display mb-2">4-Week Learning Path</h3>
+              <p className="text-muted-foreground">Complete modules week by week to master backend development</p>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {modules.map((module, index) => (
-              <ModuleCard key={module.id} module={module} index={index} />
+          <div className="space-y-8 max-w-6xl mx-auto">
+            {getTotalWeekProgress().map((weekData) => (
+              <WeekSection key={weekData.week} weekData={weekData} />
             ))}
           </div>
         </section>
@@ -338,83 +241,148 @@ function LiveSessionCard({ status, title, topic, tutor, date, time, attendees }:
   );
 }
 
-function ModuleCard({ module, index }: { module: Module; index: number }) {
+interface WeekSectionProps {
+  weekData: {
+    week: number;
+    progress: number;
+    modules: any[];
+  };
+}
+
+function WeekSection({ weekData }: WeekSectionProps) {
+  const weekStatus = getWeekStatus(weekData.week);
+  const weekTitles = {
+    1: "Week 1: Foundation",
+    2: "Week 2: Application Development", 
+    3: "Week 3: Optimization & Deployment",
+    4: "Week 4: Final Project & Assessment"
+  };
+  
+  const weekDescriptions = {
+    1: "Learn the fundamentals of backend development",
+    2: "Build real-world applications and learn best practices",
+    3: "Optimize performance and deploy to production",
+    4: "Complete your capstone project and final assessment"
+  };
+
+  return (
+    <div className="glass-card rounded-2xl p-6">
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h4 className="text-2xl font-display font-bold mb-2">{weekTitles[weekData.week as keyof typeof weekTitles]}</h4>
+          <p className="text-muted-foreground">{weekDescriptions[weekData.week as keyof typeof weekDescriptions]}</p>
+        </div>
+        <div className="text-right">
+          <div className="flex items-center gap-2 mb-2">
+            <Badge variant={weekStatus === 'completed' ? 'default' : weekStatus === 'in-progress' ? 'secondary' : 'outline'}>
+              {weekStatus === 'completed' ? 'Completed' : weekStatus === 'in-progress' ? 'In Progress' : 'Locked'}
+            </Badge>
+            <span className="text-sm text-muted-foreground">{weekData.progress}% Complete</span>
+          </div>
+          <Progress value={weekData.progress} className="h-2 w-32" />
+        </div>
+      </div>
+      
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {weekData.modules.map((module, index) => (
+          <ModuleCard key={module.id} module={module} index={index} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ModuleCard({ module, index }: { module: any; index: number }) {
   const isLocked = module.status === "locked";
   const isCompleted = module.status === "completed";
+  const isInProgress = module.status === "in-progress";
+  const progress = getUserProgress()[module.id] || 0;
   
   return (
     <div 
-      className={`glass-card rounded-2xl p-6 transition-all duration-300 ${
+      className={`glass-card rounded-xl p-4 transition-all duration-300 ${
         isLocked ? 'opacity-60' : 'hover:shadow-glow cursor-pointer'
       } animate-fade-in`}
       style={{ animationDelay: `${index * 50}ms` }}
     >
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex items-start gap-4">
-          <div className={`w-12 h-12 rounded-lg flex items-center justify-center font-bold text-lg ${
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex items-start gap-3">
+          <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm ${
             isCompleted ? 'bg-gradient-to-br from-accent to-primary text-white' :
             isLocked ? 'bg-muted text-muted-foreground' :
             'bg-gradient-to-br from-primary to-accent text-white'
           }`}>
-            {isLocked ? <Lock className="w-6 h-6" /> : 
-             isCompleted ? <CheckCircle className="w-6 h-6" /> :
+            {isLocked ? <Lock className="w-4 h-4" /> : 
+             isCompleted ? <CheckCircle className="w-4 h-4" /> :
              module.id}
           </div>
           <div>
-            <h4 className="text-xl font-display font-bold mb-1">{module.title}</h4>
-            <p className="text-sm text-muted-foreground">{module.description}</p>
+            <h5 className="text-lg font-display font-bold mb-1">{module.title}</h5>
+            <p className="text-xs text-muted-foreground">{module.description}</p>
+            {isInProgress && (
+              <div className="mt-2">
+                <div className="flex justify-between text-xs mb-1">
+                  <span>Progress</span>
+                  <span>{progress}%</span>
+                </div>
+                <Progress value={progress} className="h-1" />
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-3 mb-4 flex-wrap">
+      <div className="flex items-center gap-2 mb-3 flex-wrap">
         {module.hasVideo && (
           <span className="flex items-center gap-1 text-xs text-muted-foreground">
-            <PlayCircle className="w-4 h-4" />
+            <PlayCircle className="w-3 h-3" />
             Video
           </span>
         )}
         {module.hasQuiz && (
           <span className="flex items-center gap-1 text-xs text-muted-foreground">
-            <FileText className="w-4 h-4" />
+            <FileText className="w-3 h-3" />
             Quiz
           </span>
         )}
         {module.hasAssessment && (
           <span className="flex items-center gap-1 text-xs text-muted-foreground">
-            <CheckCircle className="w-4 h-4" />
+            <CheckCircle className="w-3 h-3" />
             Assessment
           </span>
         )}
         {module.hasProject && (
           <span className="flex items-center gap-1 text-xs text-accent font-medium">
-            <Trophy className="w-4 h-4" />
+            <Trophy className="w-3 h-3" />
             Project
           </span>
         )}
       </div>
 
       <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-gold">+{module.xp} XP</span>
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-medium text-gold">+{module.xp} XP</span>
+          <span className="text-xs text-muted-foreground">{module.estimatedTime}</span>
+        </div>
         {!isLocked && !isCompleted && (
           <Link to={`/module/${module.id}`}>
-            <Button size="sm" className="gradient-primary">
-              {module.status === "in-progress" ? "Continue" : "Start"}
+            <Button size="sm" className="gradient-primary text-xs px-3 py-1">
+              {isInProgress ? "Continue" : "Start"}
             </Button>
           </Link>
         )}
         {isCompleted && (
           <Link to={`/module/${module.id}`}>
-            <Button size="sm" variant="outline">
+            <Button size="sm" variant="outline" className="text-xs px-3 py-1">
               Review
             </Button>
           </Link>
         )}
         {module.id === 10 && isCompleted && (
           <Link to="/certificate">
-            <Button size="sm" className="gradient-gold shadow-accent-glow">
-              <Trophy className="w-4 h-4" />
-              Get Certificate
+            <Button size="sm" className="gradient-gold shadow-accent-glow text-xs px-3 py-1">
+              <Trophy className="w-3 h-3" />
+              Certificate
             </Button>
           </Link>
         )}
