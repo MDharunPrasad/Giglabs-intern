@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { Search, Download } from "lucide-react";
+import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -33,6 +33,8 @@ export default function Payments() {
   const [payments, setPayments] = useState<Payment[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [courseFilter, setCourseFilter] = useState<string>("all");
+  const [methodFilter, setMethodFilter] = useState<string>("all");
 
   useEffect(() => {
     loadPayments();
@@ -49,7 +51,7 @@ export default function Payments() {
           id: "1",
           studentName: "Emma Chen",
           course: "Full Stack Web Development",
-          amount: 25000,
+          amount: 300,
           date: "2025-01-20",
           method: "UPI",
           status: "completed",
@@ -58,45 +60,45 @@ export default function Payments() {
           id: "2",
           studentName: "Mike Ross",
           course: "AI & Machine Learning Fundamentals",
-          amount: 30000,
+          amount: 300,
           date: "2025-01-19",
-          method: "Card",
+          method: "Cash",
           status: "completed",
         },
         {
           id: "3",
           studentName: "Sarah Johnson",
           course: "Full Stack Web Development",
-          amount: 25000,
+          amount: 300,
           date: "2025-01-18",
-          method: "Net Banking",
+          method: "UPI",
           status: "pending",
         },
         {
           id: "4",
           studentName: "David Kim",
           course: "Data Science & Analytics",
-          amount: 28000,
+          amount: 300,
           date: "2025-01-17",
-          method: "UPI",
+          method: "Cash",
           status: "completed",
         },
         {
           id: "5",
           studentName: "Lisa Wang",
           course: "Cloud Computing with AWS",
-          amount: 22000,
+          amount: 300,
           date: "2025-01-16",
-          method: "Card",
+          method: "UPI",
           status: "completed",
         },
         {
           id: "6",
           studentName: "James Miller",
           course: "DevOps & CI/CD Pipeline",
-          amount: 20000,
+          amount: 300,
           date: "2025-01-15",
-          method: "UPI",
+          method: "Cash",
           status: "failed",
         },
       ];
@@ -111,9 +113,11 @@ export default function Payments() {
         p.studentName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.course.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesStatus = statusFilter === "all" || p.status === statusFilter;
-      return matchesSearch && matchesStatus;
+      const matchesCourse = courseFilter === "all" || p.course === courseFilter;
+      const matchesMethod = methodFilter === "all" || p.method === methodFilter;
+      return matchesSearch && matchesStatus && matchesCourse && matchesMethod;
     }),
-    [payments, searchQuery, statusFilter]
+    [payments, searchQuery, statusFilter, courseFilter, methodFilter]
   );
 
   const totalRevenue = useMemo(() => 
@@ -132,10 +136,6 @@ export default function Payments() {
             Total Revenue: ₹{totalRevenue.toLocaleString()}
           </p>
         </div>
-        <Button className="w-full sm:w-auto">
-          <Download className="h-4 w-4 mr-2" />
-          Export
-        </Button>
       </div>
 
       <div className="mb-6 flex flex-col sm:flex-row gap-4">
@@ -157,6 +157,29 @@ export default function Payments() {
             <SelectItem value="completed">Completed</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
             <SelectItem value="failed">Failed</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select value={courseFilter} onValueChange={setCourseFilter}>
+          <SelectTrigger className="w-[200px]">
+            <SelectValue placeholder="Filter by course" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Courses</SelectItem>
+            <SelectItem value="Full Stack Web Development">Full Stack Web Development</SelectItem>
+            <SelectItem value="AI & Machine Learning Fundamentals">AI & Machine Learning Fundamentals</SelectItem>
+            <SelectItem value="Data Science & Analytics">Data Science & Analytics</SelectItem>
+            <SelectItem value="Cloud Computing with AWS">Cloud Computing with AWS</SelectItem>
+            <SelectItem value="DevOps & CI/CD Pipeline">DevOps & CI/CD Pipeline</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select value={methodFilter} onValueChange={setMethodFilter}>
+          <SelectTrigger className="w-[150px]">
+            <SelectValue placeholder="Filter by method" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Methods</SelectItem>
+            <SelectItem value="Cash">Cash</SelectItem>
+            <SelectItem value="UPI">UPI</SelectItem>
           </SelectContent>
         </Select>
       </div>

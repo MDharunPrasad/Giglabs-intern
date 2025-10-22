@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { StatCard } from "@/components/StatCard";
 import { Button } from "@/components/ui/button";
-import { Users, BookOpen, TrendingUp, DollarSign, Download, Filter } from "lucide-react";
+import { Users, BookOpen, DollarSign } from "lucide-react";
 
 export default function Admin() {
   return (
@@ -14,30 +14,23 @@ export default function Admin() {
 
         {/* Key Metrics */}
         <section className="mb-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <StatCard 
               title="Total Students"
-              value="5,247"
+              value="48"
               icon={Users}
               variant="primary"
               trend={{ value: 12, label: "this month" }}
             />
             <StatCard 
               title="Active Courses"
-              value="48"
+              value="3"
               icon={BookOpen}
               variant="accent"
             />
             <StatCard 
-              title="Completion Rate"
-              value="87%"
-              icon={TrendingUp}
-              variant="gold"
-              trend={{ value: 5, label: "vs last month" }}
-            />
-            <StatCard 
               title="Revenue (MTD)"
-              value="$124K"
+              value="₹1,24,000"
               icon={DollarSign}
               variant="default"
               trend={{ value: 18, label: "vs last month" }}
@@ -45,23 +38,13 @@ export default function Admin() {
           </div>
         </section>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="space-y-8">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="space-y-8">
             {/* Student Registrations */}
             <section>
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-2xl font-display">Recent Registrations</h3>
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm">
-                    <Filter className="w-4 h-4" />
-                    Filter
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <Download className="w-4 h-4" />
-                    Export
-                  </Button>
-                </div>
               </div>
               <div className="bg-card rounded-lg shadow-md overflow-hidden">
                 <table className="w-full">
@@ -114,93 +97,32 @@ export default function Admin() {
 
             {/* Course Performance */}
             <section>
-              <div className="flex items-center justify-between mb-6">
+              <div className="mb-6">
                 <h3 className="text-2xl font-display">Top Performing Courses</h3>
-                <Button variant="ghost" size="sm">View All</Button>
               </div>
               <div className="bg-card rounded-lg shadow-md overflow-hidden">
                 <div className="divide-y divide-border">
                   <CourseRow 
-                    title="React Fundamentals"
+                    title="Full Stack Development"
                     students={342}
-                    completion={92}
-                    avgScore={88}
+                    registrations={342}
                   />
                   <CourseRow 
-                    title="TypeScript Deep Dive"
+                    title="Frontend Development"
                     students={298}
-                    completion={87}
-                    avgScore={85}
+                    registrations={298}
                   />
                   <CourseRow 
-                    title="Node.js Essentials"
+                    title="Backend Development"
                     students={256}
-                    completion={89}
-                    avgScore={90}
+                    registrations={256}
                   />
                   <CourseRow 
-                    title="Database Design"
+                    title="UI/UX Design"
                     students={234}
-                    completion={84}
-                    avgScore={86}
+                    registrations={234}
                   />
                 </div>
-              </div>
-            </section>
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-8">
-            {/* Quick Actions */}
-            <section>
-              <h3 className="text-xl font-display mb-6">Quick Actions</h3>
-              <div className="bg-card rounded-lg p-6 shadow-md space-y-3">
-                <Button variant="default" className="w-full justify-start">
-                  <Users className="w-4 h-4" />
-                  Add New Student
-                </Button>
-                <Button variant="default" className="w-full justify-start">
-                  <BookOpen className="w-4 h-4" />
-                  Create Course
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  <Download className="w-4 h-4" />
-                  Generate Report
-                </Button>
-              </div>
-            </section>
-
-            {/* System Status */}
-            <section>
-              <h3 className="text-xl font-display mb-6">System Status</h3>
-              <div className="bg-card rounded-lg p-6 shadow-md space-y-4">
-                <StatusItem label="Platform" status="operational" />
-                <StatusItem label="Payment Gateway" status="operational" />
-                <StatusItem label="Video Streaming" status="operational" />
-                <StatusItem label="API Services" status="operational" />
-              </div>
-            </section>
-
-            {/* Recent Activity */}
-            <section>
-              <h3 className="text-xl font-display mb-6">Recent Activity</h3>
-              <div className="bg-card rounded-lg p-6 shadow-md space-y-4">
-                <ActivityItem 
-                  action="New student enrolled"
-                  time="5 min ago"
-                />
-                <ActivityItem 
-                  action="Course module updated"
-                  time="15 min ago"
-                />
-                <ActivityItem 
-                  action="Payment received"
-                  time="1 hour ago"
-                />
-                <ActivityItem 
-                  action="Tutor profile updated"
-                  time="2 hours ago"
-                />
               </div>
             </section>
           </div>
@@ -239,11 +161,10 @@ const StudentRow = memo(function StudentRow({ name, email, domain, track, date, 
   );
 });
 
-const CourseRow = memo(function CourseRow({ title, students, completion, avgScore }: {
+const CourseRow = memo(function CourseRow({ title, students, registrations }: {
   title: string;
   students: number;
-  completion: number;
-  avgScore: number;
+  registrations: number;
 }) {
   return (
     <div className="p-4 hover:bg-secondary/50 transition-colors">
@@ -251,43 +172,10 @@ const CourseRow = memo(function CourseRow({ title, students, completion, avgScor
         <h4 className="font-medium">{title}</h4>
         <span className="text-sm text-muted-foreground">{students} students</span>
       </div>
-      <div className="grid grid-cols-2 gap-4 text-sm">
-        <div>
-          <span className="text-muted-foreground">Completion: </span>
-          <span className="font-semibold">{completion}%</span>
-        </div>
-        <div>
-          <span className="text-muted-foreground">Avg Score: </span>
-          <span className="font-semibold">{avgScore}%</span>
-        </div>
+      <div className="text-sm">
+        <span className="text-muted-foreground">Total Registrations: </span>
+        <span className="font-semibold">{registrations}</span>
       </div>
-    </div>
-  );
-});
-
-const StatusItem = memo(function StatusItem({ label, status }: { label: string; status: "operational" | "warning" | "error" }) {
-  const statusColors = {
-    operational: "bg-accent",
-    warning: "bg-gold",
-    error: "bg-destructive"
-  };
-
-  return (
-    <div className="flex items-center justify-between">
-      <span className="text-sm">{label}</span>
-      <div className="flex items-center gap-2">
-        <div className={`w-2 h-2 rounded-full ${statusColors[status]}`} />
-        <span className="text-sm text-muted-foreground capitalize">{status}</span>
-      </div>
-    </div>
-  );
-});
-
-const ActivityItem = memo(function ActivityItem({ action, time }: { action: string; time: string }) {
-  return (
-    <div>
-      <p className="text-sm">{action}</p>
-      <p className="text-xs text-muted-foreground">{time}</p>
     </div>
   );
 });
