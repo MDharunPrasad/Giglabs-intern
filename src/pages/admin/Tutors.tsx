@@ -20,6 +20,16 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -32,6 +42,7 @@ interface Tutor {
   id: string;
   name: string;
   email: string;
+  company: string;
   expertise: string;
   experience: string;
   status: "active" | "inactive";
@@ -41,12 +52,15 @@ export default function Tutors() {
   const [tutors, setTutors] = useState<Tutor[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [tutorToDelete, setTutorToDelete] = useState<Tutor | null>(null);
   const [editingTutor, setEditingTutor] = useState<Tutor | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    company: "",
     expertise: "",
     experience: "",
     status: "active" as "active" | "inactive",
@@ -67,7 +81,8 @@ export default function Tutors() {
           id: "1",
           name: "John Doe",
           email: "john.doe@giglabs.com",
-          expertise: "Full Stack Development, React, Node.js",
+          company: "Google",
+          expertise: "Fullstack",
           experience: "8 years",
           status: "active",
         },
@@ -75,7 +90,8 @@ export default function Tutors() {
           id: "2",
           name: "Jane Smith",
           email: "jane.smith@giglabs.com",
-          expertise: "AI/ML, Python, TensorFlow",
+          company: "Microsoft",
+          expertise: "UI/UX",
           experience: "10 years",
           status: "active",
         },
@@ -83,7 +99,8 @@ export default function Tutors() {
           id: "3",
           name: "Mike Johnson",
           email: "mike.johnson@giglabs.com",
-          expertise: "Cloud Computing, AWS, DevOps",
+          company: "GigLabs",
+          expertise: "Backend",
           experience: "12 years",
           status: "active",
         },
@@ -91,7 +108,8 @@ export default function Tutors() {
           id: "4",
           name: "Sarah Williams",
           email: "sarah.williams@giglabs.com",
-          expertise: "Data Science, Analytics, Python",
+          company: "Zoho",
+          expertise: "Frontend",
           experience: "7 years",
           status: "active",
         },
@@ -99,7 +117,8 @@ export default function Tutors() {
           id: "5",
           name: "David Brown",
           email: "david.brown@giglabs.com",
-          expertise: "Mobile Development, React Native",
+          company: "Accenture",
+          expertise: "UI/UX",
           experience: "6 years",
           status: "active",
         },
@@ -107,7 +126,8 @@ export default function Tutors() {
           id: "6",
           name: "Emily Davis",
           email: "emily.davis@giglabs.com",
-          expertise: "DevOps, Kubernetes, CI/CD",
+          company: "Freelancer",
+          expertise: "Backend",
           experience: "9 years",
           status: "active",
         },
@@ -122,7 +142,7 @@ export default function Tutors() {
   }, []);
 
   const handleSubmit = useCallback(() => {
-    if (!formData.name || !formData.email || !formData.expertise) {
+    if (!formData.name || !formData.email || !formData.company || !formData.expertise) {
       toast.error("Please fill all required fields");
       return;
     }
@@ -151,6 +171,7 @@ export default function Tutors() {
     setFormData({
       name: tutor.name,
       email: tutor.email,
+      company: tutor.company,
       expertise: tutor.expertise,
       experience: tutor.experience,
       status: tutor.status,
@@ -158,16 +179,31 @@ export default function Tutors() {
     setIsDialogOpen(true);
   }, []);
 
-  const handleDelete = useCallback((id: string) => {
-    saveTutors(tutors.filter((t) => t.id !== id));
-    toast.success("Tutor deleted successfully");
-  }, [tutors, saveTutors]);
+  const handleDeleteClick = useCallback((tutor: Tutor) => {
+    setTutorToDelete(tutor);
+    setIsDeleteDialogOpen(true);
+  }, []);
+
+  const handleDeleteConfirm = useCallback(() => {
+    if (tutorToDelete) {
+      saveTutors(tutors.filter((t) => t.id !== tutorToDelete.id));
+      toast.success("Tutor deleted successfully");
+      setIsDeleteDialogOpen(false);
+      setTutorToDelete(null);
+    }
+  }, [tutorToDelete, tutors, saveTutors]);
+
+  const handleDeleteCancel = useCallback(() => {
+    setIsDeleteDialogOpen(false);
+    setTutorToDelete(null);
+  }, []);
 
   const resetForm = useCallback(() => {
     setEditingTutor(null);
     setFormData({
       name: "",
       email: "",
+      company: "",
       expertise: "",
       experience: "",
       status: "active",
@@ -240,6 +276,7 @@ export default function Tutors() {
               <TableRow>
                 <TableHead className="whitespace-nowrap">Name</TableHead>
                 <TableHead className="whitespace-nowrap hidden md:table-cell">Email</TableHead>
+                <TableHead className="whitespace-nowrap">Company</TableHead>
                 <TableHead className="whitespace-nowrap">Expertise</TableHead>
                 <TableHead className="whitespace-nowrap hidden lg:table-cell">Experience</TableHead>
                 <TableHead className="whitespace-nowrap">Status</TableHead>
@@ -251,6 +288,7 @@ export default function Tutors() {
                 <TableRow key={tutor.id}>
                   <TableCell className="font-medium whitespace-nowrap">{tutor.name}</TableCell>
                   <TableCell className="hidden md:table-cell">{tutor.email}</TableCell>
+                  <TableCell className="whitespace-nowrap">{tutor.company}</TableCell>
                   <TableCell className="whitespace-nowrap">{tutor.expertise}</TableCell>
                   <TableCell className="hidden lg:table-cell">{tutor.experience}</TableCell>
                   <TableCell>
@@ -271,7 +309,7 @@ export default function Tutors() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => handleDelete(tutor.id)}
+                        onClick={() => handleDeleteClick(tutor)}
                         aria-label="Delete tutor"
                       >
                         <Trash2 className="h-4 w-4" />
@@ -351,16 +389,25 @@ export default function Tutors() {
               />
             </div>
             <div>
+              <Label htmlFor="company">Company</Label>
+              <Input
+                id="company"
+                value={formData.company}
+                onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                placeholder="e.g., Google, Microsoft, GigLabs, Zoho, Accenture, or Freelancer"
+              />
+            </div>
+            <div>
               <Label htmlFor="expertise">Expertise</Label>
               <Select value={formData.expertise} onValueChange={(v) => setFormData({ ...formData, expertise: v })}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select expertise" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="AI/ML">AI/ML</SelectItem>
-                  <SelectItem value="Full-Stack">Full-Stack</SelectItem>
-                  <SelectItem value="Data Science">Data Science</SelectItem>
-                  <SelectItem value="DevOps">DevOps</SelectItem>
+                  <SelectItem value="UI/UX">UI/UX</SelectItem>
+                  <SelectItem value="Fullstack">Fullstack</SelectItem>
+                  <SelectItem value="Frontend">Frontend</SelectItem>
+                  <SelectItem value="Backend">Backend</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -396,6 +443,25 @@ export default function Tutors() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete{" "}
+              <span className="font-semibold">{tutorToDelete?.name}</span> from the tutors list.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleDeleteCancel}>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDeleteConfirm} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
           </div>
   );
 }

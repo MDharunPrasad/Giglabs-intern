@@ -41,7 +41,11 @@ interface Student {
   domain: string;
   track: string;
   enrollmentDate: string;
-  status: "active" | "inactive";
+  status: "completed" | "not completed" | "ongoing";
+  completedModules: number;
+  totalModules: number;
+  certificateEligible: boolean;
+  badgeEligible: boolean;
 }
 
 export default function Students() {
@@ -52,7 +56,7 @@ export default function Students() {
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
   const [viewingStudent, setViewingStudent] = useState<Student | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(5);
+  const [itemsPerPage] = useState(10);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -64,8 +68,33 @@ export default function Students() {
     mode: "",
     domain: "",
     track: "",
-    status: "active" as "active" | "inactive",
+    status: "ongoing" as "completed" | "not completed" | "ongoing",
+    completedModules: 0,
+    totalModules: 15,
   });
+
+  const checkEligibility = useCallback((completedModules: number) => {
+    return {
+      certificateEligible: completedModules >= 10,
+      badgeEligible: completedModules >= 10,
+    };
+  }, []);
+
+  const updateStudentModules = useCallback((studentId: string, completedModules: number) => {
+    const eligibility = checkEligibility(completedModules);
+    const updated = students.map((s) =>
+      s.id === studentId 
+        ? { 
+            ...s, 
+            completedModules, 
+            certificateEligible: eligibility.certificateEligible,
+            badgeEligible: eligibility.badgeEligible
+          } 
+        : s
+    );
+    saveStudents(updated);
+    toast.success(`Student modules updated. ${eligibility.certificateEligible ? 'Eligible for certificate and badge!' : 'Not yet eligible for certificate.'}`);
+  }, [students, checkEligibility]);
 
   useEffect(() => {
     loadStudents();
@@ -91,7 +120,11 @@ export default function Students() {
           domain: "Full Stack Development",
           track: "Online",
           enrollmentDate: "2025-01-20",
-          status: "active",
+          status: "completed",
+          completedModules: 12,
+          totalModules: 15,
+          certificateEligible: true,
+          badgeEligible: true,
         },
         {
           id: "2",
@@ -106,7 +139,11 @@ export default function Students() {
           domain: "AI/ML",
           track: "Offline",
           enrollmentDate: "2025-01-19",
-          status: "active",
+          status: "ongoing",
+          completedModules: 8,
+          totalModules: 12,
+          certificateEligible: false,
+          badgeEligible: false,
         },
         {
           id: "3",
@@ -121,7 +158,11 @@ export default function Students() {
           domain: "Full Stack Development",
           track: "Online",
           enrollmentDate: "2025-01-18",
-          status: "active",
+          status: "not completed",
+          completedModules: 10,
+          totalModules: 15,
+          certificateEligible: true,
+          badgeEligible: true,
         },
         {
           id: "4",
@@ -401,6 +442,7 @@ export default function Students() {
       saveStudents(updated);
       toast.success("Student updated successfully");
     } else {
+      const eligibility = checkEligibility(formData.completedModules);
       const newStudent: Student = {
         id: Date.now().toString(),
         name: formData.name,
@@ -415,6 +457,10 @@ export default function Students() {
         track: formData.track,
         status: formData.status,
         enrollmentDate: new Date().toISOString().split("T")[0],
+        completedModules: formData.completedModules,
+        totalModules: formData.totalModules,
+        certificateEligible: eligibility.certificateEligible,
+        badgeEligible: eligibility.badgeEligible,
       };
       saveStudents([...students, newStudent]);
       toast.success("Student added successfully");
@@ -438,6 +484,8 @@ export default function Students() {
       domain: student.domain,
       track: student.track,
       status: student.status,
+      completedModules: student.completedModules,
+      totalModules: student.totalModules,
     });
     setIsDialogOpen(true);
   }, []);
@@ -465,7 +513,9 @@ export default function Students() {
       mode: "",
       domain: "",
       track: "",
-      status: "active",
+      status: "ongoing",
+      completedModules: 0,
+      totalModules: 15,
     });
   }, []);
 
@@ -538,6 +588,8 @@ export default function Students() {
                 <TableHead className="whitespace-nowrap">Domain</TableHead>
                 <TableHead className="whitespace-nowrap hidden lg:table-cell">Track</TableHead>
                 <TableHead className="whitespace-nowrap hidden xl:table-cell">Enrollment Date</TableHead>
+                <TableHead className="whitespace-nowrap">Modules</TableHead>
+                <TableHead className="whitespace-nowrap">Certificate</TableHead>
                 <TableHead className="whitespace-nowrap">Status</TableHead>
                 <TableHead className="text-right whitespace-nowrap">Actions</TableHead>
               </TableRow>
@@ -550,8 +602,35 @@ export default function Students() {
                   <TableCell className="whitespace-nowrap">{student.domain}</TableCell>
                   <TableCell className="hidden lg:table-cell">{student.track}</TableCell>
                   <TableCell className="hidden xl:table-cell">{student.enrollmentDate}</TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    <div className="text-sm">
+                      <span className="font-medium">{student.completedModules}</span>
+                      <span className="text-muted-foreground">/{student.totalModules}</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                      <div 
+                        className="bg-primary h-1.5 rounded-full transition-all duration-300" 
+                        style={{ width: `${(student.completedModules / student.totalModules) * 100}%` }}
+                      ></div>
+                    </div>
+                  </TableCell>
+                  <TableCell className="whitespace-nowrap">
+                    {student.certificateEligible ? (
+                      <Badge variant="default" className="bg-green-500 hover:bg-green-600">
+                        Eligible
+                      </Badge>
+                    ) : (
+                      <Badge variant="outline" className="text-muted-foreground">
+                        Not Eligible
+                      </Badge>
+                    )}
+                  </TableCell>
                   <TableCell>
-                    <Badge variant={student.status === "active" ? "default" : "secondary"}>
+                    <Badge variant={
+                      student.status === "completed" ? "default" : 
+                      student.status === "ongoing" ? "secondary" : 
+                      "outline"
+                    }>
                       {student.status}
                     </Badge>
                   </TableCell>
@@ -655,9 +734,28 @@ export default function Students() {
                 </div>
                 <div>
                   <Label className="text-sm font-medium text-muted-foreground">Status</Label>
-                  <Badge variant={viewingStudent.status === "active" ? "default" : "secondary"}>
+                  <Badge variant={
+                    viewingStudent.status === "completed" ? "default" : 
+                    viewingStudent.status === "ongoing" ? "secondary" : 
+                    "outline"
+                  }>
                     {viewingStudent.status}
                   </Badge>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-muted-foreground">Module Progress</Label>
+                  <div className="mt-1">
+                    <div className="flex justify-between text-sm mb-1">
+                      <span className="font-medium">{viewingStudent.completedModules}/{viewingStudent.totalModules} modules</span>
+                      <span className="text-muted-foreground">{Math.round((viewingStudent.completedModules / viewingStudent.totalModules) * 100)}%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div 
+                        className="bg-primary h-2 rounded-full transition-all duration-300" 
+                        style={{ width: `${(viewingStudent.completedModules / viewingStudent.totalModules) * 100}%` }}
+                      ></div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="space-y-3">
@@ -684,6 +782,34 @@ export default function Students() {
                 <div>
                   <Label className="text-sm font-medium text-muted-foreground">Enrollment Date</Label>
                   <p className="text-sm">{viewingStudent.enrollmentDate}</p>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-muted-foreground">Certificate Eligibility</Label>
+                  <div className="mt-1">
+                    {viewingStudent.certificateEligible ? (
+                      <Badge variant="default" className="bg-green-500 hover:bg-green-600">
+                        ✓ Eligible for Certificate
+                      </Badge>
+                    ) : (
+                      <Badge variant="outline" className="text-muted-foreground">
+                        Not Eligible ({10 - viewingStudent.completedModules} more modules needed)
+                      </Badge>
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium text-muted-foreground">Badge Eligibility</Label>
+                  <div className="mt-1">
+                    {viewingStudent.badgeEligible ? (
+                      <Badge variant="default" className="bg-blue-500 hover:bg-blue-600">
+                        ✓ Eligible for Badge
+                      </Badge>
+                    ) : (
+                      <Badge variant="outline" className="text-muted-foreground">
+                        Not Eligible ({10 - viewingStudent.completedModules} more modules needed)
+                      </Badge>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
@@ -812,21 +938,42 @@ export default function Students() {
                 <SelectContent>
                   <SelectItem value="Online">Online</SelectItem>
                   <SelectItem value="Offline">Offline</SelectItem>
-                  <SelectItem value="Hybrid">Hybrid</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
               <Label htmlFor="status">Status</Label>
-              <Select value={formData.status} onValueChange={(v) => setFormData({ ...formData, status: v as "active" | "inactive" })}>
+              <Select value={formData.status} onValueChange={(v) => setFormData({ ...formData, status: v as "completed" | "not completed" | "ongoing" })}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="inactive">Inactive</SelectItem>
+                  <SelectItem value="completed">Completed</SelectItem>
+                  <SelectItem value="not completed">Not Completed</SelectItem>
+                  <SelectItem value="ongoing">Ongoing</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+            <div>
+              <Label htmlFor="completedModules">Completed Modules</Label>
+              <Input
+                id="completedModules"
+                type="number"
+                min="0"
+                max={formData.totalModules}
+                value={formData.completedModules}
+                onChange={(e) => setFormData({ ...formData, completedModules: parseInt(e.target.value) || 0 })}
+              />
+            </div>
+            <div>
+              <Label htmlFor="totalModules">Total Modules</Label>
+              <Input
+                id="totalModules"
+                type="number"
+                min="1"
+                value={formData.totalModules}
+                onChange={(e) => setFormData({ ...formData, totalModules: parseInt(e.target.value) || 15 })}
+              />
             </div>
           </div>
           <DialogFooter>
