@@ -24,6 +24,9 @@ const Admin = lazy(() => import("./pages/Admin"));
 const Students = lazy(() => import("./pages/admin/Students"));
 const Courses = lazy(() => import("./pages/admin/Courses"));
 const Tutors = lazy(() => import("./pages/admin/Tutors"));
+const TutorAdmin = lazy(() => import("./pages/admin/TutorAdmin"));
+const TutorSessions = lazy(() => import("./pages/admin/TutorSessions"));
+const TutorManagement = lazy(() => import("./pages/admin/TutorManagement"));
 const Batches = lazy(() => import("./pages/admin/Batches"));
 const Payments = lazy(() => import("./pages/admin/Payments"));
 const Settings = lazy(() => import("./pages/admin/Settings"));
@@ -68,6 +71,8 @@ function AnimatedRoutes() {
               <Route path="/admin/students" element={<PageTransition><Students /></PageTransition>} />
               <Route path="/admin/courses" element={<PageTransition><Courses /></PageTransition>} />
               <Route path="/admin/tutors" element={<PageTransition><Tutors /></PageTransition>} />
+              <Route path="/admin/tutors/:tutorId" element={<PageTransition><TutorAdmin /></PageTransition>} />
+              <Route path="/admin/tutors/:tutorId/manage" element={<PageTransition><TutorManagement /></PageTransition>} />
               <Route path="/admin/batches" element={<PageTransition><Batches /></PageTransition>} />
               <Route path="/admin/payments" element={<PageTransition><Payments /></PageTransition>} />
               <Route path="/admin/settings" element={<PageTransition><Settings /></PageTransition>} />
@@ -104,6 +109,8 @@ function AnimatedRoutes() {
             <Route path="/admin/students" element={<PageTransition><ProtectedRoute><Students /></ProtectedRoute></PageTransition>} />
             <Route path="/admin/courses" element={<PageTransition><ProtectedRoute><Courses /></ProtectedRoute></PageTransition>} />
             <Route path="/admin/tutors" element={<PageTransition><ProtectedRoute><Tutors /></ProtectedRoute></PageTransition>} />
+            <Route path="/admin/tutors/:tutorId" element={<PageTransition><ProtectedRoute><TutorAdmin /></ProtectedRoute></PageTransition>} />
+            <Route path="/admin/tutors/:tutorId/manage" element={<PageTransition><ProtectedRoute><TutorManagement /></ProtectedRoute></PageTransition>} />
             <Route path="/admin/batches" element={<PageTransition><ProtectedRoute><Batches /></ProtectedRoute></PageTransition>} />
             <Route path="/admin/payments" element={<PageTransition><ProtectedRoute><Payments /></ProtectedRoute></PageTransition>} />
             <Route path="/admin/settings" element={<PageTransition><ProtectedRoute><Settings /></ProtectedRoute></PageTransition>} />

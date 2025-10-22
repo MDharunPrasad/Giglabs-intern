@@ -1,4 +1,5 @@
 import { ReactNode, memo, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AdminSidebar } from "@/components/AdminSidebar";
 import { useUser } from "@/contexts/UserContext";
@@ -20,20 +21,29 @@ interface AdminLayoutProps {
 
 export const AdminLayout = memo(function AdminLayout({ children }: AdminLayoutProps) {
   const { user, switchRole, isStudent, isTutor, isAdmin } = useUser();
+  const navigate = useNavigate();
 
   const roleIcon = useMemo(() => {
-    if (isStudent) return <GraduationCap className="h-4 w-4" />;
     if (isTutor) return <BookOpen className="h-4 w-4" />;
     return <Shield className="h-4 w-4" />;
-  }, [isStudent, isTutor]);
+  }, [isTutor]);
 
   const roleBadgeVariant = useMemo(() => {
-    if (isStudent) return "default";
     if (isTutor) return "secondary";
     return "destructive";
-  }, [isStudent, isTutor]);
+  }, [isTutor]);
 
-  const userInitials = useMemo(() => 
+  const handleRoleSwitch = (role: "admin" | "tutor") => {
+    switchRole(role);
+    // Navigate to appropriate page based on role
+    if (role === "admin") {
+      navigate("/admin");
+    } else if (role === "tutor") {
+      navigate("/admin/live-classes");
+    }
+  };
+
+  const userInitials = useMemo(() =>
     user?.name.split(" ").map(n => n[0]).join("") || "U",
     [user?.name]
   );
@@ -71,26 +81,21 @@ export const AdminLayout = memo(function AdminLayout({ children }: AdminLayoutPr
                 <DropdownMenuContent align="end" className="w-56">
                   <DropdownMenuLabel>Switch Role (Demo)</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => switchRole("admin")} className="gap-2 cursor-pointer">
+                  <DropdownMenuItem onClick={() => handleRoleSwitch("admin")} className="gap-2 cursor-pointer">
                     <Shield className="h-4 w-4" />
                     <span>Admin</span>
                     {isAdmin && <Badge variant="destructive" className="ml-auto text-xs">Active</Badge>}
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => switchRole("tutor")} className="gap-2 cursor-pointer">
+                  <DropdownMenuItem onClick={() => handleRoleSwitch("tutor")} className="gap-2 cursor-pointer">
                     <BookOpen className="h-4 w-4" />
                     <span>Tutor</span>
                     {isTutor && <Badge variant="secondary" className="ml-auto text-xs">Active</Badge>}
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => switchRole("student")} className="gap-2 cursor-pointer">
-                    <GraduationCap className="h-4 w-4" />
-                    <span>Student</span>
-                    {isStudent && <Badge className="ml-auto text-xs">Active</Badge>}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
           </header>
-          
+
           {/* Main content */}
           <main className="flex-1 overflow-auto">
             {children}

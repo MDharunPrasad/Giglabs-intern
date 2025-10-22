@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { Plus, Search, Pencil, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Plus, Search, Pencil, Trash2, ChevronLeft, ChevronRight, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -38,6 +39,7 @@ interface Tutor {
 }
 
 export default function Tutors() {
+  const navigate = useNavigate();
   const [tutors, setTutors] = useState<Tutor[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -174,6 +176,10 @@ export default function Tutors() {
     });
   }, []);
 
+  const handleManageTutor = useCallback((tutorId: string) => {
+    navigate(`/admin/tutors/${tutorId}`);
+  }, [navigate]);
+
   const filteredTutors = useMemo(() =>
     tutors.filter(
       (t) =>
@@ -263,6 +269,15 @@ export default function Tutors() {
                       <Button
                         variant="ghost"
                         size="sm"
+                        onClick={() => handleManageTutor(tutor.id)}
+                        aria-label="Manage tutor"
+                        title="Manage Tutor"
+                      >
+                        <Settings className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         onClick={() => handleEdit(tutor)}
                         aria-label="Edit tutor"
                       >
@@ -301,7 +316,7 @@ export default function Tutors() {
               <ChevronLeft className="h-4 w-4 mr-1" />
               Previous
             </Button>
-            
+
             {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
               <Button
                 key={page}
@@ -313,7 +328,7 @@ export default function Tutors() {
                 {page}
               </Button>
             ))}
-            
+
             <Button
               variant="outline"
               size="sm"
@@ -396,6 +411,6 @@ export default function Tutors() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-          </div>
+    </div>
   );
 }

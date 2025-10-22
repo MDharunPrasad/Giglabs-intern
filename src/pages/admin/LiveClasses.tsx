@@ -1,4 +1,4 @@
-import { Video, Calendar, Clock, Users, ExternalLink, Plus, Bell, Mail, MessageCircle } from "lucide-react";
+import { Video, Calendar, Clock, Users, ExternalLink, Plus, Bell, Mail, MessageCircle, Pencil } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -17,7 +17,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 
 export default function LiveClasses() {
-  const [isScheduleDialogOpen, setIsScheduleDialogOpen] = useState(false);
+  const [isCreateMeetDialogOpen, setIsCreateMeetDialogOpen] = useState(false);
   const [scheduleForm, setScheduleForm] = useState({
     title: "",
     date: "",
@@ -29,7 +29,7 @@ export default function LiveClasses() {
     notifyEmail: true,
   });
 
-  const upcomingClasses = [
+  const [upcomingClasses, setUpcomingClasses] = useState([
     {
       id: "1",
       title: "React Advanced Patterns",
@@ -50,7 +50,7 @@ export default function LiveClasses() {
       attendees: 32,
       meetingLink: "https://meet.google.com/xyz-mnop-qrs",
     },
-  ];
+  ]);
 
   const handleScheduleClass = () => {
     if (!scheduleForm.title || !scheduleForm.date || !scheduleForm.time) {
@@ -67,12 +67,12 @@ export default function LiveClasses() {
       notifications.push("Email");
     }
 
-    const notificationText = notifications.length > 0 
+    const notificationText = notifications.length > 0
       ? ` Notifications sent via ${notifications.join(" and ")}.`
       : "";
 
     toast.success(`Live class scheduled successfully!${notificationText}`);
-    
+
     // Reset form
     setScheduleForm({
       title: "",
@@ -91,6 +91,58 @@ export default function LiveClasses() {
     toast.success(`Reminder sent to all ${classItem.attendees} attendees via WhatsApp and Email!`);
   };
 
+  const handleEditClass = (classItem: typeof upcomingClasses[0]) => {
+    // Pre-fill form with existing class data
+    setScheduleForm({
+      title: classItem.title,
+      date: classItem.date,
+      time: classItem.time,
+      duration: classItem.duration,
+      description: "",
+      meetingLink: classItem.meetingLink,
+      notifyWhatsApp: true,
+      notifyEmail: true,
+    });
+    setIsCreateMeetDialogOpen(true);
+  };
+
+  const handleCreateMeet = () => {
+    if (!scheduleForm.title || !scheduleForm.date || !scheduleForm.time) {
+      toast.error("Please fill all required fields");
+      return;
+    }
+
+    // Create new meet object
+    const newMeet = {
+      id: Date.now().toString(),
+      title: scheduleForm.title,
+      instructor: "Current User", // You can replace this with actual user name
+      date: scheduleForm.date,
+      time: scheduleForm.time,
+      duration: scheduleForm.duration || "1 hour",
+      attendees: 0,
+      meetingLink: scheduleForm.meetingLink || `https://meet.google.com/${Math.random().toString(36).substr(2, 9)}`,
+    };
+
+    // Add new meet to the list
+    setUpcomingClasses(prev => [...prev, newMeet]);
+
+    toast.success("Meet created successfully!");
+
+    // Reset form
+    setScheduleForm({
+      title: "",
+      date: "",
+      time: "",
+      duration: "",
+      description: "",
+      meetingLink: "",
+      notifyWhatsApp: true,
+      notifyEmail: true,
+    });
+    setIsCreateMeetDialogOpen(false);
+  };
+
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <div className="flex items-center justify-between mb-8">
@@ -102,9 +154,9 @@ export default function LiveClasses() {
             Join live interactive sessions with your instructors
           </p>
         </div>
-        <Button onClick={() => setIsScheduleDialogOpen(true)} size="lg">
+        <Button onClick={() => setIsCreateMeetDialogOpen(true)} size="lg">
           <Plus className="h-5 w-5 mr-2" />
-          Schedule New Class
+          Create a Meet
         </Button>
       </div>
 
@@ -134,9 +186,9 @@ export default function LiveClasses() {
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                <a 
-                  href={session.meetingLink} 
-                  target="_blank" 
+                <a
+                  href={session.meetingLink}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary hover:underline truncate"
                 >
@@ -146,11 +198,14 @@ export default function LiveClasses() {
             </div>
 
             <div className="flex gap-2">
-              <Button className="flex-1">
-                <Video className="h-4 w-4 mr-2" />
-                Join Class
+              <Button
+                className="flex-1"
+                onClick={() => handleEditClass(session)}
+              >
+                <Pencil className="h-4 w-4 mr-2" />
+                Edit Class
               </Button>
-              <Button 
+              <Button
                 variant="outline"
                 onClick={() => sendReminder(session)}
               >
@@ -162,18 +217,18 @@ export default function LiveClasses() {
         ))}
       </div>
 
-      {/* Schedule Class Dialog */}
-      <Dialog open={isScheduleDialogOpen} onOpenChange={setIsScheduleDialogOpen}>
+      {/* Create Meet Dialog */}
+      <Dialog open={isCreateMeetDialogOpen} onOpenChange={setIsCreateMeetDialogOpen}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Schedule New Live Class</DialogTitle>
+            <DialogTitle>Create a Meet</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="title">Class Title *</Label>
+              <Label htmlFor="meet-title">Meet Title *</Label>
               <Input
-                id="title"
-                placeholder="e.g., React Advanced Patterns"
+                id="meet-title"
+                placeholder="e.g., Team Standup Meeting"
                 value={scheduleForm.title}
                 onChange={(e) => setScheduleForm({ ...scheduleForm, title: e.target.value })}
               />
@@ -181,18 +236,18 @@ export default function LiveClasses() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="date">Date *</Label>
+                <Label htmlFor="meet-date">Date *</Label>
                 <Input
-                  id="date"
+                  id="meet-date"
                   type="date"
                   value={scheduleForm.date}
                   onChange={(e) => setScheduleForm({ ...scheduleForm, date: e.target.value })}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="time">Time *</Label>
+                <Label htmlFor="meet-time">Time *</Label>
                 <Input
-                  id="time"
+                  id="meet-time"
                   type="time"
                   value={scheduleForm.time}
                   onChange={(e) => setScheduleForm({ ...scheduleForm, time: e.target.value })}
@@ -201,94 +256,33 @@ export default function LiveClasses() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="duration">Duration</Label>
+              <Label htmlFor="meet-duration">Duration</Label>
               <Input
-                id="duration"
-                placeholder="e.g., 2 hours"
+                id="meet-duration"
+                placeholder="e.g., 1 hour"
                 value={scheduleForm.duration}
                 onChange={(e) => setScheduleForm({ ...scheduleForm, duration: e.target.value })}
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="meetingLink">Meeting Link</Label>
-              <Input
-                id="meetingLink"
-                placeholder="https://meet.google.com/..."
-                value={scheduleForm.meetingLink}
-                onChange={(e) => setScheduleForm({ ...scheduleForm, meetingLink: e.target.value })}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
+              <Label htmlFor="meet-description">Description</Label>
               <Textarea
-                id="description"
-                placeholder="Describe what will be covered in this session..."
+                id="meet-description"
+                placeholder="Describe the purpose of this meeting..."
                 rows={3}
                 value={scheduleForm.description}
                 onChange={(e) => setScheduleForm({ ...scheduleForm, description: e.target.value })}
               />
             </div>
-
-            <div className="p-4 bg-muted/50 rounded-lg space-y-3">
-              <Label className="text-base font-semibold">Notification Settings</Label>
-              <p className="text-sm text-muted-foreground mb-3">
-                Notify registered students about this class
-              </p>
-              
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="whatsapp"
-                  checked={scheduleForm.notifyWhatsApp}
-                  onCheckedChange={(checked) => 
-                    setScheduleForm({ ...scheduleForm, notifyWhatsApp: checked as boolean })
-                  }
-                />
-                <label
-                  htmlFor="whatsapp"
-                  className="flex items-center gap-2 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                >
-                  <MessageCircle className="h-4 w-4 text-green-600" />
-                  Send WhatsApp notification
-                </label>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Checkbox 
-                  id="email"
-                  checked={scheduleForm.notifyEmail}
-                  onCheckedChange={(checked) => 
-                    setScheduleForm({ ...scheduleForm, notifyEmail: checked as boolean })
-                  }
-                />
-                <label
-                  htmlFor="email"
-                  className="flex items-center gap-2 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                >
-                  <Mail className="h-4 w-4 text-blue-600" />
-                  Send Email notification
-                </label>
-              </div>
-
-              {(scheduleForm.notifyWhatsApp || scheduleForm.notifyEmail) && (
-                <div className="mt-3 p-3 bg-accent/10 rounded-md border border-accent/20">
-                  <p className="text-xs text-muted-foreground">
-                    📢 Notifications will be sent to all registered students when you schedule this class.
-                    {scheduleForm.notifyWhatsApp && " WhatsApp messages will include the meeting link and class details."}
-                    {scheduleForm.notifyEmail && " Email will contain calendar invite and joining instructions."}
-                  </p>
-                </div>
-              )}
-            </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsScheduleDialogOpen(false)}>
+            <Button variant="outline" onClick={() => setIsCreateMeetDialogOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={handleScheduleClass}>
-              <Calendar className="h-4 w-4 mr-2" />
-              Schedule Class
+            <Button onClick={handleCreateMeet}>
+              <Video className="h-4 w-4 mr-2" />
+              Create Meet
             </Button>
           </DialogFooter>
         </DialogContent>

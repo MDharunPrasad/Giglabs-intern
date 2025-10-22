@@ -31,7 +31,6 @@ import { useUser } from "@/contexts/UserContext";
 
 const adminNavigationItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
-  { title: "Students", url: "/admin/students", icon: Users },
   { title: "Courses", url: "/admin/courses", icon: BookOpen },
   { title: "Tutors", url: "/admin/tutors", icon: GraduationCap },
   { title: "Batches", url: "/admin/batches", icon: Users2 },
@@ -50,34 +49,27 @@ const studentNavigationItems = [
 ];
 
 const tutorNavigationItems = [
-  { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
-  { title: "My Courses", url: "/admin/tutor-courses", icon: BookOpen },
-  { title: "Create Course", url: "/admin/create-course", icon: Upload },
-  { title: "Students", url: "/admin/my-students", icon: Users },
-  { title: "Live Sessions", url: "/admin/live-sessions", icon: Video },
-  { title: "Assignments", url: "/admin/tutor-assignments", icon: FileText },
-  { title: "Analytics", url: "/admin/analytics", icon: BarChart3 },
-  { title: "Schedule", url: "/admin/schedule", icon: Calendar },
+  { title: "Live Sessions", url: "/admin/live-classes", icon: Video },
 ];
 
 export const AdminSidebar = memo(function AdminSidebar() {
   const { isStudent, isTutor } = useUser();
 
-  const navigationItems = isStudent 
-    ? studentNavigationItems 
-    : isTutor 
-    ? tutorNavigationItems 
-    : adminNavigationItems;
+  const navigationItems = isStudent
+    ? studentNavigationItems
+    : isTutor
+      ? tutorNavigationItems
+      : adminNavigationItems;
 
-  const portalTitle = isStudent 
-    ? "Student Portal" 
-    : isTutor 
-    ? "Tutor Portal" 
-    : "Admin Portal";
+  const portalTitle = isStudent
+    ? "Student Portal"
+    : isTutor
+      ? "Tutor Portal"
+      : "Admin Portal";
 
   return (
-    <Sidebar 
-      className="w-72 bg-primary border-r border-white/10 shadow-xl" 
+    <Sidebar
+      className="w-72 bg-primary border-r border-white/10 shadow-xl"
       collapsible="none"
     >
       <SidebarHeader className="border-b border-white/10 pb-5 pt-6 px-5">
@@ -95,7 +87,7 @@ export const AdminSidebar = memo(function AdminSidebar() {
       <SidebarContent className="px-3 py-5">
         <SidebarGroup>
           <SidebarGroupLabel className="text-white/60 text-xs uppercase tracking-wider font-semibold mb-3 px-3">
-            {isStudent ? "Learning" : isTutor ? "Teaching" : "Management"}
+            {isStudent ? "Learning" : isTutor ? "Live Sessions" : "Management"}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="space-y-1.5">
@@ -107,23 +99,22 @@ export const AdminSidebar = memo(function AdminSidebar() {
                         to={item.url}
                         end={item.url === "/admin"}
                         className={({ isActive }) =>
-                          `group flex items-center gap-3.5 px-4 py-3.5 rounded-xl transition-all duration-200 ${
-                            isActive
-                              ? "bg-white shadow-lg"
-                              : "hover:bg-white/95 hover:shadow-md"
+                          `group flex items-center gap-3.5 px-4 py-3.5 rounded-xl transition-all duration-200 ${isActive
+                            ? "bg-white shadow-lg"
+                            : "hover:bg-white/95 hover:shadow-md"
                           }`
                         }
                       >
                         {({ isActive }) => (
                           <>
-                            <item.icon 
+                            <item.icon
                               className="h-5 w-5 flex-shrink-0 transition-colors"
                               style={{
                                 color: isActive ? '#4f46e5' : undefined,
                                 strokeWidth: isActive ? 2.8 : 2.2,
                               }}
                             />
-                            <span 
+                            <span
                               className="text-[15px] font-bold tracking-wide transition-colors group-hover:text-slate-900"
                               style={{
                                 color: isActive ? '#0f172a' : '#ffffff',
