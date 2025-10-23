@@ -63,38 +63,32 @@ const studentNavigationItems = [
 
 const tutorNavigationItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
-  { title: "My Courses", url: "/admin/tutor-courses", icon: BookOpen },
-  { title: "Create Course", url: "/admin/create-course", icon: Upload },
-  { title: "Students", url: "/admin/my-students", icon: Users },
-  { title: "Live Sessions", url: "/admin/live-sessions", icon: Video },
-  { title: "Assignments", url: "/admin/tutor-assignments", icon: FileText },
-  { title: "Analytics", url: "/admin/analytics", icon: BarChart3 },
-  { title: "Schedule", url: "/admin/schedule", icon: Calendar },
+  { title: "Tutor Portal", url: "/tutor-admin/live-sessions", icon: Video },
 ];
 
 export const AdminSidebar = memo(function AdminSidebar() {
   const { user, switchRole, isStudent, isTutor, isAdmin } = useUser();
 
-  const navigationItems = isStudent 
-    ? studentNavigationItems 
-    : isTutor 
-    ? tutorNavigationItems 
-    : adminNavigationItems;
+  const navigationItems = isStudent
+    ? studentNavigationItems
+    : isTutor
+      ? tutorNavigationItems
+      : adminNavigationItems;
 
-  const portalTitle = isStudent 
-    ? "Student Portal" 
-    : isTutor 
-    ? "Tutor Portal" 
-    : "Admin Portal";
+  const portalTitle = isStudent
+    ? "Student Portal"
+    : isTutor
+      ? "Tutor Portal"
+      : "Admin Portal";
 
-  const userInitials = useMemo(() => 
+  const userInitials = useMemo(() =>
     user?.name.split(" ").map(n => n[0]).join("") || "U",
     [user?.name]
   );
 
   return (
-    <Sidebar 
-      className="w-72 bg-primary border-r border-white/10 shadow-xl" 
+    <Sidebar
+      className="w-72 bg-primary border-r border-white/10 shadow-xl"
       collapsible="none"
     >
       <SidebarHeader className="border-b border-white/10 pb-5 pt-6 px-5">
@@ -124,16 +118,15 @@ export const AdminSidebar = memo(function AdminSidebar() {
                         to={item.url}
                         end={item.url === "/admin"}
                         className={({ isActive }) =>
-                          `group flex items-center gap-3.5 px-4 py-3.5 rounded-xl transition-all duration-200 ${
-                            isActive
-                              ? "bg-white shadow-lg"
-                              : "hover:bg-white/20 hover:shadow-md"
+                          `group flex items-center gap-3.5 px-4 py-3.5 rounded-xl transition-all duration-200 ${isActive
+                            ? "bg-white shadow-lg"
+                            : "hover:bg-white/20 hover:shadow-md"
                           }`
                         }
                       >
                         {({ isActive }) => (
                           <>
-                            <item.icon 
+                            <item.icon
                               className="h-5 w-5 flex-shrink-0 transition-all duration-200"
                               style={{
                                 color: isActive ? '#4f46e5' : '#ffffff',
@@ -141,7 +134,7 @@ export const AdminSidebar = memo(function AdminSidebar() {
                                 filter: isActive ? 'none' : 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))',
                               }}
                             />
-                            <span 
+                            <span
                               className="text-[15px] font-semibold tracking-wide transition-all duration-200"
                               style={{
                                 color: isActive ? '#0f172a' : '#ffffff',
