@@ -10,6 +10,7 @@ import { Layout } from "./components/Layout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { AdminLayout } from "./components/AdminLayout";
+import { TutorAdminLayout } from "./components/TutorAdminLayout";
 
 // Lazy load pages for better performance
 const Landing = lazy(() => import("./pages/Landing"));
@@ -34,6 +35,8 @@ const Certificates = lazy(() => import("./pages/admin/Certificates"));
 const LiveClasses = lazy(() => import("./pages/admin/LiveClasses"));
 const Materials = lazy(() => import("./pages/admin/Materials"));
 const ProgressPage = lazy(() => import("./pages/admin/Progress"));
+const TutorLiveSessions = lazy(() => import("./pages/tutor/TutorLiveSessions"));
+const TutorModules = lazy(() => import("./pages/tutor/TutorModules"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const ModuleViewer = lazy(() => import("./pages/ModuleViewer"));
 
@@ -52,11 +55,28 @@ const LoadingFallback = () => (
 function AnimatedRoutes() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith('/admin');
+  const isTutorAdminRoute = location.pathname.startsWith('/tutor-admin');
 
   // Scroll to top on route change
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
+
+  // Tutor Admin routes with separate layout
+  if (isTutorAdminRoute) {
+    return (
+      <TutorAdminLayout>
+        <Suspense fallback={<LoadingFallback />}>
+          <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+              <Route path="/tutor-admin/live-sessions" element={<PageTransition><TutorLiveSessions /></PageTransition>} />
+              <Route path="/tutor-admin/modules" element={<PageTransition><TutorModules /></PageTransition>} />
+            </Routes>
+          </AnimatePresence>
+        </Suspense>
+      </TutorAdminLayout>
+    );
+  }
 
   // Admin routes without navbar
   if (isAdminRoute) {
