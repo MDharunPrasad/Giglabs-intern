@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Award, Download, Share2, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { RewardsSection } from "@/components/RewardsSection";
 
 export default function Certificate() {
   const [userData, setUserData] = useState({ fullName: "Student", courseType: "Full Stack" });
@@ -113,6 +114,15 @@ export default function Certificate() {
               <Share2 className="w-5 h-5" />
               Share Achievement
             </Button>
+          </div>
+
+          {/* Rewards Section */}
+          <div className="mt-12">
+            <RewardsSection 
+              isCompleted={true}
+              courseType={userData.courseType}
+              userName={userData.fullName}
+            />
           </div>
 
           {/* Next Steps */}
