@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { RewardsSection } from "@/components/RewardsSection";
 import { courseModules, getUserProgress, getCompletedModules, getAvailableModules, updateModuleStatus, getTotalWeekProgress, getCurrentWeek, getWeekStatus } from "@/data/courseModules";
 
 export default function DashboardNew() {
@@ -294,11 +295,22 @@ function WeekSection({ weekData }: WeekSectionProps) {
       </div>
       
       {weekData.week === 5 ? (
-        <div className="flex justify-center">
-          <div className="w-full max-w-2xl">
-            {weekData.modules.map((module, index) => (
-              <CertificateModuleCard key={module.id} module={module} index={index} />
-            ))}
+        <div className="space-y-8">
+          <div className="flex justify-center">
+            <div className="w-full max-w-2xl">
+              {weekData.modules.map((module, index) => (
+                <CertificateModuleCard key={module.id} module={module} index={index} />
+              ))}
+            </div>
+          </div>
+          
+          {/* Rewards Section - Always show for Week 5 */}
+          <div className="mt-8">
+            <RewardsSection 
+              isCompleted={weekData.progress === 100}
+              courseType="Backend Development"
+              userName="Student"
+            />
           </div>
         </div>
       ) : (
