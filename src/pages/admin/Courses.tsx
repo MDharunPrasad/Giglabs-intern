@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { Plus, Search, Pencil, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Plus, Search, Pencil, Trash2, ChevronLeft, ChevronRight, Upload, Download, Image, FileArchive } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -27,6 +27,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 
 interface Course {
@@ -38,6 +39,12 @@ interface Course {
   level: string;
   modules: number;
   status: "active" | "draft";
+  linkedinBadge?: string; // Base64 or URL for LinkedIn badge image
+  resourceFiles?: string; // Base64 or URL for resource zip file
+  certificate?: string; // Base64 or URL for certificate file
+  linkedinBadgeName?: string; // Original filename
+  resourceFilesName?: string; // Original filename
+  certificateName?: string; // Original filename
 }
 
 export default function Courses() {
@@ -55,6 +62,12 @@ export default function Courses() {
     level: "",
     modules: 0,
     status: "active" as "active" | "draft",
+    linkedinBadge: "",
+    resourceFiles: "",
+    certificate: "",
+    linkedinBadgeName: "",
+    resourceFilesName: "",
+    certificateName: "",
   });
 
   useEffect(() => {
@@ -163,6 +176,67 @@ export default function Courses() {
     resetForm();
   }, [formData, editingCourse, courses, saveCourses]);
 
+  const handleFileUpload = useCallback((file: File, type: 'linkedinBadge' | 'resourceFiles' | 'certificate') => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const result = e.target?.result as string;
+      setFormData(prev => ({
+        ...prev,
+        [type]: result,
+        [`${type}Name`]: file.name
+      }));
+    };
+    reader.readAsDataURL(file);
+  }, []);
+
+  const handleLinkedInBadgeUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith('image/')) {
+        toast.error("Please upload an image file for LinkedIn badge");
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        toast.error("File size should be less than 5MB");
+        return;
+      }
+      handleFileUpload(file, 'linkedinBadge');
+      toast.success("LinkedIn badge uploaded successfully");
+    }
+  }, [handleFileUpload]);
+
+  const handleResourceFilesUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.name.endsWith('.zip')) {
+        toast.error("Please upload a ZIP file for resources");
+        return;
+      }
+      if (file.size > 50 * 1024 * 1024) { // 50MB limit
+        toast.error("File size should be less than 50MB");
+        return;
+      }
+      handleFileUpload(file, 'resourceFiles');
+      toast.success("Resource files uploaded successfully");
+    }
+  }, [handleFileUpload]);
+
+  const handleCertificateUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.type.includes('pdf') && !file.name.endsWith('.pdf')) {
+        toast.error("Please upload a PDF file for certificate");
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) { // 10MB limit
+        toast.error("File size should be less than 10MB");
+        return;
+      }
+      handleFileUpload(file, 'certificate');
+      toast.success("Certificate uploaded successfully");
+    }
+  }, [handleFileUpload]);
+
   const handleEdit = useCallback((course: Course) => {
     setEditingCourse(course);
     setFormData({
@@ -173,6 +247,12 @@ export default function Courses() {
       level: course.level,
       modules: course.modules,
       status: course.status,
+      linkedinBadge: course.linkedinBadge || "",
+      resourceFiles: course.resourceFiles || "",
+      certificate: course.certificate || "",
+      linkedinBadgeName: course.linkedinBadgeName || "",
+      resourceFilesName: course.resourceFilesName || "",
+      certificateName: course.certificateName || "",
     });
     setIsDialogOpen(true);
   }, []);
@@ -192,6 +272,12 @@ export default function Courses() {
       level: "",
       modules: 0,
       status: "active",
+      linkedinBadge: "",
+      resourceFiles: "",
+      certificate: "",
+      linkedinBadgeName: "",
+      resourceFilesName: "",
+      certificateName: "",
     });
   }, []);
 
@@ -258,9 +344,10 @@ export default function Courses() {
             <TableHeader>
               <TableRow>
                 <TableHead className="whitespace-nowrap">Title</TableHead>
-                <TableHead className="whitespace-nowrap">Domain</TableHead>
-                <TableHead className="whitespace-nowrap hidden lg:table-cell">Duration</TableHead>
-                <TableHead className="whitespace-nowrap hidden xl:table-cell">Modules</TableHead>
+                <TableHead className="whitespace-nowrap hidden sm:table-cell">Domain</TableHead>
+                <TableHead className="whitespace-nowrap hidden md:table-cell">Duration</TableHead>
+                <TableHead className="whitespace-nowrap hidden lg:table-cell">Modules</TableHead>
+                <TableHead className="whitespace-nowrap">Resources</TableHead>
                 <TableHead className="whitespace-nowrap">Status</TableHead>
                 <TableHead className="text-right whitespace-nowrap">Actions</TableHead>
               </TableRow>
@@ -269,9 +356,34 @@ export default function Courses() {
               {paginatedCourses.map((course) => (
                 <TableRow key={course.id}>
                   <TableCell className="font-medium">{course.title}</TableCell>
-                  <TableCell className="whitespace-nowrap">{course.domain}</TableCell>
-                  <TableCell className="hidden lg:table-cell">{course.duration}</TableCell>
-                  <TableCell className="hidden xl:table-cell">{course.modules}</TableCell>
+                  <TableCell className="whitespace-nowrap hidden sm:table-cell">{course.domain}</TableCell>
+                  <TableCell className="hidden md:table-cell">{course.duration}</TableCell>
+                  <TableCell className="hidden lg:table-cell">{course.modules}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-1 flex-wrap">
+                      {course.linkedinBadge && (
+                        <Badge variant="outline" className="text-xs">
+                          <Image className="w-3 h-3 mr-1" />
+                          Badge
+                        </Badge>
+                      )}
+                      {course.resourceFiles && (
+                        <Badge variant="outline" className="text-xs">
+                          <FileArchive className="w-3 h-3 mr-1" />
+                          Resources
+                        </Badge>
+                      )}
+                      {course.certificate && (
+                        <Badge variant="outline" className="text-xs">
+                          <Download className="w-3 h-3 mr-1" />
+                          Certificate
+                        </Badge>
+                      )}
+                      {!course.linkedinBadge && !course.resourceFiles && !course.certificate && (
+                        <span className="text-xs text-muted-foreground">No files</span>
+                      )}
+                    </div>
+                  </TableCell>
                   <TableCell>
                     <Badge variant={course.status === "active" ? "default" : "secondary"}>
                       {course.status}
@@ -418,6 +530,126 @@ export default function Courses() {
                 />
               </div>
             </div>
+
+            {/* File Upload Section */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Course Resources</h3>
+              
+              {/* LinkedIn Badge Upload */}
+              <div>
+                <Label htmlFor="linkedinBadge">LinkedIn Achievement Badge</Label>
+                <div className="mt-2">
+                  {formData.linkedinBadge ? (
+                    <div className="flex items-center gap-3 p-3 border rounded-lg bg-green-50">
+                      <Image className="w-5 h-5 text-green-600" />
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-green-800">{formData.linkedinBadgeName}</p>
+                        <p className="text-xs text-green-600">Badge uploaded successfully</p>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setFormData({ ...formData, linkedinBadge: "", linkedinBadgeName: "" })}
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
+                      <input
+                        type="file"
+                        id="linkedinBadge"
+                        accept="image/*"
+                        onChange={handleLinkedInBadgeUpload}
+                        className="hidden"
+                      />
+                      <label htmlFor="linkedinBadge" className="cursor-pointer">
+                        <Upload className="w-8 h-8 mx-auto mb-2 text-gray-400" />
+                        <p className="text-sm font-medium text-gray-600">Upload LinkedIn Badge</p>
+                        <p className="text-xs text-gray-500">PNG, JPG up to 5MB</p>
+                      </label>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Resource Files Upload */}
+              <div>
+                <Label htmlFor="resourceFiles">Course Resources (ZIP)</Label>
+                <div className="mt-2">
+                  {formData.resourceFiles ? (
+                    <div className="flex items-center gap-3 p-3 border rounded-lg bg-green-50">
+                      <FileArchive className="w-5 h-5 text-green-600" />
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-green-800">{formData.resourceFilesName}</p>
+                        <p className="text-xs text-green-600">Resources uploaded successfully</p>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setFormData({ ...formData, resourceFiles: "", resourceFilesName: "" })}
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
+                      <input
+                        type="file"
+                        id="resourceFiles"
+                        accept=".zip"
+                        onChange={handleResourceFilesUpload}
+                        className="hidden"
+                      />
+                      <label htmlFor="resourceFiles" className="cursor-pointer">
+                        <Upload className="w-8 h-8 mx-auto mb-2 text-gray-400" />
+                        <p className="text-sm font-medium text-gray-600">Upload Resource Files</p>
+                        <p className="text-xs text-gray-500">ZIP file up to 50MB</p>
+                      </label>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Certificate Upload */}
+              <div>
+                <Label htmlFor="certificate">Course Certificate (PDF)</Label>
+                <div className="mt-2">
+                  {formData.certificate ? (
+                    <div className="flex items-center gap-3 p-3 border rounded-lg bg-green-50">
+                      <Download className="w-5 h-5 text-green-600" />
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-green-800">{formData.certificateName}</p>
+                        <p className="text-xs text-green-600">Certificate uploaded successfully</p>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setFormData({ ...formData, certificate: "", certificateName: "" })}
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
+                      <input
+                        type="file"
+                        id="certificate"
+                        accept=".pdf"
+                        onChange={handleCertificateUpload}
+                        className="hidden"
+                      />
+                      <label htmlFor="certificate" className="cursor-pointer">
+                        <Upload className="w-8 h-8 mx-auto mb-2 text-gray-400" />
+                        <p className="text-sm font-medium text-gray-600">Upload Certificate</p>
+                        <p className="text-xs text-gray-500">PDF file up to 10MB</p>
+                      </label>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
             <div>
               <Label htmlFor="status">Status</Label>
               <Select value={formData.status} onValueChange={(v) => setFormData({ ...formData, status: v as "active" | "draft" })}>
