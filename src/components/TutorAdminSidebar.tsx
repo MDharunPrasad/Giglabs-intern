@@ -69,40 +69,36 @@ export const TutorAdminSidebar = memo(function TutorAdminSidebar() {
                             {tutorAdminNavigationItems.map((item, index) => (
                                 <div key={item.title}>
                                     <SidebarMenuItem>
-                                        <SidebarMenuButton asChild className="p-0">
-                                            <NavLink
-                                                to={item.url}
-                                                className={({ isActive }) =>
-                                                    `group flex items-center gap-3.5 px-4 py-3.5 rounded-xl transition-all duration-200 ${isActive
-                                                        ? "bg-white shadow-lg"
-                                                        : "hover:bg-white/20 hover:shadow-md"
-                                                    }`
-                                                }
-                                            >
-                                                {({ isActive }) => (
-                                                    <>
-                                                        <item.icon
-                                                            className="h-5 w-5 flex-shrink-0 transition-all duration-200"
-                                                            style={{
-                                                                color: isActive ? '#4f46e5' : '#ffffff',
-                                                                strokeWidth: isActive ? 2.8 : 2.2,
-                                                                filter: isActive ? 'none' : 'drop-shadow(0 1px 2px rgba(0,0,0,0.3))',
-                                                            }}
-                                                        />
-                                                        <span
-                                                            className="text-[15px] font-semibold tracking-wide transition-all duration-200"
-                                                            style={{
-                                                                color: isActive ? '#0f172a' : '#ffffff',
-                                                                textShadow: isActive ? 'none' : '0 1px 2px rgba(0,0,0,0.3)',
-                                                                fontWeight: isActive ? '700' : '600',
-                                                            }}
-                                                        >
-                                                            {item.title}
-                                                        </span>
-                                                    </>
-                                                )}
-                                            </NavLink>
-                                        </SidebarMenuButton>
+                                        <NavLink
+                                            to={item.url}
+                                            className={({ isActive }) =>
+                                                `flex items-center gap-3.5 px-4 py-3.5 rounded-xl transition-all duration-200 w-full ${isActive
+                                                    ? "bg-white shadow-lg text-black"
+                                                    : "text-white hover:bg-white/15 hover:text-white"
+                                                }`
+                                            }
+                                        >
+                                            {({ isActive }) => (
+                                                <>
+                                                    <item.icon
+                                                        className="h-5 w-5 flex-shrink-0 transition-all duration-200"
+                                                        style={{
+                                                            color: isActive ? '#000000' : '#ffffff',
+                                                            strokeWidth: isActive ? 2.5 : 2,
+                                                        }}
+                                                    />
+                                                    <span
+                                                        className="text-[15px] font-semibold tracking-wide transition-all duration-200"
+                                                        style={{
+                                                            color: isActive ? '#000000' : '#ffffff',
+                                                            fontWeight: isActive ? '700' : '600',
+                                                        }}
+                                                    >
+                                                        {item.title}
+                                                    </span>
+                                                </>
+                                            )}
+                                        </NavLink>
                                     </SidebarMenuItem>
                                     {/* Divider between items */}
                                     {index === 0 && (
@@ -119,29 +115,29 @@ export const TutorAdminSidebar = memo(function TutorAdminSidebar() {
             <SidebarFooter className="border-t border-white/10 p-4">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="w-full justify-start gap-3 h-auto py-3 px-3 hover:bg-white/20 transition-all duration-200">
-                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-white/30 to-white/20 text-white flex items-center justify-center font-bold shadow-lg text-sm flex-shrink-0 drop-shadow-sm">
+                        <Button variant="ghost" className="w-full justify-start gap-3 h-auto py-3 px-3 hover:bg-white/15 transition-all duration-200 text-white hover:text-white">
+                            <div className="w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
                                 {userInitials}
                             </div>
                             <div className="text-left min-w-0 flex-1">
-                                <div className="text-sm font-semibold text-white truncate drop-shadow-sm">{user?.name}</div>
-                                <div className="text-xs text-white/85 truncate drop-shadow-sm">{user?.email}</div>
+                                <div className="text-sm font-semibold text-white">{user?.name}</div>
+                                <div className="text-xs text-white/80">{user?.email}</div>
                             </div>
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-56">
-                        <DropdownMenuLabel>Switch Role (Demo)</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => switchRole("admin")} className="gap-2 cursor-pointer">
-                            <span>Admin</span>
+                    <DropdownMenuContent align="end" className="w-56 bg-white/95 backdrop-blur-sm border border-white/20 shadow-xl">
+                        <DropdownMenuLabel className="text-gray-800 font-semibold">Switch Role (Demo)</DropdownMenuLabel>
+                        <DropdownMenuSeparator className="bg-gray-200" />
+                        <DropdownMenuItem onClick={() => switchRole("admin")} className="gap-2 cursor-pointer hover:bg-gray-50 transition-colors">
+                            <span className="text-gray-800">Admin</span>
                             {isAdmin && <Badge variant="destructive" className="ml-auto text-xs">Active</Badge>}
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => switchRole("tutor")} className="gap-2 cursor-pointer">
-                            <span>Tutor</span>
+                        <DropdownMenuItem onClick={() => switchRole("tutor")} className="gap-2 cursor-pointer hover:bg-gray-50 transition-colors">
+                            <span className="text-gray-800">Tutor</span>
                             {isTutor && <Badge variant="secondary" className="ml-auto text-xs">Active</Badge>}
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => switchRole("student")} className="gap-2 cursor-pointer">
-                            <span>Student</span>
+                        <DropdownMenuItem onClick={() => switchRole("student")} className="gap-2 cursor-pointer hover:bg-gray-50 transition-colors">
+                            <span className="text-gray-800">Student</span>
                             {isStudent && <Badge className="ml-auto text-xs">Active</Badge>}
                         </DropdownMenuItem>
                     </DropdownMenuContent>

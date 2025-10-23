@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import React, { Suspense, lazy } from "react";
 import { PageTransition } from "./components/PageTransition";
@@ -69,6 +69,7 @@ function AnimatedRoutes() {
         <Suspense fallback={<LoadingFallback />}>
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
+              <Route path="/tutor-admin" element={<Navigate to="/tutor-admin/live-sessions" replace />} />
               <Route path="/tutor-admin/live-sessions" element={<PageTransition><TutorLiveSessions /></PageTransition>} />
               <Route path="/tutor-admin/modules" element={<PageTransition><TutorModules /></PageTransition>} />
             </Routes>
