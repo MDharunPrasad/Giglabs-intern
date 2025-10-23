@@ -1005,6 +1005,38 @@ Build a complete e-commerce backend API that demonstrates all the skills you've 
         completed: false
       }
     ]
+  },
+  
+  // Certificate Module - Unlocked after completing all weeks
+  {
+    id: 11,
+    title: "Certificate of Completion",
+    description: "Claim your Backend Development Certificate",
+    status: "locked",
+    hasVideo: false,
+    hasQuiz: false,
+    hasAssessment: false,
+    hasProject: false,
+    xp: 1000,
+    estimatedTime: "5 minutes",
+    prerequisites: [10], // Requires completion of final assessment
+    progress: 0,
+    week: 5, // Special week for certificate
+    content: [
+      {
+        id: "certificate-claim",
+        type: "assessment",
+        title: "Certificate Claim",
+        description: "Claim your Backend Development Certificate",
+        requirements: [
+          "Complete all 10 modules",
+          "Achieve 100% completion rate",
+          "Pass all assessments",
+          "Submit capstone project"
+        ],
+        completed: false
+      }
+    ]
   }
 ];
 
@@ -1107,7 +1139,7 @@ export const getWeekProgress = (week: number): number => {
 };
 
 export const getTotalWeekProgress = (): { week: number; progress: number; modules: CourseModule[] }[] => {
-  return [1, 2, 3, 4].map(week => ({
+  return [1, 2, 3, 4, 5].map(week => ({
     week,
     progress: getWeekProgress(week),
     modules: getModulesByWeek(week)
