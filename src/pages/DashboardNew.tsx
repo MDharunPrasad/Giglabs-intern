@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Lock, PlayCircle, FileText, CheckCircle, Trophy, ArrowRight, Video, Calendar, Clock, Users } from "lucide-react";
+import { Lock, PlayCircle, FileText, CheckCircle, Trophy, ArrowRight, Video, Calendar, Clock, Users, Award, Star, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Progress } from "@/components/ui/progress";
@@ -198,7 +198,7 @@ function LiveSessionCard({ status, title, topic, tutor, date, time, attendees }:
             <p className="text-sm text-muted-foreground">{topic}</p>
           </div>
         </div>
-        <Badge variant={isLive ? "destructive" : "secondary"} className={isLive ? "animate-pulse" : ""}>
+        <Badge variant={isLive ? "default" : "secondary"} className={isLive ? "bg-green-600 text-white animate-pulse" : ""}>
           {isLive ? "Live Now" : "Upcoming"}
         </Badge>
       </div>
@@ -222,21 +222,29 @@ function LiveSessionCard({ status, title, topic, tutor, date, time, attendees }:
         </div>
       </div>
 
-      <Button 
-        className={`w-full ${isLive ? 'gradient-primary shadow-glow animate-glow-pulse' : 'bg-primary hover:bg-primary-hover text-primary-foreground'}`}
-      >
-        {isLive ? (
-          <>
+      {isLive ? (
+        <a 
+          href="https://meet.google.com/gbf-tspc-axk" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="w-full"
+        >
+          <Button 
+            className="w-full bg-green-600 hover:bg-green-700 text-white shadow-glow animate-glow-pulse"
+          >
             <Video className="w-4 h-4" />
             Join Live Session
-          </>
-        ) : (
-          <>
-            <Calendar className="w-4 h-4" />
-            Register for Session
-          </>
-        )}
-      </Button>
+          </Button>
+        </a>
+      ) : (
+        <Button 
+          className="w-full bg-muted text-muted-foreground cursor-not-allowed"
+          disabled={true}
+        >
+          <Calendar className="w-4 h-4" />
+          Upcoming Session
+        </Button>
+      )}
     </div>
   );
 }
@@ -251,19 +259,21 @@ interface WeekSectionProps {
 
 function WeekSection({ weekData }: WeekSectionProps) {
   const weekStatus = getWeekStatus(weekData.week);
-  const weekTitles = {
-    1: "Week 1: Foundation",
-    2: "Week 2: Application Development", 
-    3: "Week 3: Optimization & Deployment",
-    4: "Week 4: Final Project & Assessment"
-  };
-  
-  const weekDescriptions = {
-    1: "Learn the fundamentals of backend development",
-    2: "Build real-world applications and learn best practices",
-    3: "Optimize performance and deploy to production",
-    4: "Complete your capstone project and final assessment"
-  };
+            const weekTitles = {
+              1: "Week 1: Foundation",
+              2: "Week 2: Application Development", 
+              3: "Week 3: Optimization & Deployment",
+              4: "Week 4: Final Project & Assessment",
+              5: "Certificate of Completion"
+            };
+            
+            const weekDescriptions = {
+              1: "Learn the fundamentals of backend development",
+              2: "Build real-world applications and learn best practices",
+              3: "Optimize performance and deploy to production",
+              4: "Complete your capstone project and final assessment",
+              5: "Claim your Backend Development Certificate"
+            };
 
   return (
     <div className="glass-card rounded-2xl p-6">
@@ -283,11 +293,21 @@ function WeekSection({ weekData }: WeekSectionProps) {
         </div>
       </div>
       
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {weekData.modules.map((module, index) => (
-          <ModuleCard key={module.id} module={module} index={index} />
-        ))}
-      </div>
+      {weekData.week === 5 ? (
+        <div className="flex justify-center">
+          <div className="w-full max-w-2xl">
+            {weekData.modules.map((module, index) => (
+              <CertificateModuleCard key={module.id} module={module} index={index} />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {weekData.modules.map((module, index) => (
+            <ModuleCard key={module.id} module={module} index={index} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -362,7 +382,6 @@ function ModuleCard({ module, index }: { module: any; index: number }) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-xs font-medium text-gold">+{module.xp} XP</span>
-          <span className="text-xs text-muted-foreground">{module.estimatedTime}</span>
         </div>
         {!isLocked && !isCompleted && (
           <Link to={`/module/${module.id}`}>
@@ -386,6 +405,110 @@ function ModuleCard({ module, index }: { module: any; index: number }) {
             </Button>
           </Link>
         )}
+      </div>
+    </div>
+  );
+}
+
+function CertificateModuleCard({ module, index }: { module: any; index: number }) {
+  const isLocked = module.status === "locked";
+  const isCompleted = module.status === "completed";
+  const isAvailable = module.status === "available";
+  const completedModules = getCompletedModules().length;
+  const totalModules = 10; // Total modules before certificate
+  const overallProgress = Math.round((completedModules / totalModules) * 100);
+  
+  return (
+    <div 
+      className={`glass-card rounded-xl p-8 transition-all duration-300 ${
+        isLocked ? 'opacity-60' : 'hover:shadow-glow cursor-pointer'
+      } animate-fade-in relative overflow-hidden`}
+      style={{ animationDelay: `${index * 50}ms` }}
+    >
+      {/* Animated background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/10 via-orange-400/10 to-red-400/10 animate-pulse" />
+      
+      {/* Sparkle animations */}
+      <div className="absolute top-2 right-2">
+        <Sparkles className="w-4 h-4 text-yellow-500 animate-bounce" />
+      </div>
+      <div className="absolute top-4 right-6">
+        <Star className="w-3 h-3 text-orange-500 animate-pulse" style={{ animationDelay: '0.5s' }} />
+      </div>
+      <div className="absolute top-6 right-3">
+        <Sparkles className="w-3 h-3 text-red-500 animate-bounce" style={{ animationDelay: '1s' }} />
+      </div>
+      
+      <div className="relative z-10">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-6">
+            <div className={`w-16 h-16 rounded-lg flex items-center justify-center font-bold text-xl ${
+              isCompleted ? 'bg-gradient-to-br from-yellow-400 to-orange-500 text-white' :
+              isLocked ? 'bg-muted text-muted-foreground' :
+              'bg-gradient-to-br from-yellow-400 to-orange-500 text-white animate-pulse'
+            }`}>
+              {isLocked ? <Lock className="w-8 h-8" /> : 
+             isCompleted ? <Trophy className="w-8 h-8" /> :
+             <Award className="w-8 h-8" />}
+            </div>
+            <div>
+              <h5 className="text-2xl font-display font-bold mb-2 text-gradient bg-gradient-to-r from-yellow-600 to-orange-600 bg-clip-text text-transparent">
+                {module.title}
+              </h5>
+              <p className="text-base text-muted-foreground">{module.description}</p>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-4">
+            <div className="text-right">
+              <div className="flex justify-between text-sm mb-2">
+                <span className="font-medium">Overall Progress</span>
+                <span className="text-muted-foreground">{completedModules}/{totalModules}</span>
+              </div>
+              <div className="relative w-48">
+                <Progress value={overallProgress} className="h-3 bg-muted" />
+                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full opacity-20 animate-pulse" />
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">
+                {overallProgress}% Complete
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <span className="text-lg font-medium text-gold">+{module.xp} XP</span>
+            <Badge variant="secondary" className="text-sm px-3 py-1">
+              <Trophy className="w-4 h-4 mr-2" />
+              Certificate
+            </Badge>
+          </div>
+          {!isLocked && (
+            <Link to="/certificate">
+              <Button 
+                size="lg" 
+                className={`px-6 py-3 ${
+                  isCompleted 
+                    ? 'bg-green-600 hover:bg-green-700 text-white' 
+                    : 'gradient-primary animate-pulse'
+                }`}
+              >
+                {isCompleted ? (
+                  <>
+                    <Trophy className="w-5 h-5 mr-2" />
+                    View Certificate
+                  </>
+                ) : (
+                  <>
+                    <Award className="w-5 h-5 mr-2" />
+                    Claim Certificate
+                  </>
+                )}
+              </Button>
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );
